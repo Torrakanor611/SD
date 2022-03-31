@@ -1,3 +1,0 @@
-module aulasSD {
-	requires genclass;
-}
