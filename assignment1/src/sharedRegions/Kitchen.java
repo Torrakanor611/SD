@@ -9,104 +9,109 @@ package sharedRegions;
  *
  */
 
-public class Kitchen {
-	
+public class Kitchen
+{	
 	/**
 	 *	Number of students present in the restaurant
 	 */
-	
+
 	private int numberOfStudents;
-	
+
 	/**
 	 *	Number of portions ready
 	 */
-	
+
 	private int numberOfPortionsReady;
-	
+
 	/**
 	 *	Number of courses currently in the order
 	 */
-	
+
 	private int numberOfCoursesInTheOrder;
-	
+
 	/**
 	 *	Number of portions delivered in at each course
 	 */
-	
+
 	private int numberOfPortionsDelivered;
-	
+
 	/**
 	 *	Number of courses delivered
 	 */
-	
+
 	private int numberOfCoursesDelivered;
-	
+
 	/**
 	 * 	Kitchen instantiation
-	 * 
-	 * 
 	 */
+
 	public Kitchen() { }
-	
+
 	/**
-	 * Operation watch the news
+	 * 	Operation watch the news
 	 * 
-	 * It is called by the chef while waiting the order delivered by the waiter
+	 * 	It is called by the chef while waiting the order delivered by the waiter
 	 */
+
 	public synchronized void watchTheNews()
 	{
-		
+
 	}
-	
+
 	/**
-	 * Operation start presentation
+	 * 	Operation start presentation
 	 * 
-	 * It is called by the chef if waiter delivers the order
+	 * 	It is called by the chef if waiter delivers the order
 	 */
+
 	public synchronized void startPreparation()
 	{
-		
+
 	}
-	
+
 	/**
-	 * Operation proceed presentation
+	 * 	Operation proceed presentation
 	 * 
-	 * It is called by the chef when not all portions of all courses have been delivered
+	 * 	It is called by the chef when not all portions of all courses have been delivered
 	 */
+
 	public synchronized void proceedPreparation()
 	{
-		
+
 	}
-	
+
 	/**
-	 * Operation have all portions been delivered
+	 * 	Operation have all portions been delivered
 	 * 
-	 * It is called by the chef when he finishes a portion
+	 * 	It is called by the chef when he finishes a portion
 	 */
+
 	public synchronized void haveAllPortionsBeenDelivered()
 	{
-		
+
 	}
-	
+
 	/**
-	 * Operation has order been completed
+	 * 	Operation has order been completed
 	 * 
-	 * It is called by the chef when he finishes preparing all courses
+	 * 	It is called by the chef when he finishes preparing all courses
 	 */
+
 	public synchronized void hasOrderBeenCompleted()
 	{
-		
+
 	}
-	
+
 	/**
-	 * Operation continue preparation
+	 * 	Operation continue preparation
 	 * 
-	 * It is called by the chef when not all portions have been delivered
+	 * 	It is called by the chef when not all portions have been delivered
 	 */
-	public synchronized void hasOrderBeenCompleted()
+
+	public synchronized void continuePreparation()
 	{
-		
+
 	}
-	
-	
+
+
 }
