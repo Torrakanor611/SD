@@ -28,36 +28,36 @@ public class GeneralRepos
 	 *  State of the Chef
 	 */
 
-	private final int chefState;
+	private int chefState;
 
 	/**
 	 *	State of the Waiter
 	 */
 
-	private final int waiterState;
+	private int waiterState;
 
 	/**
 	 *  State of the Chef
 	 */
 
-	private final int[] studentState;
+	private int[] studentState;
 
 	/**
 	 *	Number of courses delivered (not sure)
 	 */
 
-	private final int nCourses;
+	private int nCourses;
 
 	/**
 	 * 	Number of Portions delivered (not sure)
 	 */
 
-	private final int nPortions;
+	private int nPortions;
 
 	/**
 	 * 	Seats at the table
 	 */
-	private final int[] seatsAtTable;
+	private int[] seatsAtTable;
 
 	/**
 	 *	Instantiation of a general repository object.
@@ -173,6 +173,50 @@ public class GeneralRepos
 			GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
 			System.exit (1);
 		}
+	}
+
+	/**
+	 * @param value chef state to set
+	 */
+	public synchronized void setChefState(int value) {
+		this.chefState = value;
+	}
+
+	/**
+	 * @param value waiter state to set
+	 */
+	public synchronized void setWaiterState(int value) {
+		this.waiterState = value;
+	}
+
+	/**
+	 * @param id student id
+	 * @param value student state to set
+	 */
+	public synchronized void updateStudentState(int id, int value) {
+		this.studentState[id] = value;
+	}
+
+	/**
+	 * @param value nCourses value to set
+	 */
+	public synchronized void setnCourses(int value) {
+		this.nCourses = value;
+	}
+
+	/**
+	 * @param value nPortions value to set
+	 */
+	public synchronized void setnPortions(int value) {
+		this.nPortions = value;
+	}
+
+	/**
+	 * @param seat seat at the table
+	 * @param id student id to sit
+	 */
+	public synchronized void updateSeatsAtTable(int seat, int id) {
+		this.seatsAtTable[seat] = id;
 	}
 }
 
