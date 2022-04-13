@@ -93,6 +93,9 @@ public class Bar
 		//Update chefs state
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
 		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		
+		//Signal waiter that there is a pending request
+		notifyAll();
 	}
 	
 	
@@ -209,10 +212,14 @@ public class Bar
 			//Update student test
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
 			repo.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+			
+			//Signal waiter that there is a pending request
+			notifyAll();
 		}
 		
 		//Seat student at table and block it
 		//....
+		
 		return numberOfStudentsAtRestaurant;
 	}
 	
@@ -241,6 +248,9 @@ public class Bar
 		
 		//Update number of pending requests
 		numberOfPendingRequests++;	
+		
+		//Signal waiter that there is a pending request
+		notifyAll();
 	}
 	
 	
@@ -267,6 +277,8 @@ public class Bar
 		//Update number of pending requests
 		numberOfPendingRequests++;	
 		
+		//Signal waiter that there is a pending request
+		notifyAll();
 	}
 	
 	
