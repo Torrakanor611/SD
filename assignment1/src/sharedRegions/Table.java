@@ -1,7 +1,13 @@
 package sharedRegions;
 
+import entities.*;
+import main.ExecuteConst;
+
 /**
  * Table
+ *	Synchronisation points include:
+ *		First student to arrive blocks waiting for others to arrive and describe him the order
+ *		Waiter has to wait for first student to arrive to describe him the order
  *
  */
 
@@ -42,6 +48,12 @@ public class Table {
 	 */
 	private int numStudentsServed;
 	
+	
+	/**
+	 * Reference to the student threads
+	 */
+	private final Student [] students;
+	
 	/**
      * Reference to the General Repository.
      */
@@ -61,7 +73,14 @@ public class Table {
     	this.numStudentsServed = 0;
     	this.repos = repos;
     	
+		//Initizalization of students thread
+		students = new Student[ExecuteConst.N];
+		for(int i = 0; i < ExecuteConst.N; i++ ) 
+			students[i] = null;
+    	
     }
+    
+    
     
     /**
      * Operation salute the client
@@ -73,6 +92,9 @@ public class Table {
     	
     }
     
+    
+    
+    
     /**
      * Operation return to the bar
      * 
@@ -83,14 +105,28 @@ public class Table {
     	
     }
     
+    
+    
+    
     /**
      * Operation get the pad
      * 
-     * It is called by the waiter when signaled by the student ?
+     * It is called by the waiter when an order is going to be described by the first student to arrive
+     * Waiter Blocks waiting for student to describe him the order
      */
     public synchronized void getThePad()
     {
+    	//Update Waiter state
+    	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.TAKING_THE_ORDER);
+    	repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
     	
+    	//Waiter blocks waiting for first student to arrive to describe him the order
+    	try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -103,15 +139,22 @@ public class Table {
     	
     }
     
+    
+    
     /**
      * Operation deliver portion
      * 
-     * 
+     * Called by the waiter, when a portion is delivered at the table
      */
     public synchronized void deliverPortion()
     {
-    	
+    	//Update number of Students server after portion delivery
+    	numStudentsServed++;    	
     }
+    
+    
+    
+    
     
     /**
      * Operation present the bill
@@ -123,95 +166,214 @@ public class Table {
     	
     }
     
-    /**
-     * Operation prepare the order
-     * 
-     * 
-     */
-    public synchronized void prepareOrder()
-    {
-    	
-    }
+    
+    
     
     /**
      * Operation read the menu
      * 
-     * 
+     * Called by the student to read a menu, wakes up waiter to signal that he already read the menu
      */
     public synchronized void readMenu()
     {
+    	int studentId = ((Student) Thread.currentThread()).getStudentId();
     	
+    	//Update student state
+    	students[studentId].setStudentState(StudentStates.SELECTING_THE_COURSES);
+    	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+    	
+    	//Signal waiter that menu was already read
+    	notifyAll();
+    }    
+    
+    
+    
+    
+    
+    
+    /**
+     * Operation prepare the order
+     * 
+     * Called by the student to begin the preparation of the order, 
+     * first student to arrive blocks waiting for others to arrive and describe him the order
+     */
+    public synchronized void prepareOrder()
+    {    	
+    	//Register that first student to arrive already choose his own option
+    	numOrders++;
+    	
+    	//Update student state
+    	students[firstToArrive].setStudentState(StudentStates.ORGANIZING_THE_ORDER);
+    	repos.updateStudentState(firstToArrive, ((Student) Thread.currentThread()).getStudentState());
+    	
+    	//Student blocks while waiting for others to arrive and describe him the order
+    	try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
+    
+    
+
     
     /**
      * Operation everybody has chosen
      * 
-     * 
+     * Called by the first student to arrive to check if all his companions have choose or not
+     * Blocks if not.
+     * @return true if has everybody choosen, false otherwise
      */
-    public synchronized void everybodyHasChosen()
+    public synchronized boolean everybodyHasChosen()
     {
+    	if(numOrders == ExecuteConst.N)
+    		return true;
+    	else {
+	    	//Block if not everybody has choosen
+	    	try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	return false;
+    	}
     	
     }
+    
+    
+    
     
     /**
      * Operation add up ones choices
      * 
-     * 
+     * Called by the first student to arrive to add up a companions choice to the order
      */
     public synchronized void addUpOnesChoices()
     {
-    	
+    	numOrders++;
     }
+    
+    
+    
     
     /**
      * Operation describe the order
      * 
-     * 
+     * Called by the first student to arrive to describe the order to the waiter
+     * Wake waiter up so he can take the order
      */
     public synchronized void describeOrder()
     {
-    	
+    	//Wake waiter to describe him the order
+    	notifyAll();
     }
+    
+    
+    
+    
     
     /**
      * Operation join the talk
      * 
-     * 
+     * Called by the first student to arrive so he can join his companions while waiting for the courses 
      */
     public synchronized void joinTalk()
     {
+    	//Update student state
+    	students[firstToArrive].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
+    	repos.updateStudentState(firstToArrive, ((Student) Thread.currentThread()).getStudentState());   
     	
+    	try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
+    
+    
+    
+    
     
     /**
      * Operation inform companion
      * 
-     * 
+     * Called by a student to inform the first student to arrive about his preferences 
+     * Blocks waiting for courses
      */
     public synchronized void informCompanion()
     {
+    	int studentId = ((Student) Thread.currentThread()).getStudentId();
+    	    	
+    	//notify first student to arrive, so that he can register ones preference
+    	notifyAll();
+    	
+    	//Update student state
+    	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
+    	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+    	
+    	//Block while first to arrive student is organising the order
+    	while(students[firstToArrive].getStudentState() == StudentStates.ORGANIZING_THE_ORDER)
+    	{
+    		try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}    		
+    	}
     	
     }
+    
+    
+    
     
     /**
      * Operation start eating
      * 
-     * 
-     */
+     * Called by the student to start eating the meal (During random time)
+     */    
     public synchronized void startEating()
     {
+    	int studentId = ((Student) Thread.currentThread()).getStudentId();
     	
+    	//Update student state
+    	students[studentId].setStudentState(StudentStates.ENJOYING_THE_MEAL);
+    	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+    	
+    	//Enjoy meal during random time
+        try
+        { Thread.sleep ((long) (1 + 100 * Math.random ()));
+        }
+        catch (InterruptedException e) {}
     }
-    
-    /**
+
+
+
+	/**
      * Operation end eating
      * 
      * 
      */
     public synchronized void endEating()
     {
+    	int studentId = ((Student) Thread.currentThread()).getStudentId();
     	
+    	//Update numstudents finished course
+    	numStudentsFinishedCourse++;
+    	//register last to eat
+    	lastToEat = studentId;    	
+    	
+    	//Update student state
+    	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
+    	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
     }
+    
+    
+    
+    
     
     /**
      * Operation has everybody finished eating
@@ -222,6 +384,10 @@ public class Table {
     {
     	
     }
+    
+    
+    
+    
     
     /**
      * Operation honour the bill
@@ -243,14 +409,28 @@ public class Table {
     	
     }
     
+    
+    
+    
+    
     /**
      * Operation should have arrived earlier
      * 
-     * 
+     * Called by the student to check wich one was last to arrive
+     * @return True if current student was the last to arrive, false otherwise
      */
-    public synchronized void shouldHaveArrivedEarlier()
+    public synchronized boolean shouldHaveArrivedEarlier()
     {
-    	
+    	int studentId = ((Student) Thread.currentThread()).getStudentId();
+
+    	if(studentId == lastToArrive) {
+	    	//Update student state
+	    	students[studentId].setStudentState(StudentStates.PAYING_THE_BILL);
+	    	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+	    	return true;
+    	}
+    	else
+    		return false;
     }
     
     

@@ -1,7 +1,5 @@
 package entities;
 
-// import sharedRegions.BarberShop;
-
 /**
  *   Student thread.
  *

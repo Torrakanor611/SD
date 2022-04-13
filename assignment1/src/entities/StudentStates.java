@@ -39,7 +39,7 @@ public class StudentStates {
 	/**
 	 * last student to arrive waits for waiter to present the bill
 	 */
-	public static final int PAYING_THE_MEAL = 6;
+	public static final int PAYING_THE_BILL = 6;
 	
 	/**
 	 * final state lifecycle ending

@@ -58,10 +58,11 @@ public class Bar
 	 */
 	public Bar(GeneralRepos repo) 
 	{
-		//Initizalization of students thread array and of the array of booleans
+		//Initizalization of students thread
 		students = new Student[ExecuteConst.N];
 		for(int i = 0; i < ExecuteConst.N; i++ ) 
 			students[i] = null;
+		
 		studentBeingAnswered = -1;
 		this.repo = repo;
 	}
