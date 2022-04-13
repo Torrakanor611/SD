@@ -1,2 +1,5 @@
-/.metadata/
+**/bin/
+**/.metadata
+**/META-INF/
+**/.classpath
 **/docs
