@@ -1,14 +1,19 @@
 package sharedRegions;
 
 import commInfra.*;
+import entities.*;
 import main.*;
 
 /**
  * 
  * Bar
  *
- *	It is responsible for....
- *	..
+ *	It is responsible for keeping track of the several requests that must be fullfilled by the waiter
+ *	Implemented as an implicit monitor
+ *	Public methods executed in mutual exclusion
+ *	Synchronisation points include:
+ *		Everytime that the waiter has to wait for a pending request
+ *		When a student has to wait for the waiter to say goodbye to him so he can leave the restaurant
  */
 
 public class Bar 
@@ -29,14 +34,37 @@ public class Bar
 	 */
 	private MemFIFO<Request> pendingServiceRequestQueue;
 	
+	/**
+	 * Reference to the student threads
+	 */
+	private final Student [] students;
+	
+	/**
+	 * Reference to the general repository
+	 */
+	private final GeneralRepos repo;
+	
+	/**
+	 * Auxiliary variable to keep track of the id of the student whose request is being answered
+	 */
+	private int studentBeingAnswered;
+	
 	
 	
 	/**
-	 * 	Bar instantiation
+	 * Bar instantiation
 	 * 
-	 * 
+	 * @param repo reference to the general repository 
 	 */
-	public Bar() { }
+	public Bar(GeneralRepos repo) 
+	{
+		//Initizalization of students thread array and of the array of booleans
+		students = new Student[ExecuteConst.N];
+		for(int i = 0; i < ExecuteConst.N; i++ ) 
+			students[i] = null;
+		studentBeingAnswered = -1;
+		this.repo = repo;
+	}
 	
 	
 	
@@ -63,7 +91,12 @@ public class Bar
 		numberOfPendingRequests++;
 		
 		//Update chefs state
+		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
+		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
 	}
+	
+	
+	
 	
 	
 	
@@ -73,7 +106,7 @@ public class Bar
 	 * It is called by the waiter, he checks for pending service requests and if not waits for them
 	 * 	@return Character the represents the service to be executed
 	 * 		'c' : means a client has arrived therefore needs to be presented with the menu by the waiter
-	 * 		'o' : means that the waiter will hear the order and delivere it to the chef
+	 * 		'o' : means that the waiter will hear the order and deliver it to the chef
 	 * 		'p' : means that a portion needs to be delivered by the waiter
 	 * 		'b' : means that the bill needs to be prepared and presented by the waiter
 	 * 		'g' : means that some student wants to leave and waiter needs to say goodbye 
@@ -93,7 +126,6 @@ public class Bar
 			}
 		}
 		
-
 		try 
 		{
 			//If there is a pending request take it of the queue of pending requests
@@ -106,9 +138,14 @@ public class Bar
 			e.printStackTrace();
 			return 0;
 		}		
+		//Register student id in studentBeingAnswered if the request was made by a student
+		if(r.id != 0)
+			studentBeingAnswered = r.id;
 		
 		return r.type;
 	}
+	
+	
 	
 	
 	
@@ -119,8 +156,13 @@ public class Bar
 	 */
 	public synchronized void preprareBill()
 	{
-		
+		//Update Waiter state
+		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PROCESSING_THE_BILL);
+		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 	}
+	
+	
+	
 	
 	/**
 	 * Operation say Goodbye
@@ -129,8 +171,15 @@ public class Bar
 	 */
 	public synchronized void sayGoodbye()
 	{
+		//Wake up student that is waiting to be greeted by waiter
+		notifyAll();
+		//Update value of studentBeingAnswered to reflect the fact that the student's request was fullfilled 
+		studentBeingAnswered = -1;
 		
 	}
+	
+	
+	
 	
 	/**
 	 * Operation enter the restaurant
@@ -138,10 +187,38 @@ public class Bar
 	 * It is called by the student to signal that he is entering the restaurant
 	 * 	@return Number of students present in the restaurant
 	 */
-	public synchronized int enter()
+	public int enter()
 	{
-		return 0;
+		int studentId = ((Student) Thread.currentThread()).getStudentId();
+		
+		synchronized(this)
+		{
+			//Update number of students at the restaurant
+			numberOfStudentsAtRestaurant++;
+			
+			//Add a new pending requests to the queue
+			try {
+				pendingServiceRequestQueue.write(new Request(studentId, 'c'));
+			} catch (MemException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//Update number of pending requests
+			numberOfPendingRequests++;
+			
+			//Update student test
+			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
+			repo.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+		}
+		
+		//Seat student at table and block it
+		//....
+		return numberOfStudentsAtRestaurant;
 	}
+	
+	
+	
+	
 	
 	/**
 	 * Operation call the waiter
@@ -151,8 +228,23 @@ public class Bar
 	 */
 	public synchronized void callWaiter()
 	{
+		int studentId = ((Student) Thread.currentThread()).getStudentId();
+		Request r = new Request(studentId,'o');
 		
+		//Add a new service request to queue of pending requests (portion to be collected)
+		try {
+			pendingServiceRequestQueue.write(r);
+		} catch (MemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Update number of pending requests
+		numberOfPendingRequests++;	
 	}
+	
+	
+	
 	
 	/**
 	 * Operation signal the waiter
@@ -161,8 +253,24 @@ public class Bar
 	 */
 	public synchronized void signalWaiter()
 	{
+		int studentId = ((Student) Thread.currentThread()).getStudentId();
+		Request r = new Request(studentId,'o');
+		
+		//Add a new service request to queue of pending requests (portion to be collected)
+		try {
+			pendingServiceRequestQueue.write(r);
+		} catch (MemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Update number of pending requests
+		numberOfPendingRequests++;	
 		
 	}
+	
+	
+	
 	
 	/**
 	 * Operation exit the restaurant
@@ -171,7 +279,37 @@ public class Bar
 	 */
 	public synchronized void exit()
 	{
+		int studentId = ((Student) Thread.currentThread()).getStudentId();
+		Request r = new Request(studentId,'g');
 		
+		//Add a new service request to queue of pending requests (portion to be collected)
+		try {
+			pendingServiceRequestQueue.write(r);
+		} catch (MemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Update number of pending requests
+		numberOfPendingRequests++;
+		
+		//Update student test
+		students[studentId].setStudentState(StudentStates.GOING_HOME);
+		repo.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+	
+		
+		//Block until waiter greets the student goodbye
+		while(studentBeingAnswered != studentId) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//Update number of students at the restaurant
+		numberOfStudentsAtRestaurant--;
 	}
 }
 

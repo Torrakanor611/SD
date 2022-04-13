@@ -78,7 +78,7 @@ public class Chef extends Thread{
 				bar.alertWaiter();
 			}
 		}
-		while(kit.hasOrderBeenCompleted())
+		while(kit.hasOrderBeenCompleted());
 		kit.cleanUp();
 	}
 }
