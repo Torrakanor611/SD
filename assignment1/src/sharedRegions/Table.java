@@ -52,7 +52,15 @@ public class Table {
      */
     public Table(GeneralRepos repos)
     {
+    	this.firstToArrive = -1;
+    	this.lastToArrive = -1;
+    	this.numOrders = 0;
+    	this.numStudentsFinishedCourse = 0;
+    	this.lastToEat = -1;
+    	this.numOfCoursesEaten = 0;
+    	this.numStudentsServed = 0;
     	this.repos = repos;
+    	
     }
     
     /**

@@ -1,5 +1,7 @@
 package sharedRegions;
 
+import entities.ChefStates;
+
 /**
  * 	Kitchen
  * 
@@ -40,12 +42,25 @@ public class Kitchen
 	 */
 
 	private int numberOfCoursesDelivered;
+	
+	/**
+     * Reference to the General Repository.
+     */
+    private final GeneralRepos repos;
 
 	/**
 	 * 	Kitchen instantiation
 	 */
 
-	public Kitchen() { }
+	public Kitchen(GeneralRepos repos)
+	{
+		this.numberOfStudents = 0;
+		this.numberOfPortionsReady = 0;
+		this.numberOfCoursesInTheOrder = 0;
+		this.numberOfPortionsDelivered = 0;
+		this.numberOfCoursesDelivered = 0;
+		this.repos = repos;
+	}
 
 	/**
 	 * 	Operation watch the news
@@ -86,8 +101,9 @@ public class Kitchen
 	 * 	It is called by the chef when he finishes a portion
 	 */
 
-	public synchronized void haveAllPortionsBeenDelivered()
+	public synchronized boolean haveAllPortionsBeenDelivered()
 	{
+		return false;
 
 	}
 
@@ -97,9 +113,9 @@ public class Kitchen
 	 * 	It is called by the chef when he finishes preparing all courses
 	 */
 
-	public synchronized void hasOrderBeenCompleted()
+	public synchronized boolean hasOrderBeenCompleted()
 	{
-
+		return false;
 	}
 
 	/**
@@ -112,6 +128,27 @@ public class Kitchen
 	{
 
 	}
+	
+	/**
+	 * Operation have next portion ready
+	 * 
+	 * It is called by the chef when he finishes deliver a portion
+	 */
 
+	public synchronized void haveNextPortionReady()
+	{	
+		
+	}
+	
+	/**
+	 * Operation clean up
+	 * 
+	 * It is called by the chef when he finishes the order
+	 */
+
+	public synchronized void cleanUp()
+	{	
+		this.repos.setChefState(ChefStates.CLOSING_SERVICE);
+	}
 
 }
