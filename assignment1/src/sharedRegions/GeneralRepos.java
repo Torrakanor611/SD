@@ -72,12 +72,12 @@ public class GeneralRepos
 		else this.logFileName = logFileName;  		
 		chefState = ChefStates.WAITING_FOR_AN_ORDER;
 		waiterState = WaiterStates.APRAISING_SITUATION;
-		studentState = new int[ExecuteConst.NUM];
-		for (int i = 0; i < ExecuteConst.NUM; i++)
+		studentState = new int[ExecuteConst.N];
+		for (int i = 0; i < ExecuteConst.N; i++)
 			studentState[i] = StudentStates.GOING_TO_THE_RESTAURANT;
 		nCourses = 0;
 		nPortions = 0;
-		seatsAtTable = new int[ExecuteConst.NUM];
+		seatsAtTable = new int[ExecuteConst.N];
 		reportInitialStatus ();
 	}
 
@@ -144,7 +144,7 @@ public class GeneralRepos
 		case WaiterStates.RECEIVING_PAYMENT: line += "RECPM  ";
 		}
 
-		for(int i = 0; i < ExecuteConst.NUM; i++)
+		for(int i = 0; i < ExecuteConst.N; i++)
 		{
 			switch(studentState[i])
 			{
@@ -162,7 +162,7 @@ public class GeneralRepos
 		line += "     " + String.valueOf(nCourses);
 		line += "        " + String.valueOf(nPortions);
 		line += "        " + String.valueOf(seatsAtTable[0]);
-		for(int i = 1; i < ExecuteConst.NUM; i++)
+		for(int i = 1; i < ExecuteConst.N; i++)
 		{
 			line += "     " + String.valueOf(seatsAtTable[i]);
 		}
