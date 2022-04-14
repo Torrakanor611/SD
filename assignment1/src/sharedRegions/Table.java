@@ -53,6 +53,11 @@ public class Table {
 	private int numStudentsServed;	
 	
 	/**
+	 * Id of the student whose request the waiter is taking care of
+	 */
+	private int studentBeingAnswered;
+	
+	/**
 	 * Reference to the student threads
 	 */
 	private final Student [] students;
@@ -74,6 +79,7 @@ public class Table {
     	this.lastToEat = -1;
     	this.numOfCoursesEaten = 0;
     	this.numStudentsServed = 0;
+    	this.studentBeingAnswered = 0;
     	this.repos = repos;
     	
 		//Initizalization of students thread
@@ -90,9 +96,12 @@ public class Table {
      * 
      * It is called by the waiter when a student enters the restaurant
      */
-    public synchronized void saluteClient()
+    public synchronized void saluteClient(int studentIdBeingAnswered)
     {
-    	//Waiter waker student that has just arrived in order to greet him
+    	studentBeingAnswered = studentIdBeingAnswered;
+    	System.out.println("Waiter Saluting student "+studentBeingAnswered);
+    	
+    	//Waiter wakes student that has just arrived in order to greet him
     	notifyAll();
     	
     	//Update Waiter state
@@ -106,6 +115,9 @@ public class Table {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+    	//When student has finished reading the menu his request was completed
+    	studentBeingAnswered = -1;
     	
     }
     
@@ -121,8 +133,7 @@ public class Table {
     {
     	//Update Waiter state
     	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.APRAISING_SITUATION);
-    	repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
-    	
+    	repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());    	
     }
     
     
@@ -227,14 +238,18 @@ public class Table {
     	
     	repos.updateSeatsAtTable(numStudents-1, studentId);
     	
-    	
-    	//Block waiting for waiter to bring menu
-    	try {
-			wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	//Block waiting for waiter to bring menu specifically to him
+    	// Student also blocks if he wakes up when waiter is bringing the menu to another student
+    	while (studentBeingAnswered != studentId)
+    	{
+	    	try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	System.out.println("Student "+studentId+ " was presented with the menu");
     	
     }
     
@@ -284,6 +299,7 @@ public class Table {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
     }
     
     

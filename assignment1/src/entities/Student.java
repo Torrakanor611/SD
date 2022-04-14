@@ -133,7 +133,7 @@ public class Student extends Thread{
 	private void walkABit()
 	{
 		try
-		{ sleep ((long) (1 + 100 * Math.random ()));
+		{ sleep ((long) (1 + 50 * Math.random ()));
 		}
 		catch (InterruptedException e) {}
 	}

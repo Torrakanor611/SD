@@ -40,10 +40,13 @@ public class Restaurant {
 		/* start of simulation */
 		
 		chef.start();
+		System.out.println("Lauching Chef Thread");
 		waiter.start();
+		System.out.println("Lauching Waiter Thread");
 		for(int i = 0; i < ExecuteConst.N; i++)
 		{
 			student[i].start();
+			System.out.println("Launching Student Thread "+i);
 		}
 		
 		/* wait for the end of simulation */

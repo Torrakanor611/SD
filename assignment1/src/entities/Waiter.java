@@ -68,16 +68,19 @@ public class Waiter extends Thread{
 		while(true)
 		{
 			request = bar.lookAround();
+			System.out.println("Waiter will do "+request);
 			
 			switch(request)
 			{
 				case 'c':	//Client arriving, needs to be presented with the menu
-					tab.saluteClient();
+					tab.saluteClient(bar.getStudentBeingAnswered());
 					tab.returnBar();
+					break;
 				case 'o':	//Order will be described to the waiter
 					tab.getThePad();
 					kit.handNoteToChef();
 					kit.returnToBar();
+					break;
 				case 'p':	//Portions need to be collected and delivered
 					while(!tab.haveAllClientsBeenServed()) 
 					{
@@ -85,14 +88,15 @@ public class Waiter extends Thread{
 						tab.deliverPortion();
 					}
 					tab.returnBar();
+					break;
 				case 'b':	//Bill needs to be prepared so it can be payed by the student
 					bar.preprareBill();
 					tab.presentBill();
-					tab.returnBar();					
+					tab.returnBar();
+					break;
 				case 'g':	//Goodbye needs to be said to a student
-					//If the last student will leave, waiter can finish lifecycle
-					if (bar.sayGoodbye())
-						break;
+					bar.sayGoodbye();
+					break;
 			}
 		}
 	}
