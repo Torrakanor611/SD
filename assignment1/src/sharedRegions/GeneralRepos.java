@@ -154,7 +154,7 @@ public class GeneralRepos
 			case StudentStates.ORGANIZING_THE_ORDER: line += "OGODR ";
 			case StudentStates.CHATING_WITH_COMPANIONS: line += "CHTWC ";
 			case StudentStates.ENJOYING_THE_MEAL: line += "EJYML ";
-			case StudentStates.PAYING_THE_MEAL: line += "PYTBL ";
+			case StudentStates.PAYING_THE_BILL: line += "PYTBL ";
 			case StudentStates.GOING_HOME: line += "GGHOM ";
 			}
 		}

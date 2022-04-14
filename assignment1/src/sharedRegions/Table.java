@@ -6,8 +6,12 @@ import main.ExecuteConst;
 /**
  * Table
  *	Synchronisation points include:
+ *		Waiter waits for students to read the menu
  *		First student to arrive blocks waiting for others to arrive and describe him the order
  *		Waiter has to wait for first student to arrive to describe him the order
+ *		Student blocks waiting for the course to be served
+ *		Last student to arrive blocks waiting for bill to be presented
+ *		Waiter blocks waiting for student to pay the bill
  *
  */
 
@@ -89,6 +93,20 @@ public class Table {
      */
     public synchronized void saluteClient()
     {
+    	//Waiter waker student that has just arrived in order to greet him
+    	notifyAll();
+    	
+    	//Update Waiter state
+    	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PRESENTING_THE_MENU);
+    	repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+    	
+    	//Block waiting for student to read the menu
+    	try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     }
     
@@ -102,6 +120,9 @@ public class Table {
      */
     public synchronized void returnBar()
     {
+    	//Update Waiter state
+    	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.APRAISING_SITUATION);
+    	repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
     	
     }
     
@@ -159,10 +180,20 @@ public class Table {
     /**
      * Operation present the bill
      * 
-     * 
+     * Called by the waiter to present the bill to the last student to arrive
      */
     public synchronized void presentBill()
     {
+    	//Signal student the he can pay
+    	notifyAll();
+    	
+    	//Block waiting for his payment
+    	try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     }
     
@@ -363,6 +394,11 @@ public class Table {
     	
     	//Update numstudents finished course
     	numStudentsFinishedCourse++;
+    	
+    	//If all students have finished means that one more course was eaten
+    	if(numStudentsFinishedCourse == ExecuteConst.N)
+    		numOfCoursesEaten++;
+    	
     	//register last to eat
     	lastToEat = studentId;    	
     	
@@ -378,11 +414,25 @@ public class Table {
     /**
      * Operation has everybody finished eating
      * 
-     * 
+     * Called by to student to wait for his companions to finish eating
      */
-    public synchronized void hasEverybodyFinishedEating()
+    public synchronized boolean hasEverybodyFinishedEating()
     {
+    	//Wait while not all students have finished
+    	while(numStudentsFinishedCourse != ExecuteConst.N) {
+    		try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     	
+    	//If all students have finished numStudentsFinishedCourse and numStudentsServed must be reseted
+    	numStudentsFinishedCourse = 0;
+    	numStudentsServed = 0;
+    	
+    	return true;
     }
     
     
@@ -392,20 +442,53 @@ public class Table {
     /**
      * Operation honour the bill
      * 
-     * 
+     * Called by the student to pay the bill
+     * Student blocks waiting for bill to be presented and signals waiter when it's time to pay it
      */
     public synchronized void honourBill()
-    {
+    {    	
+    	//Block waiting for waiter to present the bill
+    	try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	//After waiter presents the bill, student signals waiter so he can wake up and receive it
+    	notifyAll();
     	
     }
+    
+    
+    
+    
+    
     
     /**
      * Operation have all courses been eaten
      * 
-     * 
+     * Called by the student to check if there are more courses to be eaten
+     * 	Student blocks waiting for the course to be served
+     * 	@return true if all courses have been eaten, false otherwise
      */
-    public synchronized void haveAllCoursesBeenEaten()
+    public synchronized boolean haveAllCoursesBeenEaten()
     {
+    	if(numOfCoursesEaten == ExecuteConst.M) 
+    		return true;
+    	else {
+    		//Student blocks waiting for all companions to be served
+    		while(numStudentsServed != ExecuteConst.N)
+    		{
+	    		try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+	    	return false;
+    	}
     	
     }
     
