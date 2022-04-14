@@ -70,15 +70,15 @@ public class Chef extends Thread{
 				kit.continuePreparation();
 			else
 				firstCourse = false;
+			
 			kit.proceedPreparation();
 			bar.alertWaiter();
+			
 			while(!kit.haveAllPortionsBeenDelivered())
-			{
 				kit.haveNextPortionReady();
-				bar.alertWaiter();
-			}
 		}
 		while(kit.hasOrderBeenCompleted());
+		
 		kit.cleanUp();
 	}
 }
