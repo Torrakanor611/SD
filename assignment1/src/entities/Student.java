@@ -1,5 +1,9 @@
 package entities;
 
+import main.ExecuteConst;
+import sharedRegions.Bar;
+import sharedRegions.Table;
+
 /**
  *   Student thread.
  *
@@ -18,6 +22,16 @@ public class Student extends Thread{
 	 */
 	private int studentState;
 	
+	/**
+	 * Reference to the bar
+	 */
+	
+	private final Bar bar;
+	
+	/**
+	 * Reference to the table
+	 */
+	private final Table tab;
 	
 	/**
 	 * 	@param student id
@@ -57,10 +71,12 @@ public class Student extends Thread{
 	 * @param studentId student id
 	 * @param studentState student state
 	 */
-	public Student(int studentId, int studentState) {
+	public Student(int studentId, int studentState, Bar bar, Table tab) {
 		super();
 		this.studentId = studentId;
 		this.studentState = studentState;
+		this.bar = bar;
+		this.tab = tab;
 	}
 
 	/**
@@ -70,8 +86,42 @@ public class Student extends Thread{
 	@Override
 	public void run ()
 	{
-		//
+		walkABit();
+		bar.enter();
+		tab.readMenu();
+		
+		if(studentId == tab.getFirstToArrive())
+		{
+			tab.prepareOrder();
+			while(!tab.everybodyHasChosen())
+				tab.addUpOnesChoices();
+			bar.callWaiter();
+			tab.describeOrder();
+			tab.joinTalk();
+		}
+		else
+			tab.informCompanion();
+		
+		int i=0;
+		while(!tab.haveAllCoursesBeenEaten())
+		{
+			tab.startEating();
+			tab.endEating();
+			while(!tab.hasEverybodyFinishedEating());
+			i++;
+			if(studentId == tab.getLastToEat() && i != ExecuteConst.M-1)
+				bar.signalWaiter();
+		}
+		
+		if(tab.shouldHaveArrivedEarlier()) 
+		{
+			bar.signalWaiter();
+			tab.honourBill();
+		}
+		bar.exit();
 	}
+	
+	
 	
 	private void walkABit()
 	{

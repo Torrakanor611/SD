@@ -23,10 +23,11 @@ public class Chef extends Thread{
 	
 	private final Bar bar;
 	
+	
+	
 	/**
 	 * 	@param chef state
 	 */
-	
 	public void setChefState(int chefState)
 	{
 		this.chefState = chefState;
