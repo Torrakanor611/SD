@@ -96,9 +96,9 @@ public class GeneralRepos
 			GenericIO.writelnString ("The operation of creating the file " + logFileName + " failed!");
 			System.exit (1);
 		}
-		log.writelnString ("                The Restaurant - Description of the internal state");
-		log.writelnString (" Chef Waiter  St0  Stu1  Stu2  Stu3  Stu4  Stu5  Stu6   NCourse  NPortion					 Table");
-		log.writelnString("State State  State State State State State State State 					   Seat0 Seat1 Seat2 Seat3 Seat4 Seat5 Seat6");
+		log.writelnString ("                                        The Restaurant - Description of the internal state");
+		log.writelnString (" Chef Waiter  Stu0  Stu1  Stu2  Stu3  Stu4  Stu5  Stu6  NCourse  NPortion                    Table");
+		log.writelnString ("State State  State State State State State State State                     Seat0 Seat1 Seat2 Seat3 Seat4 Seat5 Seat6");
 		if (!log.close ())
 		{ 
 			GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
@@ -138,7 +138,7 @@ public class GeneralRepos
 		{
 		case WaiterStates.APRAISING_SITUATION: line += "APPST  "; break;
 		case WaiterStates.PRESENTING_THE_MENU: line += "PRSMN  "; break;
-		case WaiterStates.TAKING_THE_ORDER: line += "TKODR "; break;
+		case WaiterStates.TAKING_THE_ORDER: line += "TKODR  "; break;
 		case WaiterStates.WAITING_FOR_PORTION: line += "WTFPT "; break;
 		case WaiterStates.PROCESSING_THE_BILL: line += "PRCBL "; break;
 		case WaiterStates.RECEIVING_PAYMENT: line += "RECPM  "; break;
@@ -159,7 +159,7 @@ public class GeneralRepos
 			}
 		}
 
-		line += "     " + String.valueOf(nCourses);
+		line += "    " + String.valueOf(nCourses);
 		line += "        " + String.valueOf(nPortions);
 		line += "        " + String.valueOf(seatsAtTable[0]);
 		for(int i = 1; i < ExecuteConst.N; i++)
