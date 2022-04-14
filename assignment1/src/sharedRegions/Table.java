@@ -150,13 +150,20 @@ public class Table {
 		}
     }
     
+    
+    
+    
     /**
      * Operation have all clients been served
      * 
-     * 
+     * Called by the waiter to check if all clients have been served or not
+     * @return true if all clients have been served, false otherwise
      */
-    public synchronized void haveAllClientsBeenServed()
+    public synchronized boolean haveAllClientsBeenServed()
     {
+    	if(numStudentsServed == ExecuteConst.N)
+    		return true;
+    	return false;
     	
     }
     
@@ -197,6 +204,36 @@ public class Table {
     	
     }
     
+    
+    
+    /**
+     * Operation siting at the table
+     * 
+     * Student comes in the table and sits (blocks) waiting for waiter to bring him the menu
+     * Called by the student (inside enter method in the bar)
+     * @param numStudents wich represents the number of students at the restaurant
+     */
+    public synchronized void seatAtTable(int numStudents)
+    {
+    	int studentId = ((Student) Thread.currentThread()).getStudentId();
+    	
+    	//Register first and last student to arrive
+    	if(numStudents == 1)
+    		firstToArrive = studentId;
+    	else if (numStudents == ExecuteConst.N)
+    		lastToArrive = studentId; 
+    	
+    	repos.updateSeatsAtTable(numStudents-1, studentId);
+    	
+    	//Block waiting for waiter to bring menu
+    	try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    }
     
     
     
@@ -386,7 +423,7 @@ public class Table {
 	/**
      * Operation end eating
      * 
-     * 
+     * Called by the student to signal that he has finished eating his meal
      */
     public synchronized void endEating()
     {
@@ -516,6 +553,17 @@ public class Table {
     		return false;
     }
     
+    
+    /**
+     * @return id of the first student to arrive at the restaurant
+     */
+    public int getFirstToArrive() { return firstToArrive; }
+    
+    /**
+     * 
+     * @return id of the last student to finish eating a meal
+     */
+    public int getLastToEat() { return lastToEat; }
     
     
     

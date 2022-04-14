@@ -12,6 +12,7 @@ import main.*;
  *	Synchronisation points include:
  *		Chef has to wait for the note that describes the order given by the waiter
  *		Chef has to wait for waiter to collect portions
+ *		Waiter has to wait for portions from the chef
  *
  */
 
@@ -52,12 +53,13 @@ public class Kitchen
 		this.repos = repos;
 	}
 
+	
+	
 	/**
 	 * 	Operation watch the news
 	 * 
 	 * 	It is called by the chef while waiting to be notified by the waiter to give the order
 	 */
-
 	public synchronized void watchTheNews()
 	{
 		//Set chef state
@@ -80,13 +82,13 @@ public class Kitchen
 	 * 
 	 * 	It is called by the chef after waiter has notified him of the order to be prepared
 	 */
-
 	public synchronized void startPreparation()
 	{
 		//Update new Chef State
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 	}
+
 
 	
 	
@@ -95,7 +97,6 @@ public class Kitchen
 	 * 
 	 * 	It is called by the chef when a portion needs to be prepared
 	 */
-
 	public synchronized void proceedPreparation()
 	{
 		//Update new Chef state
@@ -121,16 +122,19 @@ public class Kitchen
 	public synchronized boolean haveAllPortionsBeenDelivered()
 	{
 		//Wait for waiter to collect the portion
-		try {
-			wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while( numberOfPortionsReady != 0) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		//Check if all portions of the course have been delivered or not
 		if(numberOfPortionsDelivered == ExecuteConst.N)
 			return true;
+
 		return false;
 
 	}
@@ -185,6 +189,13 @@ public class Kitchen
 		
 		//Update numberOfPortionsReady
 		numberOfPortionsReady++;
+		
+		//Update chefs state
+		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
+		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
+		
+		//Notify Waiter that there is a portion waiting to be delivered
+		notifyAll();
 	}
 	
 	
@@ -256,7 +267,7 @@ public class Kitchen
 		repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 		
 		//If there are no portions to deliver waiter must block
-		if ( numberOfPortionsReady == 0) {
+		while ( numberOfPortionsReady == 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
