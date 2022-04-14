@@ -28,8 +28,8 @@ public class Restaurant {
 		
 		repos = new GeneralRepos("log.txt");
 		kit = new Kitchen(repos);
-		bar = new Bar(repos);
 		tab = new Table(repos);
+		bar = new Bar(repos, tab);
 		
 		chef = new Chef("chef", kit, bar);
 		waiter = new Waiter("waiter", kit, bar, tab);

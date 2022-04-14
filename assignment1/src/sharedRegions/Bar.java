@@ -49,6 +49,11 @@ public class Bar
 	 */
 	private int studentBeingAnswered;
 	
+	/**
+	 * Reference to the table
+	 */
+	private final Table tab;
+	
 	
 	
 	/**
@@ -56,15 +61,24 @@ public class Bar
 	 * 
 	 * @param repo reference to the general repository 
 	 */
-	public Bar(GeneralRepos repo) 
+	public Bar(GeneralRepos repo, Table tab) 
 	{
 		//Initizalization of students thread
 		students = new Student[ExecuteConst.N];
 		for(int i = 0; i < ExecuteConst.N; i++ ) 
 			students[i] = null;
 		
+		//Initialization of the queue of pending requests
+		try {
+			pendingServiceRequestQueue = new MemFIFO<> (new Request [ExecuteConst.N * ExecuteConst.M]);
+		} catch (MemException e) {
+			pendingServiceRequestQueue = null;
+		    System.exit (1);
+		}
+		
 		studentBeingAnswered = -1;
 		this.repo = repo;
+		this.tab = tab;
 	}
 	
 	
@@ -202,6 +216,9 @@ public class Bar
 		
 		synchronized(this)
 		{
+			students[studentId] = ((Student) Thread.currentThread());
+			students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
+			
 			//Update number of students at the restaurant
 			numberOfStudentsAtRestaurant++;
 			
@@ -215,7 +232,7 @@ public class Bar
 			//Update number of pending requests
 			numberOfPendingRequests++;
 			
-			//Update student test
+			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
 			repo.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
 			
@@ -224,7 +241,7 @@ public class Bar
 		}
 		
 		//Seat student at table and block it
-		//....
+		tab.seatAtTable(numberOfStudentsAtRestaurant);
 		
 		return numberOfStudentsAtRestaurant;
 	}
@@ -270,7 +287,7 @@ public class Bar
 	public synchronized void signalWaiter()
 	{
 		int studentId = ((Student) Thread.currentThread()).getStudentId();
-		Request r = new Request(studentId,'o');
+		Request r = new Request(studentId,'p');
 		
 		//Add a new service request to queue of pending requests (portion to be collected)
 		try {

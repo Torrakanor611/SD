@@ -180,6 +180,7 @@ public class GeneralRepos
 	 */
 	public synchronized void setChefState(int value) {
 		this.chefState = value;
+		reportStatus();
 	}
 
 	/**
@@ -187,6 +188,7 @@ public class GeneralRepos
 	 */
 	public synchronized void setWaiterState(int value) {
 		this.waiterState = value;
+		reportStatus();
 	}
 
 	/**
@@ -195,6 +197,7 @@ public class GeneralRepos
 	 */
 	public synchronized void updateStudentState(int id, int value) {
 		this.studentState[id] = value;
+		reportStatus();
 	}
 
 	/**
@@ -202,6 +205,7 @@ public class GeneralRepos
 	 */
 	public synchronized void setnCourses(int value) {
 		this.nCourses = value;
+		reportStatus();
 	}
 
 	/**
@@ -209,6 +213,7 @@ public class GeneralRepos
 	 */
 	public synchronized void setnPortions(int value) {
 		this.nPortions = value;
+		reportStatus();
 	}
 
 	/**
@@ -217,6 +222,7 @@ public class GeneralRepos
 	 */
 	public synchronized void updateSeatsAtTable(int seat, int id) {
 		this.seatsAtTable[seat] = id;
+		reportStatus();
 	}
 }
 

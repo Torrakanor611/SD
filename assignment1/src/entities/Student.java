@@ -65,6 +65,9 @@ public class Student extends Thread{
 		return studentState;
 	}
 
+	
+	
+	
 	/**
 	 * Instatiation of a student thread
 	 * 
@@ -79,6 +82,10 @@ public class Student extends Thread{
 		this.tab = tab;
 	}
 
+	
+	
+	
+	
 	/**
 	 *	Life cycle of the student
 	 */

@@ -50,8 +50,7 @@ public class Table {
 	/**
 	 * Number of students served
 	 */
-	private int numStudentsServed;
-	
+	private int numStudentsServed;	
 	
 	/**
 	 * Reference to the student threads
@@ -116,7 +115,7 @@ public class Table {
     /**
      * Operation return to the bar
      * 
-     * It is called by the waiter ......
+     * It is called by the waiter to change to return to the bar appraising situation
      */
     public synchronized void returnBar()
     {
@@ -217,6 +216,9 @@ public class Table {
     {
     	int studentId = ((Student) Thread.currentThread()).getStudentId();
     	
+		students[studentId] = ((Student) Thread.currentThread());
+		students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
+    	
     	//Register first and last student to arrive
     	if(numStudents == 1)
     		firstToArrive = studentId;
@@ -224,6 +226,7 @@ public class Table {
     		lastToArrive = studentId; 
     	
     	repos.updateSeatsAtTable(numStudents-1, studentId);
+    	
     	
     	//Block waiting for waiter to bring menu
     	try {
