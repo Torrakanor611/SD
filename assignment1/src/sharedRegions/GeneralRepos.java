@@ -127,39 +127,39 @@ public class GeneralRepos
 		}
 		switch(chefState)
 		{
-		case ChefStates.WAITING_FOR_AN_ORDER: line += "WAFOR ";
-		case ChefStates.PREPARING_THE_COURSE: line += "PRPCS ";
-		case ChefStates.DISHING_THE_PORTIONS: line += "DSHPT ";
-		case ChefStates.DELIVERING_THE_PORTIONS: line += "DLVPT ";
-		case ChefStates.CLOSING_SERVICE: line += "CLSSV ";
+		case ChefStates.WAITING_FOR_AN_ORDER: line += "WAFOR "; break;
+		case ChefStates.PREPARING_THE_COURSE: line += "PRPCS "; break;
+		case ChefStates.DISHING_THE_PORTIONS: line += "DSHPT "; break;
+		case ChefStates.DELIVERING_THE_PORTIONS: line += "DLVPT "; break;
+		case ChefStates.CLOSING_SERVICE: line += "CLSSV "; break;
 		}
 
 		switch(waiterState)
 		{
-		case WaiterStates.APRAISING_SITUATION: line += "APPST  ";
-		case WaiterStates.PRESENTING_THE_MENU: line += "PRSMN  ";
-		case WaiterStates.TAKING_THE_ORDER: line += "TKODR ";
-		case WaiterStates.WAITING_FOR_PORTION: line += "WTFPT ";
-		case WaiterStates.PROCESSING_THE_BILL: line += "PRCBL ";
-		case WaiterStates.RECEIVING_PAYMENT: line += "RECPM  ";
+		case WaiterStates.APRAISING_SITUATION: line += "APPST  "; break;
+		case WaiterStates.PRESENTING_THE_MENU: line += "PRSMN  "; break;
+		case WaiterStates.TAKING_THE_ORDER: line += "TKODR "; break;
+		case WaiterStates.WAITING_FOR_PORTION: line += "WTFPT "; break;
+		case WaiterStates.PROCESSING_THE_BILL: line += "PRCBL "; break;
+		case WaiterStates.RECEIVING_PAYMENT: line += "RECPM  "; break;
 		}
 
 		for(int i = 0; i < ExecuteConst.N; i++)
 		{
 			switch(studentState[i])
 			{
-			case StudentStates.GOING_TO_THE_RESTAURANT: line += "GGTRT ";
-			case StudentStates.TAKING_A_SEAT_AT_THE_TABLE: line += "TKSTT ";
-			case StudentStates.SELECTING_THE_COURSES: line += "SELCS ";
-			case StudentStates.ORGANIZING_THE_ORDER: line += "OGODR ";
-			case StudentStates.CHATING_WITH_COMPANIONS: line += "CHTWC ";
-			case StudentStates.ENJOYING_THE_MEAL: line += "EJYML ";
-			case StudentStates.PAYING_THE_BILL: line += "PYTBL ";
-			case StudentStates.GOING_HOME: line += "GGHOM ";
+			case StudentStates.GOING_TO_THE_RESTAURANT: line += "GGTRT "; break;
+			case StudentStates.TAKING_A_SEAT_AT_THE_TABLE: line += "TKSTT "; break;
+			case StudentStates.SELECTING_THE_COURSES: line += "SELCS "; break;
+			case StudentStates.ORGANIZING_THE_ORDER: line += "OGODR "; break;
+			case StudentStates.CHATING_WITH_COMPANIONS: line += "CHTWC "; break;
+			case StudentStates.ENJOYING_THE_MEAL: line += "EJYML "; break;
+			case StudentStates.PAYING_THE_BILL: line += "PYTBL "; break;
+			case StudentStates.GOING_HOME: line += "GGHOM "; break;
 			}
 		}
 
-		line += "     " + String.valueOf(nCourses);
+		line += "     " + String.valueOf(nCourses);break;
 		line += "        " + String.valueOf(nPortions);
 		line += "        " + String.valueOf(seatsAtTable[0]);
 		for(int i = 1; i < ExecuteConst.N; i++)
