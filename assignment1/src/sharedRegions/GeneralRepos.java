@@ -159,7 +159,7 @@ public class GeneralRepos
 			}
 		}
 
-		line += "     " + String.valueOf(nCourses);break;
+		line += "     " + String.valueOf(nCourses);
 		line += "        " + String.valueOf(nPortions);
 		line += "        " + String.valueOf(seatsAtTable[0]);
 		for(int i = 1; i < ExecuteConst.N; i++)
