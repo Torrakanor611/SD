@@ -82,6 +82,12 @@ public class Bar
 	}
 	
 	
+	/**
+	 * @return Id of the student whose request is being answered
+	 */
+	public int getStudentBeingAnswered() { return studentBeingAnswered; }
+	
+	
 	
 	
 	/**
@@ -136,11 +142,11 @@ public class Bar
 		//While there are no pending request, waiter blocks
 		while(numberOfPendingRequests == 0)
 		{
-			try	{	
+			try {
 				wait();
-			}
-			catch(InterruptedException e)
-			{	e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
