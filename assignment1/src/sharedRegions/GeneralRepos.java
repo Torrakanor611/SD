@@ -78,6 +78,10 @@ public class GeneralRepos
 		nCourses = 0;
 		nPortions = 0;
 		seatsAtTable = new int[ExecuteConst.N];
+		for(int i = 0; i < ExecuteConst.N; i++)
+		{
+			seatsAtTable[i] = -1;
+		}
 		reportInitialStatus ();
 	}
 
@@ -161,10 +165,12 @@ public class GeneralRepos
 
 		line += "    " + String.valueOf(nCourses);
 		line += "        " + String.valueOf(nPortions);
-		line += "        " + String.valueOf(seatsAtTable[0]);
+		line += seatsAtTable[0] >= 0 ? "        " : "       ";
+		line += String.valueOf(seatsAtTable[0]);
 		for(int i = 1; i < ExecuteConst.N; i++)
 		{
-			line += "     " + String.valueOf(seatsAtTable[i]);
+			line += seatsAtTable[i] >= 0 ? "     " : "    ";
+			line += String.valueOf(seatsAtTable[i]);
 		}
 
 		log.writelnString (line);
