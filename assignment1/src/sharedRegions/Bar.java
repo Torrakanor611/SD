@@ -172,13 +172,18 @@ public class Bar
 	 * Operation say Goodbye
 	 * 
 	 * It is called by the waiter to say goodbye to a student that's leaving the restaurant
+	 * @return true if there are no more students at the restaurant, false otherwise
 	 */
-	public synchronized void sayGoodbye()
+	public synchronized boolean sayGoodbye()
 	{
 		//Wake up student that is waiting to be greeted by waiter
 		notifyAll();
 		//Update value of studentBeingAnswered to reflect the fact that the student's request was fullfilled 
 		studentBeingAnswered = -1;
+		
+		if(numberOfStudentsAtRestaurant == 0)
+			return true;
+		return false;
 		
 	}
 	
