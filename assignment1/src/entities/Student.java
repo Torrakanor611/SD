@@ -71,10 +71,10 @@ public class Student extends Thread{
 	 * @param studentId student id
 	 * @param studentState student state
 	 */
-	public Student(int studentId, int studentState, Bar bar, Table tab) {
-		super();
+	public Student(String name, int studentId, Bar bar, Table tab) {
+		super(name);
 		this.studentId = studentId;
-		this.studentState = studentState;
+		this.studentState = StudentStates.GOING_TO_THE_RESTAURANT;
 		this.bar = bar;
 		this.tab = tab;
 	}

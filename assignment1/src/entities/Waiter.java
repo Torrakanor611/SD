@@ -48,9 +48,9 @@ public class Waiter extends Thread{
 	 * 	@param waiterState
 	 */
 	
-	public Waiter(int waiterState, Kitchen kit, Bar bar, Table tab) {
-		super();
-		this.waiterState = waiterState;
+	public Waiter(String name, Kitchen kit, Bar bar, Table tab) {
+		super(name);
+		this.waiterState = WaiterStates.APRAISING_SITUATION;
 		this.kit = kit;
 		this.bar = bar;
 		this.tab = tab;
