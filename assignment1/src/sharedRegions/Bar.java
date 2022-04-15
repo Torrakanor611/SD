@@ -94,11 +94,11 @@ public class Bar
 	 * Operation alert the waiter
 	 * 
 	 * It is called by the chef to alert the waiter that a portion was dished
-	 * 	For requests the chef id will be 0 
+	 * 	For requests the chef id will be N+1
 	 */
 	public synchronized void alertWaiter()
 	{
-		Request r = new Request(0,'p');
+		Request r = new Request(ExecuteConst.N+1,'p');
 		
 		//Add a new service request to queue of pending requests (portion to be collected)
 		try {
@@ -163,8 +163,8 @@ public class Bar
 			return 0;
 		}		
 		//Register student id in studentBeingAnswered if the request was made by a student
-		if(r.id != 0)
-			studentBeingAnswered = r.id;
+		System.out.println("Waiter took student "+r.id+ " request from the queue");
+		studentBeingAnswered = r.id;
 		
 		return r.type;
 	}
