@@ -58,6 +58,11 @@ public class Table {
 	private int studentBeingAnswered;
 	
 	/**
+	 * Boolean variable to check if waiter is presenting the menu or not
+	 */
+	private boolean presentingTheMenu;
+	
+	/**
 	 * Reference to the student threads
 	 */
 	private final Student [] students;
@@ -80,6 +85,7 @@ public class Table {
     	this.numOfCoursesEaten = 0;
     	this.numStudentsServed = 0;
     	this.studentBeingAnswered = 0;
+    	this.presentingTheMenu = false;
     	this.repos = repos;
     	
 		//Initizalization of students thread
@@ -101,12 +107,14 @@ public class Table {
     	studentBeingAnswered = studentIdBeingAnswered;
     	System.out.println("Waiter Saluting student "+studentBeingAnswered);
     	
-    	//Waiter wakes student that has just arrived in order to greet him
-    	notifyAll();
-    	
     	//Update Waiter state
     	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PRESENTING_THE_MENU);
     	repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+    	
+    	presentingTheMenu = true;
+    	
+    	//Waiter wakes student that has just arrived in order to greet him
+    	notifyAll();
     	
     	//Block waiting for student to read the menu
     	try {
@@ -114,11 +122,7 @@ public class Table {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-    	
-    	//When student has finished reading the menu his request was completed
-    	studentBeingAnswered = -1;
-    	
+		}    	
     }
     
     
@@ -228,7 +232,7 @@ public class Table {
     	int studentId = ((Student) Thread.currentThread()).getStudentId();
     	
 		students[studentId] = ((Student) Thread.currentThread());
-		students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
+		students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
     	
     	//Register first and last student to arrive
     	if(numStudents == 1)
@@ -240,7 +244,7 @@ public class Table {
     	
     	//Block waiting for waiter to bring menu specifically to him
     	// Student also blocks if he wakes up when waiter is bringing the menu to another student
-    	while (studentBeingAnswered != studentId)
+    	while (true)
     	{
 	    	try {
 				wait();
@@ -248,8 +252,14 @@ public class Table {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	}
-    	System.out.println("Student "+studentId+ " was presented with the menu");
+	    	System.out.println("I student "+studentId+"was waken up ("+studentBeingAnswered+")");
+	    	if (studentId == studentBeingAnswered && presentingTheMenu == true) {
+	    		System.out.println("I student "+studentId+" Can Proceed");
+	    		break;
+	    	}
+	    }
+    	System.out.println("Student "+studentId+ " was presented with the menu ("+studentBeingAnswered+")");
+    	
     	
     }
     
@@ -270,6 +280,12 @@ public class Table {
     	
     	//Signal waiter that menu was already read
     	notifyAll();
+    	
+    	System.out.println("Student "+studentId+ " read the menu ("+studentBeingAnswered+")");
+    
+    	//When student has finished reading the menu his request was completed
+    	studentBeingAnswered = -1;
+    	presentingTheMenu  = false;
     }    
     
     

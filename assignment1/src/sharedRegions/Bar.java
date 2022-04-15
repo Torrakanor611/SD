@@ -162,7 +162,7 @@ public class Bar
 			e.printStackTrace();
 			return 0;
 		}		
-		//Register student id in studentBeingAnswered if the request was made by a student
+		//Register student id in studentBeingAnswered
 		System.out.println("Waiter took student "+r.id+ " request from the queue");
 		studentBeingAnswered = r.id;
 		
@@ -214,9 +214,8 @@ public class Bar
 	 * Operation enter the restaurant
 	 * 
 	 * It is called by the student to signal that he is entering the restaurant
-	 * 	@return Number of students present in the restaurant
 	 */
-	public int enter()
+	public void enter()
 	{
 		int studentId = ((Student) Thread.currentThread()).getStudentId();
 		
@@ -248,8 +247,6 @@ public class Bar
 		
 		//Seat student at table and block it
 		tab.seatAtTable(numberOfStudentsAtRestaurant);
-		
-		return numberOfStudentsAtRestaurant;
 	}
 	
 	
