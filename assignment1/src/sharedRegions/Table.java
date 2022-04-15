@@ -68,6 +68,11 @@ public class Table {
 	private boolean takingTheOrder;
 	
 	/**
+	 * Boolean variable to check if a student is informing his companion about the order
+	 */
+	private boolean informingCompanion;
+	
+	/**
 	 * Boolean array to check wich students have seated already
 	 */
 	private boolean studentsSeated[];
@@ -97,6 +102,7 @@ public class Table {
     	this.studentBeingAnswered = 0;
     	this.presentingTheMenu = false;
     	this.takingTheOrder = false;
+    	this.informingCompanion = false;
     	this.repos = repos;
     	
     	studentsSeated = new boolean[ExecuteConst.N];
@@ -341,7 +347,6 @@ public class Table {
      * Operation prepare the order
      * 
      * Called by the student to begin the preparation of the order, 
-     * first student to arrive blocks waiting for others to arrive and describe him the order
      */
     public synchronized void prepareOrder()
     {    	
@@ -351,14 +356,6 @@ public class Table {
     	//Update student state
     	students[firstToArrive].setStudentState(StudentStates.ORGANIZING_THE_ORDER);
     	repos.updateStudentState(firstToArrive, ((Student) Thread.currentThread()).getStudentState());
-    	
-    	//Student blocks while waiting for others to arrive and describe him the order
-    	try {
-			wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     	
     }
     
@@ -378,12 +375,15 @@ public class Table {
     		return true;
     	else {
 	    	//Block if not everybody has choosen
-	    	try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	    	while(informingCompanion == false)
+	    	{
+	    		try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}
 	    	return false;
     	}
     	
@@ -400,6 +400,7 @@ public class Table {
     public synchronized void addUpOnesChoices()
     {
     	numOrders++;
+    	informingCompanion = false;
     }
     
     
@@ -461,13 +462,15 @@ public class Table {
     public synchronized void informCompanion()
     {
     	int studentId = ((Student) Thread.currentThread()).getStudentId();
-    	    	
+    	
+    	informingCompanion = true;
     	//notify first student to arrive, so that he can register ones preference
     	notifyAll();
     	
     	//Update student state
     	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
     	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+    	
     	
     }
     
