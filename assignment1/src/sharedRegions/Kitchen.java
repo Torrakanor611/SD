@@ -88,9 +88,6 @@ public class Kitchen
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
-		//Set course number
-		repos.setnCourses(numberOfCoursesDelivered+1);
-		
 		//Notify Waiter that the preparation of the order has started
 		notifyAll();
 	}
@@ -178,7 +175,6 @@ public class Kitchen
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 		numberOfCoursesDelivered++;
-		repos.setnCourses(numberOfCoursesDelivered+1);
 	}
 	
 	
@@ -300,6 +296,7 @@ public class Kitchen
 			numberOfPortionsDelivered = 1;
 		
 		repos.setnPortions(numberOfPortionsDelivered);
+		repos.setnCourses(numberOfCoursesDelivered+1);
 		
 		//Signal chef that portion was delivered
 		notifyAll();

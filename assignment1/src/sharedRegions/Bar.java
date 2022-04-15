@@ -30,6 +30,11 @@ public class Bar
 	private int numberOfPendingRequests;
 	
 	/**
+	 * Boolean variable used to store if a course was finished or not
+	 */
+	private boolean courseFinished;
+	
+	/**
 	 * Queue of pending Requests
 	 */
 	private MemFIFO<Request> pendingServiceRequestQueue;
@@ -76,7 +81,8 @@ public class Bar
 		    System.exit (1);
 		}
 		
-		studentBeingAnswered = -1;
+		this.courseFinished = true;
+		this.studentBeingAnswered = -1;
 		this.repo = repo;
 		this.tab = tab;
 	}
@@ -98,6 +104,17 @@ public class Bar
 	 */
 	public synchronized void alertWaiter()
 	{
+		//Chef must not alert Waiter while course is not finished
+		while(!courseFinished)
+		{
+			try {
+				wait();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
 		Request r = new Request(ExecuteConst.N+1,'p');
 		
 		//Add a new service request to queue of pending requests (portion to be collected)
@@ -110,6 +127,7 @@ public class Bar
 		
 		//Update number of pending requests
 		numberOfPendingRequests++;
+		courseFinished = false;
 		
 		//Update chefs state
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
@@ -264,8 +282,6 @@ public class Bar
 		int studentId = ((Student) Thread.currentThread()).getStudentId();
 		Request r = new Request(studentId,'o');
 		
-		System.out.println("I Called the waiter - student "+studentId);
-		
 		//Add a new service request to queue of pending requests (portion to be collected)
 		try {
 			pendingServiceRequestQueue.write(r);
@@ -292,20 +308,12 @@ public class Bar
 	public synchronized void signalWaiter()
 	{
 		int studentId = ((Student) Thread.currentThread()).getStudentId();
-		Request r = new Request(studentId,'p');
+		System.out.println("Last to eat was "+studentId);
 		
-		//Add a new service request to queue of pending requests (portion to be collected)
-		try {
-			pendingServiceRequestQueue.write(r);
-		} catch (MemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		courseFinished = true;
 		
-		//Update number of pending requests
-		numberOfPendingRequests++;	
-		
-		//Signal waiter that there is a pending request
+		//Wake chef up because he is waiting to tell waiter to collect portion
+		// and waiter so he can collect a new portion
 		notifyAll();
 	}
 	

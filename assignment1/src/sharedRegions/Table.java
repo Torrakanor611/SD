@@ -118,6 +118,23 @@ public class Table {
     
     
     
+    
+    /**
+     * @return id of the first student to arrive at the restaurant
+     */
+    public int getFirstToArrive() { return firstToArrive; }
+    
+    /**
+     * 
+     * @return id of the last student to finish eating a meal
+     */
+    public int getLastToEat() { return lastToEat; }
+    
+    
+    
+    
+    
+    
     /**
      * Operation salute the client
      * 
@@ -217,7 +234,11 @@ public class Table {
      */
     public synchronized boolean haveAllClientsBeenServed()
     {
-    	//If all clients have been served they mys be notified
+    	if(numStudentsFinishedCourse == ExecuteConst.N)
+    		numStudentsFinishedCourse = 0;
+    	
+    	
+    	//If all clients have been served they must be notified
     	if(numStudentsServed == ExecuteConst.N) {
     		notifyAll();
     		return true;
@@ -510,13 +531,15 @@ public class Table {
     	
     	//Update numstudents finished course
     	numStudentsFinishedCourse++;
+    	System.out.println("I "+studentId+" finished"+numStudentsFinishedCourse);
     	
     	//If all students have finished means that one more course was eaten
     	if(numStudentsFinishedCourse == ExecuteConst.N)
+    	{
     		numOfCoursesEaten++;
-    	
-    	//register last to eat
-    	lastToEat = studentId;    	
+    		//register last to eat
+    		lastToEat = studentId;
+    	}
     	
     	//Update student state
     	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
@@ -534,6 +557,12 @@ public class Table {
      */
     public synchronized boolean hasEverybodyFinishedEating()
     {
+    	int studentId = ((Student) Thread.currentThread()).getStudentId();
+    	
+    	//Notify all students that the last one to eat has already finished
+    	if(studentId == lastToEat)
+    		notifyAll();
+    	
     	//Wait while not all students have finished
     	while(numStudentsFinishedCourse != ExecuteConst.N) {
     		try {
@@ -542,11 +571,17 @@ public class Table {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+    		System.out.println("I woke up "+studentId+" - "+numStudentsFinishedCourse);
     	}
+    	   	
     	
-    	//If all students have finished numStudentsFinishedCourse and numStudentsServed must be reseted
-    	numStudentsFinishedCourse = 0;
-    	numStudentsServed = 0;
+    	//Update number of students that were served
+    	if (studentId == lastToEat)
+		    numStudentsServed = 0;
+
+    	else {
+    		notifyAll();
+    	}
     	
     	return true;
     }
@@ -590,9 +625,9 @@ public class Table {
      */
     public synchronized boolean haveAllCoursesBeenEaten()
     {
-    	if(numOfCoursesEaten == ExecuteConst.M) 
+    	if(numOfCoursesEaten == ExecuteConst.M)
     		return true;
-    	else {
+		else {
     		//Student blocks waiting for all companions to be served
     		while(numStudentsServed != ExecuteConst.N)
     		{
@@ -603,7 +638,7 @@ public class Table {
 					e.printStackTrace();
 				}
     		}
-    		System.out.println("All served!!!");
+    		System.out.println("All served!!! Course "+ numOfCoursesEaten);
 	    	return false;
     	}
     	
@@ -632,18 +667,6 @@ public class Table {
     	else
     		return false;
     }
-    
-    
-    /**
-     * @return id of the first student to arrive at the restaurant
-     */
-    public int getFirstToArrive() { return firstToArrive; }
-    
-    /**
-     * 
-     * @return id of the last student to finish eating a meal
-     */
-    public int getLastToEat() { return lastToEat; }
     
     
     
