@@ -264,6 +264,8 @@ public class Bar
 		int studentId = ((Student) Thread.currentThread()).getStudentId();
 		Request r = new Request(studentId,'o');
 		
+		System.out.println("I Called the waiter - student "+studentId);
+		
 		//Add a new service request to queue of pending requests (portion to be collected)
 		try {
 			pendingServiceRequestQueue.write(r);

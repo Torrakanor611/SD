@@ -127,17 +127,18 @@ public class Table {
     	
     	presentingTheMenu = true;
     	
-
+    	
     	//Waiter must wait while student hasn't taken a seat
     	while(studentsSeated[studentBeingAnswered] == false)
     	{
 			try {
-				Thread.sleep(100);
+				wait();
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
     	}
+    	System.out.println("Saluting");
     	
     	//Waiter wakes student that has just arrived in order to greet him
     	notifyAll();
@@ -282,6 +283,8 @@ public class Table {
     	System.out.println("Student"+ studentId+" took a seat and blocked");
     	//Register that student took a seat
     	studentsSeated[studentId] = true;
+    	//notify waiter that student took a seat (waiter may be waiting)
+    	notifyAll();
     	
     	//Block waiting for waiter to bring menu specifically to him
     	// Student also blocks if he wakes up when waiter is bringing the menu to another student
