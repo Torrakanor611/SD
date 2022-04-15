@@ -87,6 +87,12 @@ public class Kitchen
 		//Update new Chef State
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
+		
+		//Set course number
+		repos.setnCourses(numberOfCoursesDelivered+1);
+		
+		//Notify Waiter that the preparation of the order has started
+		notifyAll();
 	}
 
 
@@ -150,6 +156,7 @@ public class Kitchen
 
 	public synchronized boolean hasOrderBeenCompleted()
 	{
+		System.out.println("Number of courses delivered: "+numberOfCoursesDelivered);
 		//Check if all courses have been delivered
 		if (numberOfCoursesDelivered == ExecuteConst.M)
 			return true;
@@ -170,6 +177,8 @@ public class Kitchen
 		//Update chefs state
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
+		numberOfCoursesDelivered++;
+		repos.setnCourses(numberOfCoursesDelivered+1);
 	}
 	
 	
@@ -226,12 +235,20 @@ public class Kitchen
 	
 	public synchronized void handNoteToChef()
 	{		
-		//Notify chef that he can start preparating the order
-		notifyAll();
-		
 		//Update waiter state
 		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PLACING_ODER);
 		repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		
+		//Notify chef that he can start the preparation of the order
+		notifyAll();
+		
+		//Block waiting for chef to start the preparation of the order
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -279,6 +296,10 @@ public class Kitchen
 		//Update number of portions ready and delivered
 		numberOfPortionsReady--;
 		numberOfPortionsDelivered++;
+		if(numberOfPortionsDelivered > ExecuteConst.N)
+			numberOfPortionsDelivered = 1;
+		
+		repos.setnPortions(numberOfPortionsDelivered);
 		
 		//Signal chef that portion was delivered
 		notifyAll();

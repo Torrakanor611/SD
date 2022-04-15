@@ -78,7 +78,7 @@ public class Chef extends Thread{
 			while(!kit.haveAllPortionsBeenDelivered())
 				kit.haveNextPortionReady();
 		}
-		while(kit.hasOrderBeenCompleted());
+		while(!kit.hasOrderBeenCompleted());
 		
 		kit.cleanUp();
 	}

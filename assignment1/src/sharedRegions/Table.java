@@ -63,6 +63,16 @@ public class Table {
 	private boolean presentingTheMenu;
 	
 	/**
+	 * Boolean variable to check if waiter is taking the order
+	 */
+	private boolean takingTheOrder;
+	
+	/**
+	 * Boolean array to check wich students have seated already
+	 */
+	private boolean studentsSeated[];
+	
+	/**
 	 * Reference to the student threads
 	 */
 	private final Student [] students;
@@ -86,7 +96,12 @@ public class Table {
     	this.numStudentsServed = 0;
     	this.studentBeingAnswered = 0;
     	this.presentingTheMenu = false;
+    	this.takingTheOrder = false;
     	this.repos = repos;
+    	
+    	studentsSeated = new boolean[ExecuteConst.N];
+    	for(int i = 0; i < ExecuteConst.N; i++)
+    		studentsSeated[i] = false;
     	
 		//Initizalization of students thread
 		students = new Student[ExecuteConst.N];
@@ -105,7 +120,6 @@ public class Table {
     public synchronized void saluteClient(int studentIdBeingAnswered)
     {
     	studentBeingAnswered = studentIdBeingAnswered;
-    	System.out.println("Waiter Saluting student "+studentBeingAnswered);
     	
     	//Update Waiter state
     	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PRESENTING_THE_MENU);
@@ -113,9 +127,21 @@ public class Table {
     	
     	presentingTheMenu = true;
     	
+
+    	//Waiter must wait while student hasn't taken a seat
+    	while(studentsSeated[studentBeingAnswered] == false)
+    	{
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    	}
+    	
     	//Waiter wakes student that has just arrived in order to greet him
     	notifyAll();
-    	
+    	System.out.println("Waiter Saluting student "+studentBeingAnswered+ " "+presentingTheMenu);
     	//Block waiting for student to read the menu
     	try {
 			wait();
@@ -155,6 +181,11 @@ public class Table {
     	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.TAKING_THE_ORDER);
     	repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
     	
+    	takingTheOrder = true;
+    	
+    	//notify student that he can describe the order 
+    	notifyAll();
+    	System.out.println("Waiter is now wainting for order description");
     	//Waiter blocks waiting for first student to arrive to describe him the order
     	try {
 			wait();
@@ -162,6 +193,10 @@ public class Table {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+    	takingTheOrder = false;
+    	
+    	
     }
     
     
@@ -175,8 +210,11 @@ public class Table {
      */
     public synchronized boolean haveAllClientsBeenServed()
     {
-    	if(numStudentsServed == ExecuteConst.N)
+    	//If all clients have been served they mys be notified
+    	if(numStudentsServed == ExecuteConst.N) {
+    		notifyAll();
     		return true;
+    	}
     	return false;
     	
     }
@@ -191,7 +229,7 @@ public class Table {
     public synchronized void deliverPortion()
     {
     	//Update number of Students server after portion delivery
-    	numStudentsServed++;    	
+    	numStudentsServed++; 
     }
     
     
@@ -241,6 +279,9 @@ public class Table {
     		lastToArrive = studentId; 
     	
     	repos.updateSeatsAtTable(numStudents-1, studentId);
+    	System.out.println("Student"+ studentId+" took a seat and blocked");
+    	//Register that student took a seat
+    	studentsSeated[studentId] = true;
     	
     	//Block waiting for waiter to bring menu specifically to him
     	// Student also blocks if he wakes up when waiter is bringing the menu to another student
@@ -252,7 +293,7 @@ public class Table {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	System.out.println("I student "+studentId+"was waken up ("+studentBeingAnswered+")");
+	    	System.out.println("I student "+studentId+"was waken up ("+studentBeingAnswered+", "+takingTheOrder+")");
 	    	if (studentId == studentBeingAnswered && presentingTheMenu == true) {
 	    		System.out.println("I student "+studentId+" Can Proceed");
 	    		break;
@@ -365,10 +406,25 @@ public class Table {
      * Operation describe the order
      * 
      * Called by the first student to arrive to describe the order to the waiter
+     * Blocks waiting for waiter to come with pad
      * Wake waiter up so he can take the order
      */
     public synchronized void describeOrder()
     {
+    	//After student just putted a request in the queue in the bar, now it must block
+    	// in the table waiting for waiter to come with the pad
+    	while(takingTheOrder == false) 
+    	{
+	    	try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
+    	System.out.println("Student "+firstToArrive+" described the order");
+    	
     	//Wake waiter to describe him the order
     	notifyAll();
     }
@@ -387,13 +443,6 @@ public class Table {
     	//Update student state
     	students[firstToArrive].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
     	repos.updateStudentState(firstToArrive, ((Student) Thread.currentThread()).getStudentState());   
-    	
-    	try {
-			wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     }
     
     
@@ -416,17 +465,6 @@ public class Table {
     	//Update student state
     	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
     	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
-    	
-    	//Block while first to arrive student is organising the order
-    	while(students[firstToArrive].getStudentState() == StudentStates.ORGANIZING_THE_ORDER)
-    	{
-    		try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}    		
-    	}
     	
     }
     
@@ -559,6 +597,7 @@ public class Table {
 					e.printStackTrace();
 				}
     		}
+    		System.out.println("All served!!!");
 	    	return false;
     	}
     	

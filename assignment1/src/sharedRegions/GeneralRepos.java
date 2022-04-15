@@ -143,8 +143,9 @@ public class GeneralRepos
 		case WaiterStates.APRAISING_SITUATION: line += "APPST  "; break;
 		case WaiterStates.PRESENTING_THE_MENU: line += "PRSMN  "; break;
 		case WaiterStates.TAKING_THE_ORDER: line += "TKODR  "; break;
-		case WaiterStates.WAITING_FOR_PORTION: line += "WTFPT "; break;
-		case WaiterStates.PROCESSING_THE_BILL: line += "PRCBL "; break;
+		case WaiterStates.PLACING_ODER: line += "PCODR  "; break;
+		case WaiterStates.WAITING_FOR_PORTION: line += "WTFPT  "; break;
+		case WaiterStates.PROCESSING_THE_BILL: line += "PRCBL  "; break;
 		case WaiterStates.RECEIVING_PAYMENT: line += "RECPM  "; break;
 		}
 
