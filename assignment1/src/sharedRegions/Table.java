@@ -73,6 +73,11 @@ public class Table {
 	private boolean informingCompanion;
 	
 	/**
+	 * Boolean variable to check if waiter is processing the bill
+	 */
+	private boolean processingBill;
+	
+	/**
 	 * Boolean array to check wich students have seated already
 	 */
 	private boolean studentsSeated[];
@@ -103,6 +108,7 @@ public class Table {
     	this.presentingTheMenu = false;
     	this.takingTheOrder = false;
     	this.informingCompanion = false;
+    	this.processingBill = false;
     	this.repos = repos;
     	
     	studentsSeated = new boolean[ExecuteConst.N];
@@ -271,6 +277,8 @@ public class Table {
      */
     public synchronized void presentBill()
     {
+    	processingBill = true;
+    	
     	//Signal student the he can pay
     	notifyAll();
     	
@@ -599,16 +607,20 @@ public class Table {
     public synchronized void honourBill()
     {    	
     	//Block waiting for waiter to present the bill
-    	try {
-			wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
+    	while(!processingBill)
+    	{
+    		try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+	    	
     	//After waiter presents the bill, student signals waiter so he can wake up and receive it
     	notifyAll();
     	
+    	System.out.println("I FUCKING PAYED THE BILL");
     }
     
     

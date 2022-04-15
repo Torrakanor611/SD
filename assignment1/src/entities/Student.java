@@ -109,14 +109,15 @@ public class Student extends Thread{
 		else
 			tab.informCompanion();
 		
-		int i=0;
+		int numCoursesEaten = 0;
 		while(!tab.haveAllCoursesBeenEaten())
 		{
 			tab.startEating();
 			tab.endEating();
-			i++;
+			numCoursesEaten++;
+			
 			while(!tab.hasEverybodyFinishedEating());
-			if(studentId == tab.getLastToEat())
+			if(studentId == tab.getLastToEat() && numCoursesEaten != ExecuteConst.M)
 				bar.signalWaiter();
 		}
 		

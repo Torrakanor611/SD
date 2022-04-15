@@ -135,8 +135,12 @@ public class Kitchen
 		}
 		
 		//Check if all portions of the course have been delivered or not
-		if(numberOfPortionsDelivered == ExecuteConst.N)
+		if(numberOfPortionsDelivered == ExecuteConst.N) 
+		{
+			//If all portions have beend delivered means that a course was completed
+			numberOfCoursesDelivered++;
 			return true;
+		}
 
 		return false;
 
@@ -174,7 +178,6 @@ public class Kitchen
 		//Update chefs state
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
-		numberOfCoursesDelivered++;
 	}
 	
 	

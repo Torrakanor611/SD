@@ -216,9 +216,16 @@ public class Bar
 	{
 		//Wake up student that is waiting to be greeted by waiter
 		notifyAll();
-		//Update value of studentBeingAnswered to reflect the fact that the student's request was fullfilled 
-		studentBeingAnswered = -1;
 		
+		while(studentBeingAnswered != -1)
+		{
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		if(numberOfStudentsAtRestaurant == 0)
 			return true;
 		return false;
@@ -308,13 +315,30 @@ public class Bar
 	public synchronized void signalWaiter()
 	{
 		int studentId = ((Student) Thread.currentThread()).getStudentId();
-		System.out.println("Last to eat was "+studentId);
-		
-		courseFinished = true;
-		
-		//Wake chef up because he is waiting to tell waiter to collect portion
-		// and waiter so he can collect a new portion
-		notifyAll();
+
+		if(((Student) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_BILL)
+		{		
+			//Add a new pending requests to the queue
+			try {
+				pendingServiceRequestQueue.write(new Request(studentId, 'b'));
+			} catch (MemException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//Update number of pending requests
+			numberOfPendingRequests++;	
+			
+			//Signal waiter that there is a pending request
+			notifyAll();
+			
+		}
+		else
+		{
+			courseFinished = true;		
+			//Wake chef up because he is waiting to tell waiter to collect portion
+			// and waiter so he can collect a new portion
+			notifyAll();
+		}
 	}
 	
 	
@@ -354,10 +378,16 @@ public class Bar
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			System.out.println("Student "+studentId+" wants to leave"+studentBeingAnswered);
 		}
+		System.out.println("I want out "+studentId);
 		
 		//Update number of students at the restaurant
 		numberOfStudentsAtRestaurant--;
+		//Update value of studentBeingAnswered to reflect the fact that the student's request was fullfilled 
+		studentBeingAnswered = -1;
+		
+		notifyAll();
 	}
 }
 
