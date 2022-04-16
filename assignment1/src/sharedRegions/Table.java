@@ -146,6 +146,18 @@ public class Table {
      */
     public int getLastToEat() { return lastToEat; }
     
+    /**
+     * 
+     * @param firstToArrive id of the first student to arrive
+     */
+    public void setFirstToArrive(int firstToArrive) { this.firstToArrive = firstToArrive; }
+    
+    /**
+     * 
+     * @param lastToArrive if of the last student to arrive to the restaurant
+     */
+    public void setLastToArrive(int lastToArrive) { this.lastToArrive = lastToArrive; }
+    
     
     
     
@@ -318,20 +330,13 @@ public class Table {
      * Called by the student (inside enter method in the bar)
      * @param numStudents wich represents the number of students at the restaurant
      */
-    public synchronized void seatAtTable(int numStudents)
+    public synchronized void seatAtTable()
     {
     	int studentId = ((Student) Thread.currentThread()).getStudentId();
     	
 		students[studentId] = ((Student) Thread.currentThread());
 		students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
     	
-    	//Register first and last student to arrive
-    	if(numStudents == 1)
-    		firstToArrive = studentId;
-    	else if (numStudents == ExecuteConst.N)
-    		lastToArrive = studentId; 
-    	
-    	repos.updateSeatsAtTable(numStudents-1, studentId);
     	System.out.println("Student"+ studentId+" took a seat and blocked");
     	//Register that student took a seat
     	studentsSeated[studentId] = true;
@@ -417,7 +422,7 @@ public class Table {
     	if(numOrders == ExecuteConst.N)
     		return true;
     	else {
-	    	//Block if not everybody has choosen
+	    	//Block if not everybody has choosen and while companions are not describing their choices
 	    	while(informingCompanion == false)
 	    	{
 	    		try {
@@ -444,6 +449,8 @@ public class Table {
     {
     	numOrders++;
     	informingCompanion = false;
+    	//Notify sleeping student threads that order was registered
+    	notifyAll();
     }
     
     
@@ -458,6 +465,7 @@ public class Table {
      */
     public synchronized void describeOrder()
     {
+    	System.out.println("I reached here");
     	//After student just putted a request in the queue in the bar, now it must block
     	// in the table waiting for waiter to come with the pad
     	while(takingTheOrder == false) 
@@ -505,6 +513,17 @@ public class Table {
     public synchronized void informCompanion()
     {
     	int studentId = ((Student) Thread.currentThread()).getStudentId();
+    	
+    	//If some other student is informing about his order then wait must be done
+    	while(informingCompanion)
+    	{
+    		try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     	
     	informingCompanion = true;
     	//notify first student to arrive, so that he can register ones preference

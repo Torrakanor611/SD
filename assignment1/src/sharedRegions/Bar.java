@@ -85,7 +85,7 @@ public class Bar
 			pendingServiceRequestQueue = null;
 		    System.exit (1);
 		}
-		
+	
 		this.courseFinished = true;
 		this.studentBeingAnswered = -1;
 		this.repo = repo;
@@ -247,16 +247,21 @@ public class Bar
 	 * It is called by the student to signal that he is entering the restaurant
 	 */
 	public void enter()
-	{
-		int studentId = ((Student) Thread.currentThread()).getStudentId();
-		
+	{		
 		synchronized(this)
 		{
+			int studentId = ((Student) Thread.currentThread()).getStudentId();
+			//Update student state
 			students[studentId] = ((Student) Thread.currentThread());
 			students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
 			
-			//Update number of students at the restaurant
 			numberOfStudentsAtRestaurant++;
+
+			//Register first and last to arrive
+			if(numberOfStudentsAtRestaurant == 1)
+				tab.setFirstToArrive(studentId);
+			else if (numberOfStudentsAtRestaurant == ExecuteConst.N)
+				tab.setLastToArrive(studentId);
 			
 			//Add a new pending requests to the queue
 			try {
@@ -271,13 +276,17 @@ public class Bar
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
 			repo.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+			//register seat at the general Repo
+			repo.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
+			
 			
 			//Signal waiter that there is a pending request
 			notifyAll();
 		}
 		
 		//Seat student at table and block it
-		tab.seatAtTable(numberOfStudentsAtRestaurant);
+		tab.seatAtTable();
+
 	}
 	
 	
