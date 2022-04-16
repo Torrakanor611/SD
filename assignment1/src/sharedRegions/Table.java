@@ -87,6 +87,7 @@ public class Table {
 	 */
 	private boolean studentsReadMenu[];
 	
+	
 	/**
 	 * Reference to the student threads
 	 */
@@ -272,13 +273,12 @@ public class Table {
      * @return true if all clients have been served, false otherwise
      */
     public synchronized boolean haveAllClientsBeenServed()
-    {
-    	if(numStudentsFinishedCourse == ExecuteConst.N)
-    		numStudentsFinishedCourse = 0;
-    	
-    	
+    {    	
     	//If all clients have been served they must be notified
     	if(numStudentsServed == ExecuteConst.N) {
+    		System.out.println("I CHANGED numStudentsFinished");
+    		numStudentsFinishedCourse = 0;
+    		lastToEat = -1;
     		notifyAll();
     		return true;
     	}
@@ -551,7 +551,7 @@ public class Table {
     public synchronized void startEating()
     {
     	int studentId = ((Student) Thread.currentThread()).getStudentId();
-    	
+    	 
     	//Update student state
     	students[studentId].setStudentState(StudentStates.ENJOYING_THE_MEAL);
     	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
@@ -616,16 +616,14 @@ public class Table {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		System.out.println("I woke up "+studentId+" - "+numStudentsFinishedCourse);
+    		System.out.println("Student "+studentId+" woke "+numStudentsFinishedCourse+" = "+ExecuteConst.N);
     	}
     	   	
     	
     	//Update number of students that were served
     	if (studentId == lastToEat)
+    	{
 		    numStudentsServed = 0;
-
-    	else {
-    		notifyAll();
     	}
     	
     	return true;
