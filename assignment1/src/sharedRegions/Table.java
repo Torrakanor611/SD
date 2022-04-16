@@ -78,9 +78,14 @@ public class Table {
 	private boolean processingBill;
 	
 	/**
-	 * Boolean array to check wich students have seated already
+	 * Boolean array to check which students have seated already
 	 */
 	private boolean studentsSeated[];
+	
+	/**
+	 * Boolean array to check which students have already read the menu 
+	 */
+	private boolean studentsReadMenu[];
 	
 	/**
 	 * Reference to the student threads
@@ -112,8 +117,13 @@ public class Table {
     	this.repos = repos;
     	
     	studentsSeated = new boolean[ExecuteConst.N];
+    	studentsReadMenu = new boolean[ExecuteConst.N];
+    	
     	for(int i = 0; i < ExecuteConst.N; i++)
+    	{
     		studentsSeated[i] = false;
+    		studentsReadMenu[i] = false;
+    	}
     	
 		//Initizalization of students thread
 		students = new Student[ExecuteConst.N];
@@ -173,12 +183,19 @@ public class Table {
     	notifyAll();
     	System.out.println("Waiter Saluting student "+studentBeingAnswered+ " "+presentingTheMenu);
     	//Block waiting for student to read the menu
-    	try {
-			wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}    	
+    	while(studentsReadMenu[studentBeingAnswered] == false)
+    	{
+	    	try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}    
+    	}
+    	
+    	//When student has finished reading the menu his request was completed
+    	studentBeingAnswered = -1;
+    	presentingTheMenu  = false;
     }
     
     
@@ -357,14 +374,11 @@ public class Table {
     	students[studentId].setStudentState(StudentStates.SELECTING_THE_COURSES);
     	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
     	
+    	studentsReadMenu[studentId] = true;
     	//Signal waiter that menu was already read
     	notifyAll();
     	
     	System.out.println("Student "+studentId+ " read the menu ("+studentBeingAnswered+")");
-    
-    	//When student has finished reading the menu his request was completed
-    	studentBeingAnswered = -1;
-    	presentingTheMenu  = false;
     }    
     
     
@@ -619,8 +633,6 @@ public class Table {
 	    	
     	//After waiter presents the bill, student signals waiter so he can wake up and receive it
     	notifyAll();
-    	
-    	System.out.println("I FUCKING PAYED THE BILL");
     }
     
     
