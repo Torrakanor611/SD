@@ -630,6 +630,7 @@ public class Table {
 				e.printStackTrace();
 			}
     	}
+    	System.out.println("I PAYED THE BILL");
 	    	
     	//After waiter presents the bill, student signals waiter so he can wake up and receive it
     	notifyAll();

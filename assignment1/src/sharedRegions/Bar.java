@@ -55,6 +55,11 @@ public class Bar
 	private int studentBeingAnswered;
 	
 	/**
+	 * Array of booleans to keep track of the students which the waiter has already said goodbye
+	 */
+	private boolean[] studentsGreeted;
+	
+	/**
 	 * Reference to the table
 	 */
 	private final Table tab;
@@ -85,6 +90,10 @@ public class Bar
 		this.studentBeingAnswered = -1;
 		this.repo = repo;
 		this.tab = tab;
+		
+		this.studentsGreeted = new boolean[ExecuteConst.N];
+		for(int i = 0 ;i < ExecuteConst.N; i++)
+			studentsGreeted[i] = false;
 	}
 	
 	
@@ -214,18 +223,15 @@ public class Bar
 	 */
 	public synchronized boolean sayGoodbye()
 	{
+		//Student was greeted
+		studentsGreeted[studentBeingAnswered] = true;
 		//Wake up student that is waiting to be greeted by waiter
 		notifyAll();
 		
-		while(studentBeingAnswered != -1)
-		{
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		//Update number of students at the restaurant
+		numberOfStudentsAtRestaurant--;
+		studentBeingAnswered = -1;
+		
 		if(numberOfStudentsAtRestaurant == 0)
 			return true;
 		return false;
@@ -364,6 +370,8 @@ public class Bar
 		
 		//Update number of pending requests
 		numberOfPendingRequests++;
+		//notify waiter that there is a pending request
+		notifyAll();
 		
 		//Update student test
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
@@ -371,7 +379,7 @@ public class Bar
 	
 		
 		//Block until waiter greets the student goodbye
-		while(studentBeingAnswered != studentId) {
+		while(studentsGreeted[studentId] == false) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -380,14 +388,7 @@ public class Bar
 			}
 			System.out.println("Student "+studentId+" wants to leave"+studentBeingAnswered);
 		}
-		System.out.println("I want out "+studentId);
-		
-		//Update number of students at the restaurant
-		numberOfStudentsAtRestaurant--;
-		//Update value of studentBeingAnswered to reflect the fact that the student's request was fullfilled 
-		studentBeingAnswered = -1;
-		
-		notifyAll();
+		System.out.println("I want out "+studentId);		
 	}
 }
 
