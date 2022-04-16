@@ -64,6 +64,7 @@ public class Waiter extends Thread{
 	public void run ()
 	{
 		char request;
+		boolean stop = false;
 		
 		while(true)
 		{
@@ -93,11 +94,14 @@ public class Waiter extends Thread{
 					bar.preprareBill();
 					tab.presentBill();
 					tab.returnBar();
+					System.out.println("I FUCKING RECEIVED THE BILL");
 					break;
 				case 'g':	//Goodbye needs to be said to a student
-					bar.sayGoodbye();
+					stop = bar.sayGoodbye();
 					break;
 			}
+			if (stop)
+				break;
 		}
 	}
 }

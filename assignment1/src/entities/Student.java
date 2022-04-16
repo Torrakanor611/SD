@@ -1,8 +1,8 @@
 package entities;
 
-import main.ExecuteConst;
 import sharedRegions.Bar;
 import sharedRegions.Table;
+import main.ExecuteConst;
 
 /**
  *   Student thread.
@@ -109,14 +109,15 @@ public class Student extends Thread{
 		else
 			tab.informCompanion();
 		
-		int i=0;
+		int numCoursesEaten = 0;
 		while(!tab.haveAllCoursesBeenEaten())
 		{
 			tab.startEating();
 			tab.endEating();
+			numCoursesEaten++;
+			
 			while(!tab.hasEverybodyFinishedEating());
-			i++;
-			if(studentId == tab.getLastToEat() && i != ExecuteConst.M-1)
+			if(studentId == tab.getLastToEat() && numCoursesEaten != ExecuteConst.M)
 				bar.signalWaiter();
 		}
 		
