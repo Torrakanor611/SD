@@ -244,16 +244,20 @@ public class Table {
     	
     	//notify student that he can describe the order 
     	notifyAll();
+    	
     	System.out.println("Waiter is now wainting for order description");
     	//Waiter blocks waiting for first student to arrive to describe him the order
-    	try {
-			wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	while(takingTheOrder)
+    	{
+	    	try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     	
-    	takingTheOrder = false;
+    	System.out.println("Waiter Got the order");
     	
     	
     }
@@ -479,7 +483,7 @@ public class Table {
     	}
     	
     	System.out.println("Student "+firstToArrive+" described the order");
-    	
+    	takingTheOrder = false;
     	//Wake waiter to describe him the order
     	notifyAll();
     }
