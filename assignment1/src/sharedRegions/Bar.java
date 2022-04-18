@@ -232,6 +232,8 @@ public class Bar
 		numberOfStudentsAtRestaurant--;
 		studentBeingAnswered = -1;
 		
+		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		
 		if(numberOfStudentsAtRestaurant == 0)
 			return true;
 		return false;

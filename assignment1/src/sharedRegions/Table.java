@@ -73,6 +73,11 @@ public class Table {
 	private boolean informingCompanion;
 	
 	/**
+	 * 
+	 */
+	private int numStudentsWokeUp;
+	
+	/**
 	 * Boolean variable to check if waiter is processing the bill
 	 */
 	private boolean processingBill;
@@ -111,6 +116,7 @@ public class Table {
     	this.numOfCoursesEaten = 0;
     	this.numStudentsServed = 0;
     	this.studentBeingAnswered = 0;
+    	this.numStudentsWokeUp = 0;
     	this.presentingTheMenu = false;
     	this.takingTheOrder = false;
     	this.informingCompanion = false;
@@ -277,8 +283,8 @@ public class Table {
     	//If all clients have been served they must be notified
     	if(numStudentsServed == ExecuteConst.N) {
     		System.out.println("I CHANGED numStudentsFinished");
-    		numStudentsFinishedCourse = 0;
     		lastToEat = -1;
+    		numStudentsWokeUp = 0;
     		notifyAll();
     		return true;
     	}
@@ -315,6 +321,8 @@ public class Table {
     	//Signal student the he can pay
     	notifyAll();
     	
+    	((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.RECEIVING_PAYMENT);
+    	repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
     	//Block waiting for his payment
     	try {
 			wait();
@@ -606,25 +614,35 @@ public class Table {
     	
     	//Notify all students that the last one to eat has already finished
     	if(studentId == lastToEat)
+    	{
+    		numStudentsFinishedCourse = 0;
+    		numStudentsServed = 0;
+    		numStudentsWokeUp++;
     		notifyAll();
+    		while(numStudentsWokeUp != ExecuteConst.N)
+    		{
+    			try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	}
     	
     	//Wait while not all students have finished
-    	while(numStudentsFinishedCourse != ExecuteConst.N) {
+    	while(numStudentsFinishedCourse != 0) {
     		try {
 				wait();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		System.out.println("Student "+studentId+" woke "+numStudentsFinishedCourse+" = "+ExecuteConst.N);
+    		System.out.println("Student "+studentId+" woke "+numStudentsFinishedCourse);
     	}
-    	   	
-    	
-    	//Update number of students that were served
-    	if (studentId == lastToEat)
-    	{
-		    numStudentsServed = 0;
-    	}
+    	numStudentsWokeUp++;
+    	if(numStudentsWokeUp == ExecuteConst.N)
+    		notifyAll();
     	
     	return true;
     }
