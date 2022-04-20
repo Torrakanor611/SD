@@ -73,7 +73,7 @@ public class Table {
 	private boolean informingCompanion;
 	
 	/**
-	 * 
+	 * Used to count number of students that woke up after last student to eat has signaled them to
 	 */
 	private int numStudentsWokeUp;
 	
@@ -266,7 +266,6 @@ public class Table {
     	
     	System.out.println("Waiter Got the order");
     	
-    	
     }
     
     
@@ -340,7 +339,6 @@ public class Table {
      * 
      * Student comes in the table and sits (blocks) waiting for waiter to bring him the menu
      * Called by the student (inside enter method in the bar)
-     * @param numStudents wich represents the number of students at the restaurant
      */
     public synchronized void seatAtTable()
     {

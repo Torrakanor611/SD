@@ -30,7 +30,10 @@ public class ChefStates {
 	 * 	final state lifecycle termination
 	 */
 	public static final int CLOSING_SERVICE = 4;
-
+	
+	/**
+	 *   It can not be instantiated.
+	 */
 	private ChefStates ()
 	{ }
 }

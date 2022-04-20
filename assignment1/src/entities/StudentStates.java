@@ -46,6 +46,9 @@ public class StudentStates {
 	 */
 	public static final int GOING_HOME = 7;
 	
+	/**
+	 *   It can not be instantiated.
+	 */
 	private StudentStates ()
 	{ }
 }

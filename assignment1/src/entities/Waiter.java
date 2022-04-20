@@ -2,11 +2,19 @@ package entities;
 
 import sharedRegions.*;
 
+
+/**
+ *   Waiter thread.
+ *
+ *   Used to simulate the Waiter life cycle.
+ */
+
 public class Waiter extends Thread{
 
 	/**
 	 * 	Waiter state
 	 */
+	
 	private int waiterState;
 	
 	/**
@@ -63,13 +71,14 @@ public class Waiter extends Thread{
 	@Override
 	public void run ()
 	{
+		//used to store the request that needs to be performed by the waiter
 		char request;
+		//used to check if simulation may stop or not
 		boolean stop = false;
 		
 		while(true)
 		{
 			request = bar.lookAround();
-			System.out.println("Waiter will do "+request);
 			
 			switch(request)
 			{
@@ -94,12 +103,12 @@ public class Waiter extends Thread{
 					bar.preprareBill();
 					tab.presentBill();
 					tab.returnBar();
-					System.out.println("I FUCKING RECEIVED THE BILL");
 					break;
 				case 'g':	//Goodbye needs to be said to a student
 					stop = bar.sayGoodbye();
 					break;
 			}
+			//If the last student has left the restaurant, life cycle may terminate
 			if (stop)
 				break;
 		}

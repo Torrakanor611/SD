@@ -41,6 +41,9 @@ public class WaiterStates {
 	 */
 	public static final int RECEIVING_PAYMENT = 6;
 	
+	/**
+	 *   It can not be instantiated.
+	 */
 	private WaiterStates ()
 	{ }
 }

@@ -3,6 +3,12 @@ package entities;
 import sharedRegions.Bar;
 import sharedRegions.Kitchen;
 
+/**
+ *   Chef thread.
+ *
+ *   Used to simulate the Chef life cycle.
+ */
+
 public class Chef extends Thread{
 	
 	/**
