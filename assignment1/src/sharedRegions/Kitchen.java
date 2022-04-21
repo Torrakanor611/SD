@@ -157,7 +157,6 @@ public class Kitchen
 
 	public synchronized boolean hasOrderBeenCompleted()
 	{
-		System.out.println("Number of courses delivered: "+numberOfCoursesDelivered);
 		//Check if all courses have been delivered
 		if (numberOfCoursesDelivered == ExecuteConst.M)
 			return true;

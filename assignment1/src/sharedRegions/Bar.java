@@ -47,7 +47,7 @@ public class Bar
 	/**
 	 * Reference to the general repository
 	 */
-	private final GeneralRepos repo;
+	private final GeneralRepos repos;
 	
 	/**
 	 * Auxiliary variable to keep track of the id of the student whose request is being answered
@@ -71,7 +71,7 @@ public class Bar
 	 * 
 	 * @param repo reference to the general repository 
 	 */
-	public Bar(GeneralRepos repo, Table tab) 
+	public Bar(GeneralRepos repos, Table tab) 
 	{
 		//Initizalization of students thread
 		students = new Student[ExecuteConst.N];
@@ -88,7 +88,7 @@ public class Bar
 	
 		this.courseFinished = true;
 		this.studentBeingAnswered = -1;
-		this.repo = repo;
+		this.repos = repos;
 		this.tab = tab;
 		
 		this.studentsGreeted = new boolean[ExecuteConst.N];
@@ -140,7 +140,7 @@ public class Bar
 		
 		//Update chefs state
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repo.setChefState(((Chef) Thread.currentThread()).getChefState());
+		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
 		//Signal waiter that there is a pending request
 		notifyAll();
@@ -208,7 +208,7 @@ public class Bar
 	{
 		//Update Waiter state
 		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PROCESSING_THE_BILL);
-		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 	}
 	
 	
@@ -231,7 +231,7 @@ public class Bar
 		numberOfStudentsAtRestaurant--;
 		studentBeingAnswered = -1;
 		
-		repo.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 		
 		if(numberOfStudentsAtRestaurant == 0)
 			return true;
@@ -276,9 +276,9 @@ public class Bar
 			
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-			repo.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
-			//register seat at the general Repo
-			repo.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
+			repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+			//register seat at the general repos
+			repos.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
 			
 			
 			//Signal waiter that there is a pending request
@@ -385,7 +385,7 @@ public class Bar
 		
 		//Update student test
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
-		repo.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+		repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
 	
 		
 		//Block until waiter greets the student goodbye
@@ -396,9 +396,7 @@ public class Bar
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("Student "+studentId+" wants to leave"+studentBeingAnswered);
-		}
-		System.out.println("I want out "+studentId);		
+		}	
 	}
 }
 
