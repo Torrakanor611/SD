@@ -121,9 +121,7 @@ public class GeneralRepos
 	private void reportStatus ()
 	{
 		TextFile log = new TextFile ();                  	// instantiation of a text file handler
-
 		String line = "";                              		// state line to be printed
-
 		if (!log.openForAppending (".", logFileName))
 		{ 
 			GenericIO.writelnString ("The operation of opening for appending the file " + logFileName + " failed!");
@@ -174,6 +172,33 @@ public class GeneralRepos
 			line += String.valueOf(seatsAtTable[i]);
 		}
 
+		log.writelnString (line);
+		if (!log.close ())
+		{ 
+			GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
+			System.exit (1);
+		}
+	}
+	
+	public void reportLegend()
+	{
+		TextFile log = new TextFile ();                  	// instantiation of a text file handler
+		String line = "";                              		// state line to be printed
+		if (!log.openForAppending (".", logFileName))
+		{ 
+			GenericIO.writelnString ("The operation of opening for appending the file " + logFileName + " failed!");
+			System.exit (1);
+		}
+		
+		line += "\n\n";
+		line += "Legend:\n";
+		line += "Chef State   - state of the chef: WAFOR PRPCS DSHPT DLVPT CLSSV\n";
+		line += "Waiter State - state of the waiter: APPST PRSMN TKODR PCODR WTFPT PRCBL RECPM\n";
+		line += "Stu# State   - state of the student #: GGTRT TKSTT SELCS OGODR CHTWC EJYML PYTBL GGHOM\n";
+		line += "NCourse      - number of the course: 0 upto M\n";
+		line += "NPortion     - number of the portion of a course: 0 upto N\n";
+		line += "Table Seat#  - id of the student sat at that chair\n";
+		
 		log.writelnString (line);
 		if (!log.close ())
 		{ 

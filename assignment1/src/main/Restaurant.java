@@ -70,6 +70,8 @@ public class Restaurant {
 		} catch(InterruptedException e) { }
 		System.out.println("The chef terminated");
 		
+		repos.reportLegend();						// report Legend in log file
+		
 		/* end of simulation */
 		
 		System.out.println("End of Simulation");
