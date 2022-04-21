@@ -4,7 +4,8 @@ import entities.*;
 import main.ExecuteConst;
 
 /**
- * Table
+ * 	Table
+ * 
  *	Synchronisation points include:
  *		Waiter waits for students to read the menu
  *		First student to arrive blocks waiting for others to arrive and describe him the order
@@ -196,11 +197,10 @@ public class Table {
 				e1.printStackTrace();
 			}
     	}
-    	System.out.println("Saluting");
     	
     	//Waiter wakes student that has just arrived in order to greet him
     	notifyAll();
-    	System.out.println("Waiter Saluting student "+studentBeingAnswered+ " "+presentingTheMenu);
+
     	//Block waiting for student to read the menu
     	while(studentsReadMenu[studentBeingAnswered] == false)
     	{
@@ -252,7 +252,6 @@ public class Table {
     	//notify student that he can describe the order 
     	notifyAll();
     	
-    	System.out.println("Waiter is now wainting for order description");
     	//Waiter blocks waiting for first student to arrive to describe him the order
     	while(takingTheOrder)
     	{
@@ -262,10 +261,7 @@ public class Table {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	}
-    	
-    	System.out.println("Waiter Got the order");
-    	
+    	}    	
     }
     
     
@@ -281,7 +277,6 @@ public class Table {
     {    	
     	//If all clients have been served they must be notified
     	if(numStudentsServed == ExecuteConst.N) {
-    		System.out.println("I CHANGED numStudentsFinished");
     		lastToEat = -1;
     		numStudentsWokeUp = 0;
     		notifyAll();
@@ -347,7 +342,6 @@ public class Table {
 		students[studentId] = ((Student) Thread.currentThread());
 		students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
     	
-    	System.out.println("Student"+ studentId+" took a seat and blocked");
     	//Register that student took a seat
     	studentsSeated[studentId] = true;
     	//notify waiter that student took a seat (waiter may be waiting)
@@ -355,7 +349,7 @@ public class Table {
     	
     	//Block waiting for waiter to bring menu specifically to him
     	// Student also blocks if he wakes up when waiter is bringing the menu to another student
-    	while (true)
+    	do
     	{
 	    	try {
 				wait();
@@ -363,13 +357,8 @@ public class Table {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	System.out.println("I student "+studentId+"was waken up ("+studentBeingAnswered+", "+takingTheOrder+")");
-	    	if (studentId == studentBeingAnswered && presentingTheMenu == true) {
-	    		System.out.println("I student "+studentId+" Can Proceed");
-	    		break;
-	    	}
 	    }
-    	System.out.println("Student "+studentId+ " was presented with the menu ("+studentBeingAnswered+")");
+    	while(studentId != studentBeingAnswered && presentingTheMenu == false);
     	
     	
     }
@@ -392,8 +381,6 @@ public class Table {
     	studentsReadMenu[studentId] = true;
     	//Signal waiter that menu was already read
     	notifyAll();
-    	
-    	System.out.println("Student "+studentId+ " read the menu ("+studentBeingAnswered+")");
     }    
     
     
@@ -475,7 +462,6 @@ public class Table {
      */
     public synchronized void describeOrder()
     {
-    	System.out.println("I reached here");
     	//After student just putted a request in the queue in the bar, now it must block
     	// in the table waiting for waiter to come with the pad
     	while(takingTheOrder == false) 
@@ -488,7 +474,6 @@ public class Table {
 			}
     	}
     	
-    	System.out.println("Student "+firstToArrive+" described the order");
     	takingTheOrder = false;
     	//Wake waiter to describe him the order
     	notifyAll();
@@ -582,7 +567,6 @@ public class Table {
     	
     	//Update numstudents finished course
     	numStudentsFinishedCourse++;
-    	System.out.println("I "+studentId+" finished"+numStudentsFinishedCourse);
     	
     	//If all students have finished means that one more course was eaten
     	if(numStudentsFinishedCourse == ExecuteConst.N)
@@ -636,7 +620,6 @@ public class Table {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		System.out.println("Student "+studentId+" woke "+numStudentsFinishedCourse);
     	}
     	numStudentsWokeUp++;
     	if(numStudentsWokeUp == ExecuteConst.N)
@@ -667,7 +650,6 @@ public class Table {
 				e.printStackTrace();
 			}
     	}
-    	System.out.println("I PAYED THE BILL");
 	    	
     	//After waiter presents the bill, student signals waiter so he can wake up and receive it
     	notifyAll();
@@ -700,7 +682,6 @@ public class Table {
 					e.printStackTrace();
 				}
     		}
-    		System.out.println("All served!!! Course "+ numOfCoursesEaten);
 	    	return false;
     	}
     	
