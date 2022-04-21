@@ -4,7 +4,8 @@ import entities.*;
 import main.ExecuteConst;
 
 /**
- * Table
+ * 	Table
+ * 
  *	Synchronisation points include:
  *		Waiter waits for students to read the menu
  *		First student to arrive blocks waiting for others to arrive and describe him the order

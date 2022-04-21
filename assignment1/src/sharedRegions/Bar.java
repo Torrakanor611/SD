@@ -8,12 +8,13 @@ import main.*;
  * 
  * Bar
  *
- *	It is responsible for keeping track of the several requests that must be fullfilled by the waiter
+ *	It is responsible for keeping track of the several requests that must be full filled by the waiter
  *	Implemented as an implicit monitor
  *	Public methods executed in mutual exclusion
  *	Synchronisation points include:
- *		Everytime that the waiter has to wait for a pending request
- *		When a student has to wait for the waiter to say goodbye to him so he can leave the restaurant
+ *		Waiter waits for pending requests if there are none
+ *		A student has to wait for the waiter to say goodbye to him so he can leave the restaurant
+ *		Chef must wait for everybody to eat before alerting the waiter
  */
 
 public class Bar 

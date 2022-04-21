@@ -6,12 +6,13 @@ import main.*;
 /**
  * 	Kitchen
  * 
- * 	It is responsible to keep a c....
+ * 	It is responsible to keep a track of portions prepared and delivered
  *  Is implemented as an implicit monitor.
  *  All public methods are executed in mutual exclusion.
  *	Synchronisation points include:
  *		Chef has to wait for the note that describes the order given by the waiter
  *		Chef has to wait for waiter to collect portions
+ *		Waiter has to wait for chef to start preparing the order
  *		Waiter has to wait for portions from the chef
  *
  */
@@ -282,7 +283,7 @@ public class Kitchen
 		repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
 		
 		//If there are no portions to deliver waiter must block
-		while ( numberOfPortionsReady == 0) {
+		while (numberOfPortionsReady == 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
