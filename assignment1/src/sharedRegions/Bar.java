@@ -190,7 +190,6 @@ public class Bar
 			return 0;
 		}		
 		//Register student id in studentBeingAnswered
-		System.out.println("Waiter took student "+r.id+ " request from the queue");
 		studentBeingAnswered = r.id;
 		
 		return r.type;
