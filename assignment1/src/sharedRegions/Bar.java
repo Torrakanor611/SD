@@ -69,7 +69,7 @@ public class Bar
 	/**
 	 * Bar instantiation
 	 * 
-	 * @param repo reference to the general repository 
+	 * @param repos reference to the general repository 
 	 */
 	public Bar(GeneralRepos repos, Table tab) 
 	{
