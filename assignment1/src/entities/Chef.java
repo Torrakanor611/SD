@@ -14,44 +14,44 @@ public class Chef extends Thread{
 	/**
 	 *	Chef state 
 	 */
-	
 	private int chefState;
 	
 	/**
 	 * Reference to the kitchen
 	 */
-	
 	private final Kitchen kit;
 	
 	/**
 	 * Reference to the bar
 	 */
-	
 	private final Bar bar;
 	
 	
 	
 	/**
-	 * 	@param chef state
+	 * @param chefState new state of chef to be set
 	 */
 	public void setChefState(int chefState)
 	{
 		this.chefState = chefState;
-	}
+	}	
+	
 	
 	/**
 	 * 	@return chef state
 	 */
-
 	public int getChefState()
 	{
 		return chefState;
 	}
 	
+	
 	/**
-	 * 	Instantiation of chef thread
+	 * Chef Thread instantiation
 	 * 
-	 * 	@param chefState
+	 * @param name Name of the thread
+	 * @param kit Reference to the kitchen
+	 * @param bar Reference to the bar
 	 */
 	public Chef(String name, Kitchen kit, Bar bar) {
 		super(name);
@@ -60,10 +60,12 @@ public class Chef extends Thread{
 		this.bar = bar;
 	}
 
+	
+	
+	
 	/**
 	 * 	Life cycle of the chef
 	 */
-
 	@Override
 	public void run ()
 	{

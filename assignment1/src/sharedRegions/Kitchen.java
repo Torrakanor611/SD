@@ -6,7 +6,7 @@ import main.*;
 /**
  * 	Kitchen
  * 
- * 	It is responsible to keep a track of portions prepared and delivered
+ * 	It is responsible for keeping track of portions prepared and delivered
  *  Is implemented as an implicit monitor.
  *  All public methods are executed in mutual exclusion.
  *	Synchronisation points include:
@@ -22,19 +22,16 @@ public class Kitchen
 	/**
 	 *	Number of portions ready
 	 */
-
 	private int numberOfPortionsReady;
 
 	/**
 	 *	Number of portions delivered in at each course
 	 */
-
 	private int numberOfPortionsDelivered;
 
 	/**
 	 *	Number of courses delivered
 	 */
-
 	private int numberOfCoursesDelivered;
 	
 	/**
@@ -42,10 +39,13 @@ public class Kitchen
      */
     private final GeneralRepos repos;
 
-	/**
-	 * 	Kitchen instantiation
-	 */
-
+	
+    
+    /**
+     * Kitchen instantiation
+     * 
+     * @param repos reference to general repository
+     */
 	public Kitchen(GeneralRepos repos)
 	{
 		this.numberOfPortionsReady = 0;
@@ -59,7 +59,7 @@ public class Kitchen
 	/**
 	 * 	Operation watch the news
 	 * 
-	 * 	It is called by the chef while waiting to be notified by the waiter to give the order
+	 * 	It is called by the chef, he waits for waiter to notify him of the order
 	 */
 	public synchronized void watchTheNews()
 	{
@@ -81,7 +81,8 @@ public class Kitchen
 	/**
 	 * 	Operation start presentation
 	 * 
-	 * 	It is called by the chef after waiter has notified him of the order to be prepared
+	 * 	It is called by the chef after waiter has notified him of the order to be prepared 
+	 * 	to signal that preparation of the course has started
 	 */
 	public synchronized void startPreparation()
 	{
@@ -119,10 +120,10 @@ public class Kitchen
 	/**
 	 * 	Operation have all portions been delivered
 	 * 
-	 * 	It is called by the chef when he finishes a portion and checks if another one needs to be prepared or not.
+	 * 	It is called by the chef when he finishes a portion and checks if another one needs to be prepared or not
 	 * 	It is also here were the chef blocks waiting for waiter do deliver the current portion
+	 * 	@return true if all portions have been delivered, false otherwise
 	 */
-
 	public synchronized boolean haveAllPortionsBeenDelivered()
 	{
 		//Wait for waiter to collect the portion
@@ -138,11 +139,10 @@ public class Kitchen
 		//Check if all portions of the course have been delivered or not
 		if(numberOfPortionsDelivered == ExecuteConst.N) 
 		{
-			//If all portions have beend delivered means that a course was completed
+			//If all portions have been delivered means that a course was completed
 			numberOfCoursesDelivered++;
 			return true;
 		}
-
 		return false;
 
 	}
@@ -151,11 +151,11 @@ public class Kitchen
 	
 	
 	/**
-	 * 	Operation has order been completed
+	 *	Operation has order been completed
 	 * 
-	 * 	It is called by the chef when he finishes preparing all courses
+	 * 	It is called by the chef when he finishes preparing all courses to check if order has been completed or not
+	 * 	@return true if all courses have been completed, false or not
 	 */
-
 	public synchronized boolean hasOrderBeenCompleted()
 	{
 		//Check if all courses have been delivered
@@ -170,9 +170,8 @@ public class Kitchen
 	/**
 	 * 	Operation continue preparation
 	 * 
-	 * 	It is called by the chef when not all portions have been delivered
+	 * 	It is called by the chef when all portions have been delivered, but the course has not been completed yet
 	 */
-
 	public synchronized void continuePreparation()
 	{
 		//Update chefs state
@@ -188,7 +187,6 @@ public class Kitchen
 	 * 
 	 * It is called by the chef after a portion has been delivered and another one needs to be prepared
 	 */
-
 	public synchronized void haveNextPortionReady()
 	{	
 		//Update chefs state
@@ -212,12 +210,11 @@ public class Kitchen
 	/**
 	 * Operation clean up
 	 * 
-	 * It is called by the chef when he finishes the order
+	 * It is called by the chef when he finishes the order, to close service
 	 */
-
 	public synchronized void cleanUp()
 	{	
-		//Update chefs state to terminate lifecycle
+		//Update chefs state to terminate life cycle
 		((Chef) Thread.currentThread()).setChefState(ChefStates.CLOSING_SERVICE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 	}
@@ -229,9 +226,8 @@ public class Kitchen
 	/**
 	 * Operation hand note to chef
 	 * 
-	 * Called by the waiter to Wake chef up chef to give him the description of the order
-	 */
-	
+	 * Called by the waiter to wake chef up chef to give him the description of the order
+	 */	
 	public synchronized void handNoteToChef()
 	{		
 		//Update waiter state
@@ -258,9 +254,8 @@ public class Kitchen
 	/**
 	 * Operation return to the bar
 	 * 
-	 * Called by the waiter when he is the kitchen to return to the bar
+	 * Called by the waiter when he is the kitchen and returns to the bar
 	 */
-	
 	public synchronized void returnToBar()
 	{
 		//Update waiter state
@@ -275,7 +270,7 @@ public class Kitchen
 	/**
 	 * Operation collect portion
 	 * 
-	 * Called by the waiter when there is a portion to be delivered. Signal chef that the portion was delivered
+	 * Called by the waiter when there is a portion to be delivered. Collect and signal chef that the portion was delivered
 	 */
 	public synchronized void collectPortion()
 	{
@@ -295,9 +290,12 @@ public class Kitchen
 		//Update number of portions ready and delivered
 		numberOfPortionsReady--;
 		numberOfPortionsDelivered++;
+		
+		//If a new course is being delivered then numberOfPortionsDelivered must be "reseted"
 		if(numberOfPortionsDelivered > ExecuteConst.N)
 			numberOfPortionsDelivered = 1;
 		
+		//Update portion number and course number in general repository
 		repos.setnPortions(numberOfPortionsDelivered);
 		repos.setnCourses(numberOfCoursesDelivered+1);
 		

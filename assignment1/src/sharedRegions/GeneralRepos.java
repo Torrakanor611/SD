@@ -13,7 +13,7 @@ import genclass.TextFile;
  *    to be printed in the logging file.
  *    It is implemented as an implicit monitor.
  *    All public methods are executed in mutual exclusion.
- *    There are no internal synchronization points.
+ *    There are no internal synchronisation points.
  */
 
 public class GeneralRepos

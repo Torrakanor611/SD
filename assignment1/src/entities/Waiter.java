@@ -14,19 +14,16 @@ public class Waiter extends Thread{
 	/**
 	 * 	Waiter state
 	 */
-	
 	private int waiterState;
 	
 	/**
 	 * Reference to the kitchen
 	 */
-	
 	private final Kitchen kit;
 	
 	/**
 	 * Reference to the bar
 	 */
-	
 	private final Bar bar;
 	
 	/**
@@ -34,28 +31,15 @@ public class Waiter extends Thread{
 	 */
 	private final Table tab;
 	
-	/**
-	 * 	@param waiter state
-	 */
-	
-	public void setWaiterState(int waiterState) {
-		this.waiterState = waiterState;
-	}
-	
-	/**
-	 * 	@return waiter state
-	 */
 
-	public int getWaiterState() {
-		return waiterState;
-	}
-	
 	/**
-	 * 	Instantiation of waiter thread
+	 * Waiter thread instantiation
 	 * 
-	 * 	@param waiterState
+	 * @param name Name of the thread
+	 * @param kit reference to the kitchen
+	 * @param bar reference to the bar
+	 * @param tab reference to the table
 	 */
-	
 	public Waiter(String name, Kitchen kit, Bar bar, Table tab) {
 		super(name);
 		this.waiterState = WaiterStates.APRAISING_SITUATION;
@@ -63,6 +47,24 @@ public class Waiter extends Thread{
 		this.bar = bar;
 		this.tab = tab;
 	}
+	
+	
+	/**
+	 * 
+	 * @param waiterState new state to be set
+	 */
+	public void setWaiterState(int waiterState) {
+		this.waiterState = waiterState;
+	}
+	
+	/**
+	 * 	@return waiter state
+	 */
+	public int getWaiterState() {
+		return waiterState;
+	}
+	
+	
 	
 	/**
 	 *	Life cycle of the waiter

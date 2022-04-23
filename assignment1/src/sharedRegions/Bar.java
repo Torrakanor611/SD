@@ -13,20 +13,19 @@ import main.*;
  *	Public methods executed in mutual exclusion
  *	Synchronisation points include:
  *		Waiter waits for pending requests if there are none
- *		A student has to wait for the waiter to say goodbye to him so he can leave the restaurant
+ *		When a student has to wait for the waiter to say goodbye to him so he can leave the restaurant
  *		Chef must wait for everybody to eat before alerting the waiter
  */
 
 public class Bar 
 {
 	/**
-	 *	Number of students present in the restaurant
-	 */
-	
+	 *	Used to control number of students present in the restaurant
+	 */	
 	private int numberOfStudentsAtRestaurant;
 	
 	/**
-	 *  Number of pending requests to be answered by the waiter
+	 *  Used to control number of pending requests to be answered by the waiter
 	 */
 	private int numberOfPendingRequests;
 	
@@ -51,7 +50,7 @@ public class Bar
 	private final GeneralRepos repos;
 	
 	/**
-	 * Auxiliary variable to keep track of the id of the student whose request is being answered
+	 * Auxiliary variable to keep track of the id of the student whose request is being answered by waiter
 	 */
 	private int studentBeingAnswered;
 	
@@ -69,17 +68,18 @@ public class Bar
 	
 	/**
 	 * Bar instantiation
-	 * 
-	 * @param repos reference to the general repository 
+	 *  
+	 * @param repos reference to the general repository
+	 * @param tab reference to the table
 	 */
 	public Bar(GeneralRepos repos, Table tab) 
 	{
-		//Initizalization of students thread
+		//Initizalization of students threads
 		students = new Student[ExecuteConst.N];
 		for(int i = 0; i < ExecuteConst.N; i++ ) 
 			students[i] = null;
 		
-		//Initialization of the queue of pending requests
+		//Initialisation of the queue of pending requests
 		try {
 			pendingServiceRequestQueue = new MemFIFO<> (new Request [ExecuteConst.N * ExecuteConst.M]);
 		} catch (MemException e) {
@@ -110,11 +110,11 @@ public class Bar
 	 * Operation alert the waiter
 	 * 
 	 * It is called by the chef to alert the waiter that a portion was dished
-	 * 	For requests the chef id will be N+1
+	 * 	A request is putted in the queue (chef id will be N+1)
 	 */
 	public synchronized void alertWaiter()
 	{
-		//Chef must not alert Waiter while course is not finished
+		//Chef must not alert Waiter while previous course is not finished by the students
 		while(!courseFinished)
 		{
 			try {
@@ -135,7 +135,7 @@ public class Bar
 			e.printStackTrace();
 		}
 		
-		//Update number of pending requests
+		//Update number of pending requests and set courseFinished to false
 		numberOfPendingRequests++;
 		courseFinished = false;
 		
@@ -156,7 +156,7 @@ public class Bar
 	 * Operation look Around
 	 * 
 	 * It is called by the waiter, he checks for pending service requests and if not waits for them
-	 * 	@return Character the represents the service to be executed
+	 * 	@return Character that represents the service to be executed
 	 * 		'c' : means a client has arrived therefore needs to be presented with the menu by the waiter
 	 * 		'o' : means that the waiter will hear the order and deliver it to the chef
 	 * 		'p' : means that a portion needs to be delivered by the waiter
@@ -184,9 +184,7 @@ public class Bar
 			r = pendingServiceRequestQueue.read();
 			//Update number of pending requests
 			numberOfPendingRequests--;
-		}
-		catch (MemException e)
-		{	
+		} catch (MemException e) {	
 			e.printStackTrace();
 			return 0;
 		}		
@@ -253,6 +251,7 @@ public class Bar
 		synchronized(this)
 		{
 			int studentId = ((Student) Thread.currentThread()).getStudentId();
+			
 			//Update student state
 			students[studentId] = ((Student) Thread.currentThread());
 			students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
@@ -278,9 +277,8 @@ public class Bar
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
 			repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
-			//register seat at the general repos
+			//register seat at the general repo
 			repos.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
-			
 			
 			//Signal waiter that there is a pending request
 			notifyAll();
@@ -327,7 +325,9 @@ public class Bar
 	/**
 	 * Operation signal the waiter
 	 * 
-	 * It is called by the last student to finish eating to signal waiter to bring next course
+	 * It is called by the last student to finish eating that next course can be brought 
+	 * signal chef that he can put request in the queue and waiter that he proceed his executing to collect portions
+	 * It is also used by last student to arrive to signal that he wishes to pay the bill
 	 */
 	public synchronized void signalWaiter()
 	{
@@ -381,14 +381,12 @@ public class Bar
 		
 		//Update number of pending requests
 		numberOfPendingRequests++;
-		//notify waiter that there is a pending request
-		notifyAll();
-		
 		//Update student test
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
 		repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+		//notify waiter that there is a pending request
+		notifyAll();
 	
-		
 		//Block until waiter greets the student goodbye
 		while(studentsGreeted[studentId] == false) {
 			try {
