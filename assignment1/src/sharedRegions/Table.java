@@ -123,7 +123,7 @@ public class Table {
      */    
     public Table(GeneralRepos repos)
     {
-    	//Initialisation of atributes
+    	//Initialisation of attributes
     	this.firstToArrive = -1;
     	this.lastToArrive = -1;
     	this.numOrders = 0;
@@ -559,13 +559,16 @@ public class Table {
      * 
      * Called by the student to start eating the meal (During random time)
      */    
-    public synchronized void startEating()
+    public void startEating()
     {
-    	int studentId = ((Student) Thread.currentThread()).getStudentId();
-    	 
-    	//Update student state
-    	students[studentId].setStudentState(StudentStates.ENJOYING_THE_MEAL);
-    	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+    	synchronized(this)
+    	{
+	    	int studentId = ((Student) Thread.currentThread()).getStudentId();
+	    	 
+	    	//Update student state
+	    	students[studentId].setStudentState(StudentStates.ENJOYING_THE_MEAL);
+	    	repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+    	}
     	
     	//Enjoy meal during random time
         try
