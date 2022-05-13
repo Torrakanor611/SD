@@ -384,6 +384,8 @@ public class Bar
 		//Update student test
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
 		repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+		// seat at table becomes empty
+		repos.updateSeatsAtTable(studentId, -1);
 		//notify waiter that there is a pending request
 		notifyAll();
 	
