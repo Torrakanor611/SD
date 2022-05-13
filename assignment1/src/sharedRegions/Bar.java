@@ -276,7 +276,7 @@ public class Bar
 			
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-			repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+			repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState(), true);
 			//register seat at the general repo
 			repos.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
 			

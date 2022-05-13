@@ -228,6 +228,15 @@ public class GeneralRepos
 		this.studentState[id] = value;
 		reportStatus();
 	}
+	
+	/**
+	 * @param id student id
+	 * @param value student state to set
+	 * @param hold specifies if prints line of report status
+	 */
+	public synchronized void updateStudentState(int id, int value, boolean hold) {
+		this.studentState[id] = value;
+	}
 
 	/**
 	 * @param value nCourses value to set
