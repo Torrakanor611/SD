@@ -108,7 +108,6 @@ public class GeneralRepos
 			GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
 			System.exit (1);
 		}
-		reportStatus ();
 	}
 
 	/**
