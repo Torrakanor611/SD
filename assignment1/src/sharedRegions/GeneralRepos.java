@@ -6,8 +6,9 @@ import main.*;
 import genclass.GenericIO;
 import genclass.TextFile;
 
+
 /**
- *  General Repository.
+ *  General Repository
  *
  *    It is responsible to keep the visible internal state of the problem and to provide means for it
  *    to be printed in the logging file.
@@ -15,7 +16,6 @@ import genclass.TextFile;
  *    All public methods are executed in mutual exclusion.
  *    There are no internal synchronisation points.
  */
-
 public class GeneralRepos
 {
 	/**
@@ -43,13 +43,13 @@ public class GeneralRepos
 	private int[] studentState;
 
 	/**
-	 *	Number of courses delivered (not sure)
+	 *	Number of courses prepared
 	 */
 
 	private int nCourses;
 
 	/**
-	 * 	Number of Portions delivered (not sure)
+	 * 	Number of Portions prepared
 	 */
 
 	private int nPortions;
@@ -86,7 +86,7 @@ public class GeneralRepos
 	}
 
 	/**
-	 *  Write the header to the logging file.
+	 *  Write the header to the logging file
 	 *
 	 *  The chef and the waiter are sleeping and the students are going to the restaurant.
 	 */
@@ -111,7 +111,7 @@ public class GeneralRepos
 	}
 
 	/**
-	 *  Write a state line at the end of the logging file.
+	 *  Write a state line at the end of the logging file
 	 *
 	 *  The current state of the barbers and the customers is organized in a line to be printed.
 	 *  Internal operation.
@@ -177,6 +177,9 @@ public class GeneralRepos
 		}
 	}
 	
+	/**
+	 * Write in the logging file the legend
+	 */
 	public void reportLegend()
 	{
 		TextFile log = new TextFile ();                  	// instantiation of a text file handler
@@ -205,6 +208,7 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Write in the logging file the new chef state
 	 * @param value chef state to set
 	 */
 	public synchronized void setChefState(int value) {
@@ -213,6 +217,7 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Write in the logging file the new waiter state
 	 * @param value waiter state to set
 	 */
 	public synchronized void setWaiterState(int value) {
@@ -221,6 +226,7 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Write in the logging file the updated student state
 	 * @param id student id
 	 * @param value student state to set
 	 */
@@ -230,6 +236,7 @@ public class GeneralRepos
 	}
 	
 	/**
+	 * Update student state
 	 * @param id student id
 	 * @param value student state to set
 	 * @param hold specifies if prints line of report status
@@ -239,6 +246,7 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Set variable nCourses and report status in the logging file
 	 * @param value nCourses value to set
 	 */
 	public synchronized void setnCourses(int value) {
@@ -247,6 +255,8 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Write the portion value in the logging file
+	 * 
 	 * @param value nPortions value to set
 	 */
 	public synchronized void setnPortions(int value) {
@@ -255,6 +265,8 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Write to the logging file the updated seats values at the table 
+	 * 
 	 * @param seat seat at the table
 	 * @param id student id to sit
 	 */

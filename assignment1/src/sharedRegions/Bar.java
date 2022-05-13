@@ -99,6 +99,7 @@ public class Bar
 	
 	
 	/**
+	 * Return id of the student whose request is being answered
 	 * @return Id of the student whose request is being answered
 	 */
 	public int getStudentBeingAnswered() { return studentBeingAnswered; }
@@ -408,7 +409,7 @@ public class Bar
 /**
  * 
  * Request Data type
- *
+ *	Used to store identification of the author of the request (integer) and the request type (character)
  */
 class Request {
 	

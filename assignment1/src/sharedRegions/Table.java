@@ -159,24 +159,25 @@ public class Table {
     
     
     /**
+     * Obtain id of the first student to arrive
      * @return id of the first student to arrive at the restaurant
      */
     public int getFirstToArrive() { return firstToArrive; }
     
     /**
-     * 
+     * Obtain id of the last student to arrive
      * @return id of the last student to finish eating a meal
      */
     public int getLastToEat() { return lastToEat; }
     
     /**
-     * 
+     * Set id of the first student to arrive
      * @param firstToArrive id of the first student to arrive
      */
     public void setFirstToArrive(int firstToArrive) { this.firstToArrive = firstToArrive; }
     
     /**
-     * 
+     * Set id of the last student to arrive
      * @param lastToArrive if of the last student to arrive to the restaurant
      */
     public void setLastToArrive(int lastToArrive) { this.lastToArrive = lastToArrive; }
