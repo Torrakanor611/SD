@@ -164,12 +164,10 @@ public class GeneralRepos
 
 		line += "    " + String.valueOf(nCourses);
 		line += "        " + String.valueOf(nPortions);
-		line += seatsAtTable[0] >= 0 ? "        " : "       ";
-		line += String.valueOf(seatsAtTable[0]);
+		line += "        " + (seatsAtTable[0] >= 0 ? String.valueOf(seatsAtTable[0]) : "-");
 		for(int i = 1; i < ExecuteConst.N; i++)
 		{
-			line += seatsAtTable[i] >= 0 ? "     " : "    ";
-			line += String.valueOf(seatsAtTable[i]);
+			line += "     " + (seatsAtTable[i] >= 0 ? String.valueOf(seatsAtTable[i]) : "-");
 		}
 
 		log.writelnString (line);
