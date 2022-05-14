@@ -35,6 +35,11 @@ public class Kitchen
 	private int numberOfCoursesDelivered;
 	
 	/**
+	 * Number of portions prepared by the chef
+	 */
+	private int numberOfPortionsPrepared;
+	
+	/**
      * Reference to the General Repository.
      */
     private final GeneralRepos repos;
@@ -51,6 +56,7 @@ public class Kitchen
 		this.numberOfPortionsReady = 0;
 		this.numberOfPortionsDelivered = 0;
 		this.numberOfCoursesDelivered = 0;
+		this.numberOfPortionsPrepared = 0;
 		this.repos = repos;
 	}
 
@@ -87,6 +93,7 @@ public class Kitchen
 	public synchronized void startPreparation()
 	{
 		//Update new Chef State
+		repos.setnCourses(numberOfCoursesDelivered+1);
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
@@ -105,6 +112,8 @@ public class Kitchen
 	public synchronized void proceedPreparation()
 	{
 		//Update new Chef state
+		numberOfPortionsPrepared++;
+		repos.setnPortions(numberOfPortionsPrepared);
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
@@ -175,6 +184,10 @@ public class Kitchen
 	public synchronized void continuePreparation()
 	{
 		//Update chefs state
+		repos.setnCourses(numberOfCoursesDelivered+1);
+		numberOfPortionsPrepared = 0;
+		repos.setnPortions(numberOfPortionsPrepared);
+		
 		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 	}
@@ -190,6 +203,8 @@ public class Kitchen
 	public synchronized void haveNextPortionReady()
 	{	
 		//Update chefs state
+		numberOfPortionsPrepared++;		
+		repos.setnPortions(numberOfPortionsPrepared);
 		((Chef) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
 		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
 		
@@ -294,10 +309,7 @@ public class Kitchen
 		//If a new course is being delivered then numberOfPortionsDelivered must be "reseted"
 		if(numberOfPortionsDelivered > ExecuteConst.N)
 			numberOfPortionsDelivered = 1;
-		
-		//Update portion number and course number in general repository
-		repos.setnPortions(numberOfPortionsDelivered);
-		repos.setnCourses(numberOfCoursesDelivered+1);
+
 		
 		//Signal chef that portion was delivered
 		notifyAll();

@@ -251,7 +251,6 @@ public class GeneralRepos
 	 */
 	public synchronized void setnCourses(int value) {
 		this.nCourses = value;
-		reportStatus();
 	}
 
 	/**
@@ -261,7 +260,6 @@ public class GeneralRepos
 	 */
 	public synchronized void setnPortions(int value) {
 		this.nPortions = value;
-		reportStatus();
 	}
 
 	/**
