@@ -229,6 +229,8 @@ public class Bar
 		
 		//Update number of students at the restaurant
 		numberOfStudentsAtRestaurant--;
+		// seat at table becomes empty after waiter greets the student
+		repos.updateSeatsAtLeaving(studentBeingAnswered);
 		studentBeingAnswered = -1;
 		
 		repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
@@ -382,7 +384,7 @@ public class Bar
 		
 		//Update number of pending requests
 		numberOfPendingRequests++;
-		//Update student test
+		//Update student state
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
 		repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
 		
@@ -398,8 +400,6 @@ public class Bar
 				e.printStackTrace();
 			}
 		}
-		// seat at table becomes empty
-		repos.updateSeatsAtTable(studentId, -1);
 	}
 }
 

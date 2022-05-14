@@ -272,6 +272,22 @@ public class GeneralRepos
 		this.seatsAtTable[seat] = id;
 		reportStatus();
 	}
+
+	/**
+	 * Update the leaving of a student in the seats of the table
+	 * 
+	 * @param id student id to leave table
+	 */
+	public synchronized void updateSeatsAtLeaving(int id) {
+		int seat = 0;
+		
+		for(int i=0; i < this.seatsAtTable.length; i++) {
+			if(this.seatsAtTable[i] == id)
+				seat = i;
+		}
+		
+		this.seatsAtTable[seat] = -1;
+	}
 }
 
 
