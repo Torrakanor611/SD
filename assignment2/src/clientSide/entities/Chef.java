@@ -7,9 +7,8 @@ import clientSide.stubs.*;
  *
  *      It simulates the chef life cycle.
  *      Implementation of a client-server model of type 2 (server replication).
- *      Communication is based on a cbarberommunication channel under the TCP protocol.
+ *      Communication is based on a communication channel under the TCP protocol.
  */
-
 public class Chef extends Thread{
 	
 	/**
@@ -48,11 +47,10 @@ public class Chef extends Thread{
 	
 	
 	/**
-	 * Chef Thread instantiation
-	 * 
-	 * @param name Name of the thread
-	 * @param kit Reference to the kitchen
-	 * @param bar Reference to the bar
+	 * Instantiation of a Chef thread
+	 * 	@param name thread name
+	 * 	@param kitStub reference to the kitchen stub
+	 * 	@param barStub reference to the bar stub
 	 */
 	public Chef(String name, KitchenStub kitStub, BarStub barStub) {
 		super(name);
@@ -72,23 +70,23 @@ public class Chef extends Thread{
 	{
 		boolean firstCourse = true;
 		
-		kit.watchTheNews();
-		kit.startPreparation();
+		kitStub.watchTheNews();
+		kitStub.startPreparation();
 		do
 		{
 			if(!firstCourse)
-				kit.continuePreparation();
+				kitStub.continuePreparation();
 			else
 				firstCourse = false;
 			
-			kit.proceedPreparation();
-			bar.alertWaiter();
+			kitStub.proceedPreparation();
+			barStub.alertWaiter();
 			
-			while(!kit.haveAllPortionsBeenDelivered())
-				kit.haveNextPortionReady();
+			while(!kitStub.haveAllPortionsBeenDelivered())
+				kitStub.haveNextPortionReady();
 		}
-		while(!kit.hasOrderBeenCompleted());
+		while(!kitStub.hasOrderBeenCompleted());
 		
-		kit.cleanUp();
+		kitStub.cleanUp();
 	}
 }
