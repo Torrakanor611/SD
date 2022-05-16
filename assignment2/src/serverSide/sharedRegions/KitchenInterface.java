@@ -43,6 +43,14 @@ public class KitchenInterface {
 				if (inMessage.getBarbState() != ChefStates.WAITING_FOR_AN_ORDER)
 					throw new MessageException ("Invalid Chef state!", inMessage);
 				break;
+			case MessageType.REQSTRPR: //Start preparation of a course request
+				if (inMessage.getBarbState() != ChefStates.WAITING_FOR_AN_ORDER)
+					throw new MessageException ("Invalid Chef state!", inMessage);
+				break;
+			case MessageType.REQPRCPRST: //Proceed to presentation request
+				if (inMessage.getBarbState() != ChefStates.PREPARING_THE_COURSE)
+					throw new MessageException ("Invalid Chef state!", inMessage);
+				break;
 			default:
 				throw new MessageException ("Invalid message type!", inMessage);
 		}
@@ -52,7 +60,19 @@ public class KitchenInterface {
 		{
 			case MessageType.REQWATTNWS: //Watching the news request
 				((KitchenClientProxy) Thread.currentThread()).setChefState(inMessage.getChefState());
-		
+				kit.watchTheNews();
+				outMessage = new Message(MessageType.REPWATTNWS, ((KitchenClientProxy) Thread.currentThread()).getChefState());
+				break;
+			case MessageType.REQSTRPR: //Start preparation of a course request
+				((KitchenClientProxy) Thread.currentThread()).setChefState(inMessage.getChefState());
+				kit.startPreparation();
+				outMessage = new Message(MessageType.REPSTRPR, ((KitchenClientProxy) Thread.currentThread()).getChefState());
+				break;
+			case MessageType.REQPRCPRST: //Proceed to presentation request
+				((KitchenClientProxy) Thread.currentThread()).setChefState(inMessage.getChefState());
+				kit.proceedPreparation();
+				outMessage = new Message(MessageType.REPPRCPRST, ((KitchenClientProxy) Thread.currentThread()).getChefState());
+				break;				
 		}
 		
 		return (outMessage);

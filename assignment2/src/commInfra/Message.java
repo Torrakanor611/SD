@@ -22,11 +22,16 @@ public class Message implements Serializable
    *  Message type.
    */
    private int msgType = -1;
-
    /**
     * Chef State
     */
    private int chefState = -1;
+   /**
+    * Boolean value to be transported that holds true if all portions have been delivered, false otherwise
+    */
+   private boolean allPortionsDelivered;
+   
+   
    
    
   /**
@@ -71,17 +76,45 @@ public class Message implements Serializable
 
    private int nIter = -1;
 
-  /**
+  
+   
+   
+   /**
    *  Message instantiation (form 1).
    *
    *     @param type message type
    */
-
    public Message (int type)
    {
       msgType = type;
    }
-
+   
+   /**
+    *  Message instantiation (form 2).
+    *
+    *     @param type message type
+    *     @param state chef state
+    */
+    public Message (int type, int state)
+    {
+       msgType = type;
+       chefState= state;
+    }
+    /**
+     *  Message instantiation (form 3).
+     *
+     *     @param type message type
+     *     @param id chef state
+     *     @param allportionsDelivered used to check if all portions have been delivered
+     */
+     public Message (int type, int state, boolean portionsDelivered)
+     {
+        msgType = type;
+        chefState = state;
+        allPortionsDelivered = portionsDelivered;
+     }  
+    
+    
   /**
    *  Message instantiation (form 2).
    *
@@ -107,33 +140,6 @@ public class Message implements Serializable
                       }
    }
 
-  /**
-   *  Message instantiation (form 3).
-   *
-   *     @param type message type
-   *     @param id barber identification
-   */
-
-   public Message (int type, int id)
-   {
-      msgType = type;
-      barbId= id;
-   }
-
-  /**
-   *  Message instantiation (form 4).
-   *
-   *     @param type message type
-   *     @param id barber identification
-   *     @param endOP end of operations flag
-   */
-
-   public Message (int type, int id, boolean endOp)
-   {
-      msgType = type;
-      barbId= id;
-      this.endOp = endOp;
-   }
 
   /**
    *  Message instantiation (form 5).
@@ -198,6 +204,12 @@ public class Message implements Serializable
     * 	@return chef state
     */
    public int getChefState() { return (chefState); }
+   
+   /**
+    * Get have all portions been delivered
+    * @return true if all portions have been delivered, false otherwise
+    */
+   public boolean getAllPortionsBeenDelivered() { return (allPortionsDelivered); }
    
    
    /**
@@ -290,7 +302,9 @@ public class Message implements Serializable
    {
       return ("Message type = " + msgType +
     		  "\nChef State = " + chefState +
-              "\nBarber Id = " + barbId +
+    		  "\nAll Portions Been Delivered = " + allPortionsDelivered +
+              
+    		  "\nBarber Id = " + barbId +
               "\nBarber State = " + barbState +
               "\nCustomer Id = " + custId +
               "\nCustomer State = " + custState +

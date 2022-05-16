@@ -2,6 +2,7 @@ package serverSide.sharedRegions;
 
 import serverSide.entities.*;
 import serverSide.main.*;
+import clientSide.entities.*;
 
 /**
  * 	Kitchen

@@ -5,6 +5,7 @@ import serverSide.entities.*;
 import serverSide.main.*;
 import genclass.GenericIO;
 import genclass.TextFile;
+import clientSide.entities.*;
 
 /**
  *  General Repository.

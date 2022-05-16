@@ -75,20 +75,95 @@ public class KitchenStub {
 		com.close ();
 	}
 	
+	
+	
 	/**
 	 * 	Operation start presentation
 	 * 
 	 * 	It is called by the chef after waiter has notified him of the order to be prepared 
 	 * 	to signal that preparation of the course has started
 	 */
-	public synchronized void startPreparation() { }
+	public synchronized void startPreparation() 
+	{ 
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQSTRPR, ((Chef) Thread.currentThread()).getChefState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPSTRPR)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getChefState() != ChefStates.PREPARING_THE_COURSE)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getBarbState ());
+		//Close communication channel
+		com.close ();
+	}
+	
+	
 	
 	/**
 	 * 	Operation proceed presentation
 	 * 
 	 * 	It is called by the chef when a portion needs to be prepared
 	 */
-	public synchronized void proceedPreparation() { }
+	public synchronized void proceedPreparation() 
+	{ 
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQPRCPRST, ((Chef) Thread.currentThread()).getChefState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPPRCPRST)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getChefState() != ChefStates.DISHING_THE_PORTIONS)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getBarbState ());
+		//Close communication channel
+		com.close ();		
+	}
+	
+	
+	
 	
 	/**
 	 * 	Operation have all portions been delivered
@@ -97,7 +172,43 @@ public class KitchenStub {
 	 * 	It is also here were the chef blocks waiting for waiter do deliver the current portion
 	 * 	@return true if all portions have been delivered, false otherwise
 	 */
-	public synchronized boolean haveAllPortionsBeenDelivered() { return true; }
+	public synchronized boolean haveAllPortionsBeenDelivered() 
+	{ 
+		////(/INCOMLPETO COMPLEtar AMANHR
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQPRCPRST, ((Chef) Thread.currentThread()).getChefState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPPRCPRST)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getChefState() != ChefStates.DISHING_THE_PORTIONS)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		//Close communication channel
+		com.close ();
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getBarbState ());
+		return inMessage.getAllPortionsBeenDelivered();
+	}
 	
 	/**
 	 *	Operation has order been completed

@@ -9,6 +9,7 @@ package commInfra;
 
 public class MessageType
 {
+	//---------CHEF INPUT/OUTPUT MESSAGES---------//
 	/**
 	 * Operation watching the news (request)
 	 */
@@ -17,7 +18,30 @@ public class MessageType
 	 * Operation watching the news (reply)
 	 */
 	public static final int REPWATTNWS = 2;
-	
+	/**
+	 * Operation start preparation of a course (request)
+	 */
+	public static final int REQSTRPR = 3;
+	/**
+	 * Operation start preparation of a course (reply)
+	 */
+	public static final int REPSTRPR = 4;
+	/**
+	 * Operation proceed to presentation (request)
+	 */
+	public static final int REQPRCPRST = 5;
+	/**
+	 * Operation proceed to presentation (reply)
+	 */
+	public static final int REPPRCPRST = 6;
+	/**
+	 * Operation have all portions been delivered (request)
+	 */
+	public static final int REQHVPRTDLVD = 7;
+	/**
+	 * Operation have all portions been delivered (reply)
+	 */
+	public static final int REPHVPRTDLVD = 8;
 	
 	
 	
