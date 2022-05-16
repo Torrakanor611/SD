@@ -1,5 +1,9 @@
 package clientSide.stubs;
 
+import commInfra.*;
+import clientSide.entities.*;
+import genclass.GenericIO;
+
 /**
  *  Stub to the kitchen
  *
@@ -37,7 +41,39 @@ public class KitchenStub {
 	 * 
 	 * 	It is called by the chef, he waits for waiter to notify him of the order
 	 */
-	public synchronized void watchTheNews()	{	}
+	public void watchTheNews()	
+	{
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQWATTNWS, ((Chef) Thread.currentThread()).getChefState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		if(inMessage.getMsgType() != MessageType.REPWATTNWS)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getChefState() != ChefStates.WAITING_FOR_AN_ORDER)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getBarbState ());
+		com.close ();
+	}
 	
 	/**
 	 * 	Operation start presentation

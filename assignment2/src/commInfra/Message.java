@@ -21,9 +21,14 @@ public class Message implements Serializable
   /**
    *  Message type.
    */
-
    private int msgType = -1;
 
+   /**
+    * Chef State
+    */
+   private int chefState = -1;
+   
+   
   /**
    *  Barber identification.
    */
@@ -181,18 +186,21 @@ public class Message implements Serializable
       this.nIter = nIter;
    }
 
-  /**
+  
+   /**
    *  Getting message type.
-   *
    *     @return message type
    */
+   public int getMsgType () { return (msgType); }
 
-   public int getMsgType ()
-   {
-      return (msgType);
-   }
-
-  /**
+   /**
+    * Getting chef state
+    * 	@return chef state
+    */
+   public int getChefState() { return (chefState); }
+   
+   
+   /**
    *  Getting barber identification.
    *
    *     @return barber identification
@@ -281,6 +289,7 @@ public class Message implements Serializable
    public String toString ()
    {
       return ("Message type = " + msgType +
+    		  "\nChef State = " + chefState +
               "\nBarber Id = " + barbId +
               "\nBarber State = " + barbState +
               "\nCustomer Id = " + custId +

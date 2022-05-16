@@ -9,6 +9,18 @@ package commInfra;
 
 public class MessageType
 {
+	/**
+	 * Operation watching the news (request)
+	 */
+	public static final int REQWATTNWS = 1;
+	/**
+	 * Operation watching the news (reply)
+	 */
+	public static final int REPWATTNWS = 2;
+	
+	
+	
+	
   /**
    *  Initialization of the logging file name and the number of iterations (service request).
    */

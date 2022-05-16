@@ -15,36 +15,33 @@ import java.net.*;
 
 public class ClientCom
 {
+	
   /**
    *  Communication socket.
    */
-
    private Socket commSocket = null;
 
   /**
    *  Name of the computational system where the server is located.
    */
-
    private String serverHostName;
 
   /**
    *  Number of the listening port at the computational system where the server is located.
    */
-
    private int serverPortNumb;
 
   /**
    *  Input stream of the communication channel.
    */
-
    private ObjectInputStream in = null;
 
   /**
    *  Output stream of the communication channel.
    */
-
    private ObjectOutputStream out = null;
 
+   
   /**
    *  Instantiation of a communication channel.
    *
@@ -141,13 +138,13 @@ public class ClientCom
       return (success);
    }
 
-  /**
+  
+   /**
    *  Close the communication channel.
    *
    *  The socket input and output streams are closed.
    *  The communication socket is closed.
    */
-
    public void close ()
    {
       try
