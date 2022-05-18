@@ -45,6 +45,9 @@ public class MessageType
 	
 	
 	
+	
+	
+	
   /**
    *  Initialization of the logging file name and the number of iterations (service request).
    */
@@ -96,7 +99,7 @@ public class MessageType
   /**
    *  Customer was called (reply).
    */
-
+   
    public static final int CCUSTDONE = 9;
 
   /**
