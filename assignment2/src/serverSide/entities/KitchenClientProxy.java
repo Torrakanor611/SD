@@ -1,6 +1,8 @@
 package serverSide.entities;
 
-public class KitchenClientProxy extends Thread {
+import clientSide.entities.*;
+
+public class KitchenClientProxy extends Thread implements ChefCloning, WaiterCloning{
 	
 	/**
 	 * Chef state
@@ -39,4 +41,6 @@ public class KitchenClientProxy extends Thread {
 	 * @return waiter state
 	 */
 	public int getWaiterState() { return this.waiterState; }
+
+
 }
