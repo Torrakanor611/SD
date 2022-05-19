@@ -14,10 +14,6 @@ public class KitchenClientProxy extends Thread implements ChefCloning, WaiterClo
 	 */
 	private int waiterState;
 	
-	
-	
-	
-	
 	/**
 	 * Set chef state
 	 * @param state state of the chef

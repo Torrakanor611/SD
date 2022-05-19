@@ -1,6 +1,7 @@
 package serverSide.sharedRegions;
 
 import clientSide.entities.ChefStates;
+import clientSide.entities.WaiterStates;
 import commInfra.Message;
 import commInfra.MessageException;
 import commInfra.MessageType;
@@ -44,7 +45,7 @@ public class BarInterface {
 					throw new MessageException ("Invalid Chef state!", inMessage);
 				break;
 			case MessageType.REQLOOKARND: // look around Request
-				if (inMessage.get)
+				if (inMessage.getWaiterState() > WaiterStates.)
 		}
 	}
 }
