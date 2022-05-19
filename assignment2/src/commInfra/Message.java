@@ -22,10 +22,22 @@ public class Message implements Serializable
    *  Message type.
    */
    private int msgType = -1;
+   
    /**
     * Chef State
     */
    private int chefState = -1;
+   
+   /**
+    * Waiter State
+    */
+   private int waiterState = -1;
+   
+   /**
+    * Students State
+    */
+   private int [] studentState;
+   
    /**
     * Boolean value to be transported that holds true if all portions have been delivered, false otherwise
     */
@@ -98,7 +110,23 @@ public class Message implements Serializable
     public Message (int type, int state)
     {
        msgType = type;
-       chefState= state;
+       // mensagens do chef
+       if (msgType == MessageType.REQWATTNWS || 
+		   msgType == MessageType.REQSTRPR || 
+		   msgType == MessageType.REQPRCPRST || 
+		   msgType == MessageType.REQHVPRTDLVD ||
+		   msgType == MessageType.REQALRTWAIT)
+    	   chefState = state;
+       // mensagens do waiter
+       else if (msgType == MessageType.REQLOOKARND)
+    	   waiterState = state;
+       // mensagens dos students
+       else if (2 == 4)
+       		{}
+       else { GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation!");
+              System.exit (1);
+            }
+       
     }
     /**
      *  Message instantiation (form 3).
@@ -204,6 +232,12 @@ public class Message implements Serializable
     * 	@return chef state
     */
    public int getChefState() { return (chefState); }
+   
+   /**
+    * Getting waiter state
+    * 	@return waiter state
+    */
+   public int getWaiterState() { return (waiterState); }
    
    /**
     * Get have all portions been delivered
