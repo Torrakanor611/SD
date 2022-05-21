@@ -55,6 +55,7 @@ public class BarInterface {
 		case MessageType.REQSAYGDBYE: 		// Say goodbye Request
 			if (inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
 				throw new MessageException("Inavlid Waiter state!", inMessage);
+			break;
 			// Student Messages that require type, state and id verification (done in Message Constructor)
 		case MessageType.REQENTER:			// Enter Request
 		case MessageType.REQCALLWAI:		// Call the waiter Request
@@ -62,6 +63,7 @@ public class BarInterface {
 		case MessageType.REQEXIT:			// exit Request
 			if (inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
 				throw new MessageException("Inavlid Student state!", inMessage);
+			break;
 		default:
 			throw new MessageException ("Invalid message type!", inMessage);
 		}
