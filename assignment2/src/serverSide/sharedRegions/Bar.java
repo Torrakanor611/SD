@@ -400,10 +400,6 @@ public class Bar
 	}
 }
 
-
-
-
-
 /**
  * 
  * Request Data type

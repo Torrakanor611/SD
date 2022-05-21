@@ -10,7 +10,7 @@ package commInfra;
 public class MessageType
 {
 	//---------KITCHEN INPUT/OUTPUT MESSAGES---------//
-	
+
 	/**
 	 * Chef - Operation watching the news (request)
 	 */
@@ -99,31 +99,89 @@ public class MessageType
 	 * Waiter - Operation collect portion (reply)
 	 */
 	public static final int REPCOLLPORT = 22;
-	
-	
-	
-	
+
+
+
+
 	//---------BAR INPUT/OUTPUT MESSAGES---------//
-	
+
 	/**
 	 * Operation watching the news (request)
 	 */
-	public static final int REQALRTWAIT= 30;
-	
+	public static final int REQALRTWAIT = 30;
+
 	/**
 	 * Operation watching the news (reply)
 	 */
 	public static final int REPALRTWAIT = 31;
-	
+
 	/**
 	 * Operation look around (request)
 	 */
-	public static final int REQLOOKARND= 32;
-	
+	public static final int REQLOOKARND = 32;
+
 	/**
 	 * Operation look around (reply)
 	 */
 	public static final int REPLOOKARND = 33;
-	
-	
+
+	/**
+	 * Operation prepare Bill (request)
+	 */
+	public static final int REQPRPREBILL = 34;
+
+	/**
+	 * Operation prepare Bill (reply)
+	 */
+	public static final int REPPRPREBILL = 35;
+
+	/**
+	 * Operation say goodbye (request)
+	 */
+	public static final int REQSAYGDBYE = 36;
+
+	/**
+	 * Operation say goodbye (reply)
+	 */
+	public static final int REPSAYGDBYE = 37;
+
+	/**
+	 * Operation enter (request)
+	 */
+	public static final int REQENTER = 38;
+
+	/**
+	 * Operation enter (reply)
+	 */
+	public static final int REPENTER = 39;
+
+	/**
+	 * Operation call waiter (request)
+	 */
+	public static final int REQCALLWAI = 40;
+
+	/**
+	 * Operation call waiter (reply)
+	 */
+	public static final int REPCALLWAI = 41;
+
+	/**
+	 * Operation signal waiter (request)
+	 */
+	public static final int REQSIGWAI = 42;
+
+	/**
+	 * Operation signal waiter (reply)
+	 */
+	public static final int REPSIGWAI = 43;
+
+	/**
+	 * Operation exit (request)
+	 */
+	public static final int REQEXIT = 44;
+
+	/**
+	 * Operation exit (reply)
+	 */
+	public static final int REPEXIT = 45;
 }
