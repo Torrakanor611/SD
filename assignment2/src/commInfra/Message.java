@@ -36,13 +36,17 @@ public class Message implements Serializable
 	/**
 	 * Student State
 	 */
-	private int studentState;
+	private int studentState = -1;
 
 	/**
 	 * Student Id
 	 */
 	private int studentId = -1;
-
+	
+	/**
+	 * student Id Being Answered
+	 */	
+	private int studentIdBeingAnswered = -1;
 	/**
 	 * Boolean value to be transported that holds true if all portions have been delivered, false otherwise
 	 */
@@ -115,7 +119,7 @@ public class Message implements Serializable
 		msgType = type;
 		int entity = getEntitieFromMessageType(type);
 
-		if (entity != 3) {	// Not a Student Type Message
+		if (entity != 3) {	// Not a Student entity Type Message
 			GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation on Student!");
 			System.exit (1);
 		}
@@ -125,6 +129,31 @@ public class Message implements Serializable
 			System.exit (1);
 		}
 		studentId = id;
+	}
+	
+	/**
+	 *  Message instantiation (form 5).
+	 *
+	 *     @param type message type
+	 *     @param id student being answered identification
+	 *     @param state waiter state
+	 *     @param dif differ from form 4
+	 */
+
+	public Message (int type, int studentIdBeingAnswered, int state, boolean dif)
+	{
+		msgType = type;
+		int entity = getEntitieFromMessageType(type);
+		if (entity != 2) {	// Not a Student entity Type Message
+			GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation on Student!");
+			System.exit (1);
+		}
+		waiterState = state;
+		if ( studentIdBeingAnswered < 0 || studentIdBeingAnswered  >= ExecuteConst.N) {	// Not a valid Student id
+			GenericIO.writelnString ("Invalid student id");
+			System.exit (1);
+		}
+		this.studentIdBeingAnswered = studentIdBeingAnswered;
 	}
 
 	/**
@@ -156,7 +185,12 @@ public class Message implements Serializable
 	 * 	@return student id
 	 */
 	public int getStudentId() { return (studentId); }
-
+	
+	/**
+	 * Getting student being answered id
+	 * @return studentIdBeingAnswered
+	 */
+	public int getStudentIdBeingAnswered() {return (studentIdBeingAnswered); }
 
 	/**
 	 * Get have all portions been delivered
@@ -180,28 +214,29 @@ public class Message implements Serializable
 		switch(messageType)
 		{
 		// Chef messages
-		case MessageType.REQWATTNWS: case MessageType.REPWATTNWS:
-		case MessageType.REQSTRPR: case MessageType.REPSTRPR:
-		case MessageType.REQPROCPREP: case MessageType.REPPROCPREP:
-		case MessageType.REQHVPRTDLVD: case MessageType.REPHVPRTDLVD:
-		case MessageType.REQHORDCOMPL: case MessageType.REPHORDCOMPL:
-		case MessageType.REQCONTPREP: case MessageType.REPCONTPREP :
-		case MessageType.REQHAVNEXPORRD: case MessageType.REPHAVNEXPORRD:
-		case MessageType.REQCLEANUP: case MessageType.REPCLEANUP:
+		case MessageType.REQWATTNWS: 		case MessageType.REPWATTNWS:
+		case MessageType.REQSTRPR: 			case MessageType.REPSTRPR:
+		case MessageType.REQPROCPREP: 		case MessageType.REPPROCPREP:
+		case MessageType.REQHVPRTDLVD: 		case MessageType.REPHVPRTDLVD:
+		case MessageType.REQHORDCOMPL: 		case MessageType.REPHORDCOMPL:
+		case MessageType.REQCONTPREP: 		case MessageType.REPCONTPREP :
+		case MessageType.REQHAVNEXPORRD: 	case MessageType.REPHAVNEXPORRD:
+		case MessageType.REQCLEANUP: 		case MessageType.REPCLEANUP:
 			return 1;
 		// Waiter messages
-		case MessageType.REQALRTWAIT: case MessageType.REPALRTWAIT:
-		case MessageType.REQLOOKARND:	case MessageType.REPLOOKARND:
-		case MessageType.REQRETURNTOBAR: case MessageType.REPRETURNTOBAR:
-		case MessageType.REQCOLLPORT: case MessageType.REPCOLLPORT:
-		case MessageType.REQPRPREBILL: case MessageType.REPPRPREBILL:
-		case MessageType.REQSAYGDBYE: case MessageType.REPSAYGDBYE:
+		case MessageType.REQALRTWAIT: 		case MessageType.REPALRTWAIT:
+		case MessageType.REQLOOKARND:		case MessageType.REPLOOKARND:
+		case MessageType.REQRETURNTOBAR: 	case MessageType.REPRETURNTOBAR:
+		case MessageType.REQCOLLPORT: 		case MessageType.REPCOLLPORT:
+		case MessageType.REQPRPREBILL: 		case MessageType.REPPRPREBILL:
+		case MessageType.REQSAYGDBYE: 		case MessageType.REPSAYGDBYE:
+		case MessageType.REQSALUTCLI: 		case MessageType.REPSALUTCLI:
 			return 2;
 		// Student messages
-		case MessageType.REQENTER: case MessageType.REPENTER:
-		case MessageType.REQCALLWAI: case MessageType.REPCALLWAI:
-		case MessageType.REQSIGWAI: case MessageType.REPSIGWAI:
-		case MessageType.REQEXIT: case MessageType.REPEXIT:
+		case MessageType.REQENTER: 			case MessageType.REPENTER:
+		case MessageType.REQCALLWAI: 		case MessageType.REPCALLWAI:
+		case MessageType.REQSIGWAI: 		case MessageType.REPSIGWAI:
+		case MessageType.REQEXIT: 			case MessageType.REPEXIT:
 			return 3;
 		default:
 			return -1;
