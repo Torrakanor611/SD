@@ -184,4 +184,207 @@ public class MessageType
 	 * Operation exit (reply)
 	 */
 	public static final int REPEXIT = 45;
+
+
+	//---------TABLE INPUT/OUTPUT MESSAGES---------//
+
+	/**
+	 * Operation salute the client (request)
+	 */
+	public static final int REQSALUTCLI = 60;
+
+	/**
+	 * Operation salute the client (reply)
+	 */
+	public static final int REPSALUTCLI = 61;
+
+	/**
+	 * Operation return to the bar (request)
+	 */
+	public static final int REQRTRNBAR = 62;
+
+	/**
+	 * Operation return to the bar (reply)
+	 */
+	public static final int REPRTRNBAR = 63;
+
+	/**
+	 * Operation get the pad (request)
+	 */
+	public static final int REQGETPAD = 64;
+
+	/**
+	 * Operation get the pad (reply)
+	 */
+	public static final int REPGETPAD = 65;
+
+	/**
+	 * Operation have all clients been served (request)
+	 */
+	public static final int REQALLCLISERVED = 66;
+
+	/**
+	 * Operation have all clients been served (reply)
+	 */
+	public static final int REPALLCLISERVED = 67;
+
+	/**
+	 * Operation deliver portion (request)
+	 */
+	public static final int REQDELPOR = 68;
+
+	/**
+	 * Operation deliver portion (reply)
+	 */
+	public static final int REPDELPOR = 69;
+
+	/**
+	 * Operation present the bill (request)
+	 */
+	public static final int REQPRESBILL = 70;
+
+	/**
+	 * Operation present the bill (reply)
+	 */
+	public static final int REPPRESBILL = 71;
+
+	/**
+	 * Operation seat at table (request)
+	 */
+	public static final int REQSEATTABLE = 72;
+
+	/**
+	 * Operation seat at table (reply)
+	 */
+	public static final int REPSEATTABLE = 73;
+
+	/**
+	 * Operation read the menu (request)
+	 */
+	public static final int REQRDMENU = 74;
+
+	/**
+	 * Operation read the menu (reply)
+	 */
+	public static final int REPRDMENU = 75;
+
+	/**
+	 * Operation present the bill (request)
+	 */
+	public static final int REQPREPORDER = 76;
+
+	/**
+	 * Operation present the bill (reply)
+	 */
+	public static final int REPPREPORDER = 77;
+
+	/**
+	 * Operation every body has chosen (request)
+	 */
+	public static final int REQEVERYBDYCHO = 78;
+
+	/**
+	 * Operation every body has chosen (reply)
+	 */
+	public static final int REPEVERYBDYCHO = 79;
+
+	/**
+	 * Operation add up one choices (request)
+	 */
+	public static final int REQADDUP1CHOI = 80;
+
+	/**
+	 * Operation add up ones choices (reply)
+	 */
+	public static final int REPADDUP1CHOI = 81;
+
+	/**
+	 * Operation describe order (request)
+	 */
+	public static final int REQDESCRORDER = 82;
+
+	/**
+	 * Operation describe order (reply)
+	 */
+	public static final int REPDESCORDER = 83;
+
+	/**
+	 * Operation join talk (request)
+	 */
+	public static final int REQJOINTALK = 84;
+
+	/**
+	 * Operation join talk (reply)
+	 */
+	public static final int REPJOINTALK = 85;
+
+	/**
+	 * Operation inform companion (request)
+	 */
+	public static final int REQINFORMCOMP = 86;
+
+	/**
+	 * Operation inform companion (reply)
+	 */
+	public static final int REPINFORMCOMP = 87;
+
+	/**
+	 * Operation start eating (request)
+	 */
+	public static final int REQSRTEATING = 88;
+
+	/**
+	 * Operation start eating (reply)
+	 */
+	public static final int REPSRTEATING = 89;
+
+	/**
+	 * Operation end eating (request)
+	 */
+	public static final int REQENDEATING = 90;
+
+	/**
+	 * Operation end eating (reply)
+	 */
+	public static final int REPENDEATING = 91;
+
+	/**
+	 * Operation has every body finished eating (request)
+	 */
+	public static final int REQEVERYBDFINISHEAT = 92;
+
+	/**
+	 * Operation has every body finished eating (reply)
+	 */
+	public static final int REPEVERYBDFINISHEAT = 93;
+
+	/**
+	 * Operation honour bill (request)
+	 */
+	public static final int REQHONBILL = 94;
+
+	/**
+	 * Operation honour bill (reply)
+	 */
+	public static final int REPHONBILL = 95;
+
+	/**
+	 * Operation have all courses been eaten (request)
+	 */
+	public static final int REQALLCOURBEENEAT = 96;
+
+	/**
+	 * Operation have all courses been eaten (reply)
+	 */
+	public static final int REPALLCOURBEENEAT = 97;
+
+	/**
+	 * Operation should have arrived earlier (request)
+	 */
+	public static final int REQSHOULDARREARLY = 98;
+
+	/**
+	 * Operation should have arrived earlier (reply)
+	 */
+	public static final int REPSHOULDARREARLY = 99;
 }
