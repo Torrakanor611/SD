@@ -65,13 +65,13 @@ public class KitchenStub {
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		if(inMessage.getChefState() != ChefStates.WAITING_FOR_AN_ORDER)
+		if(inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		((Chef) Thread.currentThread ()).setChefState (inMessage.getBarbState ());
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getChefState());
 		com.close ();
 	}
 	
@@ -108,13 +108,13 @@ public class KitchenStub {
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		if(inMessage.getChefState() != ChefStates.PREPARING_THE_COURSE)
+		if(inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		((Chef) Thread.currentThread ()).setChefState (inMessage.getBarbState ());
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getChefState());
 		//Close communication channel
 		com.close ();
 	}
@@ -140,24 +140,24 @@ public class KitchenStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType.REQPRCPRST, ((Chef) Thread.currentThread()).getChefState());
+		outMessage = new Message (MessageType.REQPROCPREP, ((Chef) Thread.currentThread()).getChefState());
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.REPPRCPRST)
+		if(inMessage.getMsgType() != MessageType.REPPROCPREP)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		if(inMessage.getChefState() != ChefStates.DISHING_THE_PORTIONS)
+		if(inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		((Chef) Thread.currentThread ()).setChefState (inMessage.getBarbState ());
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getChefState());
 		//Close communication channel
 		com.close ();		
 	}
@@ -174,7 +174,6 @@ public class KitchenStub {
 	 */
 	public synchronized boolean haveAllPortionsBeenDelivered() 
 	{ 
-		////(/INCOMLPETO COMPLEtar AMANHR
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
 		
@@ -187,28 +186,24 @@ public class KitchenStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType.REQPRCPRST, ((Chef) Thread.currentThread()).getChefState());
+		outMessage = new Message (MessageType.REQHVPRTDLVD);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.REPPRCPRST)
+		if(inMessage.getMsgType() != MessageType.REPHVPRTDLVD)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		if(inMessage.getChefState() != ChefStates.DISHING_THE_PORTIONS)
-		{
-			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
-			GenericIO.writelnString (inMessage.toString ());
-			System.exit (1);
-		}
 		//Close communication channel
 		com.close ();
-		((Chef) Thread.currentThread ()).setChefState (inMessage.getBarbState ());
 		return inMessage.getAllPortionsBeenDelivered();
 	}
+	
+	
+	
 	
 	/**
 	 *	Operation has order been completed
@@ -216,47 +211,295 @@ public class KitchenStub {
 	 * 	It is called by the chef when he finishes preparing all courses to check if order has been completed or not
 	 * 	@return true if all courses have been completed, false or not
 	 */
-	public synchronized boolean hasOrderBeenCompleted() { return true; }
+	public synchronized boolean hasOrderBeenCompleted()
+	{
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQHORDCOMPL);
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPHORDCOMPL)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		
+		//Close communication channel
+		com.close ();
+		return inMessage.getHasOrderBeenCompleted();
+	}
+	
+	
 	
 	/**
 	 * 	Operation continue preparation
 	 * 
 	 * 	It is called by the chef when all portions have been delivered, but the course has not been completed yet
 	 */
-	public synchronized void continuePreparation() { }
+	public synchronized void continuePreparation() 
+	{ 
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQCONTPREP, ((Chef) Thread.currentThread()).getChefState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPCONTPREP)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getChefState());
+		//Close communication channel
+		com.close ();
+	}
+	
+	
 	
 	/**
 	 * Operation have next portion ready
 	 * 
 	 * It is called by the chef after a portion has been delivered and another one needs to be prepared
 	 */
-	public synchronized void haveNextPortionReady() { }
+	public synchronized void haveNextPortionReady() 
+	{ 
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQHAVNEXPORRD, ((Chef) Thread.currentThread()).getChefState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPHAVNEXPORRD)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getChefState());
+		//Close communication channel
+		com.close ();		
+	}
+	
+	
+	
 	
 	/**
 	 * Operation clean up
 	 * 
 	 * It is called by the chef when he finishes the order, to close service
 	 */
-	public synchronized void cleanUp() { }
+	public synchronized void cleanUp() 
+	{ 
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQCLEANUP, ((Chef) Thread.currentThread()).getChefState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPCLEANUP)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid chef state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Chef) Thread.currentThread ()).setChefState (inMessage.getChefState());
+		//Close communication channel
+		com.close ();			
+	}
+	
+	
+	
 	
 	/**
 	 * Operation hand note to chef
 	 * 
 	 * Called by the waiter to wake chef up chef to give him the description of the order
 	 */	
-	public synchronized void handNoteToChef() { }
+	public synchronized void handNoteToChef() 
+	{ 
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQHNDNOTCHEF, ((Waiter) Thread.currentThread()).getWaiterState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPHNDNOTCHEF)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid waiter state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Waiter) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState());
+		//Close communication channel
+		com.close ();					
+	}
+	
+	
+	
 	
 	/**
 	 * Operation return to the bar
 	 * 
 	 * Called by the waiter when he is the kitchen and returns to the bar
 	 */
-	public synchronized void returnToBar() { }
+	public synchronized void returnToBar() 
+	{ 
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQRETURNTOBAR, ((Waiter) Thread.currentThread()).getWaiterState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPRETURNTOBAR)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid waiter state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Waiter) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState());
+		//Close communication channel
+		com.close ();			
+	}
+	
+	
 	
 	/**
 	 * Operation collect portion
 	 * 
 	 * Called by the waiter when there is a portion to be delivered. Collect and signal chef that the portion was delivered
 	 */
-	public synchronized void collectPortion() { }
+	public synchronized void collectPortion() 
+	{ 
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQCOLLPORT, ((Waiter) Thread.currentThread()).getWaiterState());
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPCOLLPORT)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid waiter state!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		((Waiter) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState());
+		//Close communication channel
+		com.close ();		
+	}
 }

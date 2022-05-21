@@ -43,50 +43,10 @@ public class Message implements Serializable
     */
    private boolean allPortionsDelivered;
    
-   
-   
-   
-  /**
-   *  Barber identification.
-   */
-
-   private int barbId = -1;
-
-  /**
-   *  Barber state.
-   */
-
-   private int barbState = -1;
-
-  /**
-   *  Customer identification.
-   */
-
-   private int custId = -1;
-
-  /**
-   *  Customer state.
-   */
-
-   private int custState = -1;
-
-  /**
-   *  End of operations (barber).
-   */
-
-   private boolean endOp = false;
-
-  /**
-   *  Name of the logging file.
-   */
-
-   private String fName = null;
-
-  /**
-   *  Number of iterations of the customer life cycle.
-   */
-
-   private int nIter = -1;
+   /**
+    * Boolean value to be transported that holds true if order has been completed, false otherwise
+    */
+   private boolean orderCompleted;
 
   
    
@@ -105,44 +65,52 @@ public class Message implements Serializable
     *  Message instantiation (form 2).
     *
     *     @param type message type
-    *     @param state chef state
+    *     @param state chef or waiter or student state
     */
     public Message (int type, int state)
     {
        msgType = type;
-       // mensagens do chef
-       if (msgType == MessageType.REQWATTNWS || 
-		   msgType == MessageType.REQSTRPR || 
-		   msgType == MessageType.REQPRCPRST || 
-		   msgType == MessageType.REQHVPRTDLVD ||
-		   msgType == MessageType.REQALRTWAIT)
+       int entitie = getEntitieFromMessageType(type);
+       
+       if(entitie == 1) //Chef message
     	   chefState = state;
-       // mensagens do waiter
-       else if (msgType == MessageType.REQLOOKARND)
+       else if (entitie == 2) //Waiter Message
     	   waiterState = state;
-       // mensagens dos students
-       else if (2 == 4)
-       		{}
-       else { GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation!");
-              System.exit (1);
-            }
+       else if (entitie == 3) //Student message
+    	   System.exit(2);
+       else { 
+    	   GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation!");
+           System.exit (1);
+       }
        
     }
+    
+    
+    
     /**
-     *  Message instantiation (form 3).
-     *
-     *     @param type message type
-     *     @param id chef state
-     *     @param allportionsDelivered used to check if all portions have been delivered
+     * Message instantiation (form 3).
+     * 
+     * 	@param type message type
+     * 	@param bValue boolean that can have haveAllPortionsBeenDeliverd, hasOrderBeenCompleted value
      */
-     public Message (int type, int state, boolean portionsDelivered)
-     {
-        msgType = type;
-        chefState = state;
-        allPortionsDelivered = portionsDelivered;
-     }  
+    public Message(int type, boolean bValue)
+    {
+    	msgType = type;
+        if (msgType == MessageType.REPHVPRTDLVD)
+        	allPortionsDelivered = bValue;
+        else if (msgType == MessageType.REQHORDCOMPL)
+        	orderCompleted = bValue;    	
+    }
+    
+  
     
     
+     
+     
+     
+     
+     
+     
   /**
    *  Message instantiation (form 2).
    *
@@ -205,20 +173,7 @@ public class Message implements Serializable
       this.custState = custState;
    }
 
-  /**
-   *  Message instantiation (form 7).
-   *
-   *     @param type message type
-   *     @param name name of the logging file
-   *     @param nIter number of iterations of the customer life cycle
-   */
 
-   public Message (int type, String name, int nIter)
-   {
-      msgType = type;
-      fName= name;
-      this.nIter = nIter;
-   }
 
   
    /**
@@ -245,50 +200,17 @@ public class Message implements Serializable
     */
    public boolean getAllPortionsBeenDelivered() { return (allPortionsDelivered); }
    
-   
    /**
-   *  Getting barber identification.
-   *
-   *     @return barber identification
-   */
+    * Get has the order been completed value
+    * @return true if order has been completed, false otherwise
+    */
+   public boolean getHasOrderBeenCompleted() { return (orderCompleted); }
 
-   public int getBarbId ()
-   {
-      return (barbId);
-   }
-
-  /**
-   *  Getting barber state.
-   *
-   *     @return barber state
-   */
-
-   public int getBarbState ()
-   {
-      return (barbState);
-   }
-
-  /**
-   *  Getting customer identification.
-   *
-   *     @return customer identification
-   */
-
-   public int getCustId ()
-   {
-      return (custId);
-   }
-
-  /**
-   *  Getting customer state.
-   *
-   *     @return customer state
-   */
-
-   public int getCustState ()
-   {
-      return (custState);
-   }
+   
+   
+   
+   
+   
 
   /**
    *  Getting end of operations flag (barber).
@@ -320,9 +242,41 @@ public class Message implements Serializable
 
    public int getNIter ()
    {
-      return (nIter);
+	   return (nIter);
    }
 
+   /**
+    * For a given message type, get the entity that called it (chef, waiter or student) 
+    * @param messageType type of the message
+    * @return 1 if called by chef, 2 if called bye waiter and 3 if called by student
+    */
+   public int getEntitieFromMessageType(int messageType)
+   {
+	   switch(messageType)
+	   {
+         //Chef messages
+         case MessageType.REQWATTNWS: case MessageType.REPWATTNWS:
+         case MessageType.REQSTRPR: case MessageType.REPSTRPR:
+         case MessageType.REQPROCPREP: case MessageType.REPPROCPREP:
+         case MessageType.REQHVPRTDLVD: case MessageType.REPHVPRTDLVD:
+         case MessageType.REQHORDCOMPL: case MessageType.REPHORDCOMPL:
+         case MessageType.REQCONTPREP: case MessageType.REPCONTPREP :
+         case MessageType.REQHAVNEXPORRD: case MessageType.REPHAVNEXPORRD:
+         case MessageType.REQCLEANUP: case MessageType.REPCLEANUP:
+            return 1;
+         //Waiter messages
+         case MessageType.REQALRTWAIT: case MessageType.REPALRTWAIT:
+	     case MessageType.REQLOOKARND:	case MessageType.REPLOOKARND:
+	     case MessageType.REQRETURNTOBAR: case MessageType.REPRETURNTOBAR:
+	     case MessageType.REQCOLLPORT: case MessageType.REPCOLLPORT:
+            return 2;
+         //Student messages
+        default:
+        	return -1;
+	   }
+   }
+   
+   
   /**
    *  Printing the values of the internal fields.
    *
@@ -336,14 +290,7 @@ public class Message implements Serializable
    {
       return ("Message type = " + msgType +
     		  "\nChef State = " + chefState +
-    		  "\nAll Portions Been Delivered = " + allPortionsDelivered +
-              
-    		  "\nBarber Id = " + barbId +
-              "\nBarber State = " + barbState +
-              "\nCustomer Id = " + custId +
-              "\nCustomer State = " + custState +
-              "\nEnd of Operations (barber) = " + endOp +
-              "\nName of logging file = " + fName +
-              "\nNumber of iterations = " + nIter);
+    		  "\nAll Portions Been Delivered = " + allPortionsDelivered + 
+    		  "\nHas the Order been completed = " + orderCompleted);
    }
 }
