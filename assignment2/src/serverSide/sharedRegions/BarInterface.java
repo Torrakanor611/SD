@@ -46,21 +46,21 @@ public class BarInterface {
 		{
 		// Chef Messages that require type and state verification
 		case MessageType.REQWATTNWS: 		// Alert the Waiter Request
-			if (inMessage.getChefState() > ChefStates.WAITING_FOR_AN_ORDER && inMessage.getChefState() < ChefStates.CLOSING_SERVICE)
+			if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
 				throw new MessageException ("Invalid Chef state!", inMessage);
 			break;
 			// Waiter Messages that require type and state verification
 		case MessageType.REQLOOKARND: 		// Look around Request
 		case MessageType.REQPRPREBILL: 		// Prepare the bill Request
 		case MessageType.REQSAYGDBYE: 		// Say goodbye Request
-			if (inMessage.getWaiterState() > WaiterStates.APRAISING_SITUATION && inMessage.getWaiterState() < WaiterStates.RECEIVING_PAYMENT)
+			if (inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
 				throw new MessageException("Inavlid Waiter state!", inMessage);
 			// Student Messages that require type, state and id verification (done in Message Constructor)
 		case MessageType.REQENTER:			// Enter Request
 		case MessageType.REQCALLWAI:		// Call the waiter Request
 		case MessageType.REQSIGWAI:			// Signal the waiter Request
 		case MessageType.REQEXIT:			// exit Request
-			if (inMessage.getStudentState() > StudentStates.GOING_TO_THE_RESTAURANT && inMessage.getStudentState() < StudentStates.GOING_HOME)
+			if (inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
 				throw new MessageException("Inavlid Student state!", inMessage);
 		default:
 			throw new MessageException ("Invalid message type!", inMessage);
