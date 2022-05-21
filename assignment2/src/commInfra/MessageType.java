@@ -269,12 +269,12 @@ public class MessageType
 	public static final int REPRDMENU = 75;
 
 	/**
-	 * Operation present the bill (request)
+	 * Operation prepare the order (request)
 	 */
 	public static final int REQPREPORDER = 76;
 
 	/**
-	 * Operation present the bill (reply)
+	 * Operation prepare the order (reply)
 	 */
 	public static final int REPPREPORDER = 77;
 
@@ -306,7 +306,7 @@ public class MessageType
 	/**
 	 * Operation describe order (reply)
 	 */
-	public static final int REPDESCORDER = 83;
+	public static final int REPDESCRORDER = 83;
 
 	/**
 	 * Operation join talk (request)
