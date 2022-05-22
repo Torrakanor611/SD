@@ -17,9 +17,9 @@ public class ClientChef {
 	 *
 	 *    @param args runtime arguments
 	 *        args[0] - name of the platform where is located the Kitchen server
-	 *        args[1] - port nunber for listening to service requests
+	 *        args[1] - port number for listening to service requests
      *		  args[2] - name of the platform where is located the Bar server
-	 *        args[3] - port nunber for listening to service requests
+	 *        args[3] - port number for listening to service requests
 	 *        args[4] - name of the platform where is located the General Repository server
 	 *        args[5] - port number for listening to service requests
 	 */
