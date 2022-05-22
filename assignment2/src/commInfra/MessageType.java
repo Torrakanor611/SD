@@ -99,7 +99,14 @@ public class MessageType
 	 * Waiter - Operation collect portion (reply)
 	 */
 	public static final int REPCOLLPORT = 22;
-
+	/**
+	 * Additional - Operation kitchen server shutdown (request)
+	 */
+	public static final int REQKITSHUT = 23;
+	/**
+	 * Additional - Operation kitchen server shutdown (reply)
+	 */
+	public static final int REPKITSHUT = 24;
 
 
 
@@ -177,7 +184,16 @@ public class MessageType
 	 * Additional - Operation get student being answered (reply)
 	 */
 	public static final int REPGETSTDBEIANSW = 47;
-
+	/**
+	 * Additional - Operation bar server shutdown (request)
+	 */
+	public static final int REQBARSHUT = 48;
+	/**
+	 * Additional - Operation bar server shutdown (reply)
+	 */
+	public static final int REPBARSHUT = 49;
+	
+	
 	
 	
 	//---------TABLE INPUT/OUTPUT MESSAGES---------//
@@ -375,7 +391,14 @@ public class MessageType
 	 * Additional - Operation set last to arrive (reply)
 	 */
 	public static final int REPSETLSTARR = 107;
-
+	/**
+	 * Additional - Operation table server shutdown (request)
+	 */
+	public static final int REQTABSHUT = 108;
+	/**
+	 * Additional - Operation table server shutdown (reply)
+	 */
+	public static final int REPTABSHUT = 109;
 	
 	
 	

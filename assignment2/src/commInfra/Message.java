@@ -526,6 +526,9 @@ public class Message implements Serializable
 			case MessageType.REQGETLSTEAT:		case MessageType.REPGETLSTEAT:
 			case MessageType.REQSETFRSTARR:		case MessageType.REPSETFRSTARR:
 			case MessageType.REQSETLSTARR:		case MessageType.REPSETLSTARR:
+			case MessageType.REQKITSHUT:		case MessageType.REPKITSHUT:
+			case MessageType.REQBARSHUT:		case MessageType.REPBARSHUT:
+			case MessageType.REQTABSHUT:		case MessageType.REPTABSHUT:
 				return 4;
 			//GeneralRepo Message
 			case MessageType.REQINITSIMUL:		 case MessageType.REPINITSIMUL:
@@ -538,6 +541,7 @@ public class Message implements Serializable
 			case MessageType.REQSETNPORTIONS:	 case MessageType.REPSETNPORTIONS:
 			case MessageType.REQUPDSEATSTABLE:	 case MessageType.REPUPDSEATSTABLE:
 			case MessageType.REQUPDSEATSTABLELV: case MessageType.REPUPDSEATSTABLELV:
+			case MessageType.REQGENERALREPOSHUT: case MessageType.REPGENERALREPOSHUT:
 				return 5;
 			default:
 				return -1;

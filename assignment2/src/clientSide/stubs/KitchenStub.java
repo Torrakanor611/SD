@@ -83,7 +83,7 @@ public class KitchenStub {
 	 * 	It is called by the chef after waiter has notified him of the order to be prepared 
 	 * 	to signal that preparation of the course has started
 	 */
-	public synchronized void startPreparation() 
+	public void startPreparation() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -126,7 +126,7 @@ public class KitchenStub {
 	 * 
 	 * 	It is called by the chef when a portion needs to be prepared
 	 */
-	public synchronized void proceedPreparation() 
+	public void proceedPreparation() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -172,7 +172,7 @@ public class KitchenStub {
 	 * 	It is also here were the chef blocks waiting for waiter do deliver the current portion
 	 * 	@return true if all portions have been delivered, false otherwise
 	 */
-	public synchronized boolean haveAllPortionsBeenDelivered() 
+	public boolean haveAllPortionsBeenDelivered() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -211,7 +211,7 @@ public class KitchenStub {
 	 * 	It is called by the chef when he finishes preparing all courses to check if order has been completed or not
 	 * 	@return true if all courses have been completed, false or not
 	 */
-	public synchronized boolean hasOrderBeenCompleted()
+	public boolean hasOrderBeenCompleted()
 	{
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -249,7 +249,7 @@ public class KitchenStub {
 	 * 
 	 * 	It is called by the chef when all portions have been delivered, but the course has not been completed yet
 	 */
-	public synchronized void continuePreparation() 
+	public void continuePreparation() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -292,7 +292,7 @@ public class KitchenStub {
 	 * 
 	 * It is called by the chef after a portion has been delivered and another one needs to be prepared
 	 */
-	public synchronized void haveNextPortionReady() 
+	public void haveNextPortionReady() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -336,7 +336,7 @@ public class KitchenStub {
 	 * 
 	 * It is called by the chef when he finishes the order, to close service
 	 */
-	public synchronized void cleanUp() 
+	public void cleanUp() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -380,7 +380,7 @@ public class KitchenStub {
 	 * 
 	 * Called by the waiter to wake chef up chef to give him the description of the order
 	 */	
-	public synchronized void handNoteToChef() 
+	public void handNoteToChef() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -424,7 +424,7 @@ public class KitchenStub {
 	 * 
 	 * Called by the waiter when he is the kitchen and returns to the bar
 	 */
-	public synchronized void returnToBar() 
+	public void returnToBar() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -467,7 +467,7 @@ public class KitchenStub {
 	 * 
 	 * Called by the waiter when there is a portion to be delivered. Collect and signal chef that the portion was delivered
 	 */
-	public synchronized void collectPortion() 
+	public void collectPortion() 
 	{ 
 		ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
@@ -500,6 +500,40 @@ public class KitchenStub {
 		}
 		((Waiter) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState());
 		//Close communication channel
-		com.close ();		
+		com.close ();	
+	}
+	
+	
+	
+	/**
+	 * Operation server shutdown
+	 */
+	public void shutdown()
+	{
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+		
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQKITSHUT);
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPKITSHUT)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		//Close communication channel
+		com.close ();			
 	}
 }
