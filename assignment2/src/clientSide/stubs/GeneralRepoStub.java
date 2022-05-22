@@ -1,6 +1,5 @@
 package clientSide.stubs;
 
-import clientSide.entities.Student;
 import commInfra.ClientCom;
 import commInfra.Message;
 import commInfra.MessageType;
@@ -159,12 +158,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType., state);
+		outMessage = new Message (MessageType.REQSETWAIST, state);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPSETWAIST)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -194,12 +193,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType., id, state);
+		outMessage = new Message (MessageType.REQUPDTSTUST1, id, state);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPUPDTSTUST1)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -230,12 +229,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType., id, state, hold);
+		outMessage = new Message (MessageType.REQUPDTSTUST2, id, state, hold);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPUPDTSTUST2)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -263,12 +262,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType., value);
+		outMessage = new Message (MessageType.REQSETNCOURSES, value);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPSETNCOURSES)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -297,12 +296,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType., value);
+		outMessage = new Message (MessageType.REQSETNPORTIONS, value);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPSETNPORTIONS)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -332,12 +331,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType., id, seat);
+		outMessage = new Message (MessageType.REQUPDSEATSTABLE, id, seat);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPUPDSEATSTABLE)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -366,12 +365,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType., id);
+		outMessage = new Message (MessageType.REQUPDSEATSTABLELV, id);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPUPDSEATSTABLELV)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -379,5 +378,41 @@ public class GeneralRepoStub {
 		}
 		//Close communication channel
 		com.close ();		
+	}
+	
+	
+	
+	/**
+	 *   Operation server shutdown.
+	 *
+	 *   New operation.
+	 */
+	public void shutdown ()
+	{
+		ClientCom com;					//Client communication
+		Message outMessage, inMessage; 	//outGoing and inGoing messages
+			
+		com = new ClientCom (serverHostName, serverPortNumb);
+		//Wait for a connection to be established
+		while(!com.open())
+		{	try 
+		  	{ Thread.currentThread ().sleep ((long) (10));
+		  	}
+			catch (InterruptedException e) {}
+		}
+		
+		outMessage = new Message (MessageType.REQGENERALREPOSHUT);
+		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		inMessage = (Message) com.readObject(); //Read inGoing message
+		
+		//Validate inGoing message type and arguments
+		if(inMessage.getMsgType() != MessageType.REPGENERALREPOSHUT)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		//Close communication channel
+		com.close ();
 	}
 }

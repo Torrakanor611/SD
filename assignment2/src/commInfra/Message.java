@@ -117,6 +117,26 @@ public class Message implements Serializable
 	 */
 	private String filename;
 	
+	/**
+	 * Holds the number of courses served (to be used in general repo)
+	 */
+	private int nCourses;
+	
+	/**
+	 * Holds the number of portions served (to be used in general repo)
+	 */
+	private int nPortions;
+	
+	/**
+	 * Holds the value of a specific seat at the table
+	 */
+	private int seatAtTable;
+	
+	/**
+	 * Holds a value true or false depending if is necessary to print a reportStatus line or not
+	 */
+	private boolean hold;
+	
 
 	/**
 	 *  Message instantiation (form 1).
@@ -132,7 +152,8 @@ public class Message implements Serializable
 	 *  Message instantiation (form 2).
 	 *
 	 *     @param type message type
-	 *     @param stateOrId chef, waiter or student state, or student id or id of studentBeingAnswered
+	 *     @param stateOrId chef, waiter or student state, or student id or id of studentBeingAnswered 
+	 *     	or nCourses value or nPortions value
 	 */
 	public Message (int type, int stateOrId)
 	{
@@ -161,9 +182,17 @@ public class Message implements Serializable
 			else if (msgType == MessageType.REQSETLSTARR)
 				lastToArrive = stateOrId;
 		}
-		else if (entitie == 5) {
+		else if (entitie == 5) {	//General repository messages
 			if (msgType == MessageType.REQSETCHST)
 				chefState = stateOrId;
+			else if (msgType == MessageType.REQSETWAIST)
+				waiterState = stateOrId;
+			else if (msgType == MessageType.REQSETNCOURSES)
+				nCourses = stateOrId;
+			else if (msgType == MessageType.REQSETNPORTIONS)
+				nPortions = stateOrId;
+			else if (msgType == MessageType.REQUPDSEATSTABLELV)
+				studentId = stateOrId;
 		}
 		else { 
 			GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation!");
@@ -202,19 +231,26 @@ public class Message implements Serializable
 	 *
 	 *     @param type message type
 	 *     @param id student identification
-	 *     @param state student state
+	 *     @param state student state or seat at the table (when used in the general repos functions)
 	 */
 
-	public Message (int type, int id, int state)
+	public Message (int type, int id, int stateOrSeat)
 	{
 		msgType = type;
 		int entity = getEntitieFromMessageType(type);
-
-		if (entity != 3) {	// Not a Student entity Type Message
-			GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation on Student!");
-			System.exit (1);
+		
+		if (msgType == MessageType.REQUPDSEATSTABLE)
+			seatAtTable = stateOrSeat;
+		else 
+		{
+			if ((entity != 3) || msgType != MessageType.REQUPDTSTUST1) {	// Not a Student entity Type Message
+				GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation on Student!");
+				System.exit (1);
+			}
+			studentState = stateOrSeat;
 		}
-		studentState = state;
+		
+		//Update studentId
 		if ( id < 0 || id  >= ExecuteConst.N) {	// Not a valid Student id
 			GenericIO.writelnString ("Invalid student id");
 			System.exit (1);
@@ -244,15 +280,18 @@ public class Message implements Serializable
 	 *     @param type message type
 	 *     @param id of the student
 	 *     @param state student state
-	 *     @param shouldArrived shouldHaveArrived Earlier value
+	 *     @param shouldArrived shouldHaveArrived Earlier value or hold value (used in general repos
 	 */
 
-	public Message (int type, int id, int state, boolean shouldArrived)
+	public Message (int type, int id, int state, boolean bValue)
 	{
 		msgType = type;
 		studentId = id;
 		studentState = state;
-		shouldArrivedEarlier = shouldArrived;
+		if(msgType == MessageType.REQSHOULDARREARLY)
+			shouldArrivedEarlier = bValue;
+		else if (msgType == MessageType.REQUPDTSTUST2)
+			hold = bValue;
 	}
 	
 	
@@ -267,6 +306,11 @@ public class Message implements Serializable
 		requestType = c;		
 	}
 	
+	/**
+	 * 	Message instantiation (form 8).
+	 * 		@param type message type
+	 * 		@param name name of the logging file
+	 */
 	public Message(int type, String name)
 	{
 		msgType = type;
@@ -393,6 +437,34 @@ public class Message implements Serializable
 	 * @return filename
 	 */
 	public String getFilename() { return (filename); }
+	
+	/**
+	 * Get seatAtTable value
+	 * @return the value of the variable seatAtTable
+	 */
+	public int getSeatAtTable() { return (seatAtTable); }
+	
+	/**
+	 * Get nCourses value
+	 * @return nCourses value
+	 */
+	public int getNCourses() { return (nCourses); }
+	
+	/**
+	 * Get nPortions value
+	 * @return nPortions value
+	 */
+	public int getNPortions() { return (nPortions); }
+	
+	/**
+	 * Get hold variable value
+	 * @return the value of hold variable used to specify if is necessary to print report status or not
+	 */
+	public boolean getHold() { return (hold); }
+	
+	
+	
+	
 	/**
 	 * For a given message type, get the entity that called it (chef, waiter or student) 
 	 * @param messageType type of the message

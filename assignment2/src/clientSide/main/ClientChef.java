@@ -34,8 +34,7 @@ public class ClientChef {
 		int kitServerPortNumb, barServerPortNumb;
 		
 		/* Getting problem runtime parameters */
-		
-		chef = new Chef("chef",kitStub, barStub); 
+; 
 	}
 
 }

@@ -461,5 +461,13 @@ public class MessageType
 	 * Operation update seats at table at leaving (reply)
 	 */
 	public static final int REPUPDSEATSTABLELV = 139;
+	/**
+	 * Operation shut down general repository (request)
+	 */
+	public static final int REQGENERALREPOSHUT = 140;
+	/**
+	 * Operation shut down general repository (reply)
+	 */
+	public static final int REPGENERALREPOSHUT = 141;
 }
 
