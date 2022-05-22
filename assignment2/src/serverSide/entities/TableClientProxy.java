@@ -7,6 +7,12 @@ import commInfra.ServerCom;
 import genclass.GenericIO;
 import serverSide.sharedRegions.TableInterface;
 
+/**
+ *  Service provider agent for access to the General Repository of Information.
+ *
+ *    Implementation of a client-server model of type 2 (server replication).
+ *    Communication is based on a communication channel under the TCP protocol.
+ */
 public class TableClientProxy extends Thread implements WaiterCloning, StudentCloning {
 
 	/**
@@ -117,7 +123,7 @@ public class TableClientProxy extends Thread implements WaiterCloning, StudentCl
 	 * Get waiter state
 	 *	@return state of the waiter
 	 */
-	public int getWaiterState() { return studentState;	}
+	public int getWaiterState() { return waiterState;	}
 
 	/**
 	 * Set studentBeingAnswered Id
