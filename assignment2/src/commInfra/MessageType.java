@@ -106,285 +106,274 @@ public class MessageType
 	//---------BAR INPUT/OUTPUT MESSAGES---------//
 
 	/**
-	 * Operation watching the news (request)
+	 * Chef - Operation alert the waiter (request)
 	 */
 	public static final int REQALRTWAIT = 30;
-
 	/**
-	 * Operation watching the news (reply)
+	 * Chef - Operation alert the waiter (reply)
 	 */
 	public static final int REPALRTWAIT = 31;
-
 	/**
-	 * Operation look around (request)
+	 * Waiter - Operation look around (request)
 	 */
 	public static final int REQLOOKARND = 32;
-
 	/**
-	 * Operation look around (reply)
+	 * Waiter - Operation look around (reply)
 	 */
 	public static final int REPLOOKARND = 33;
-
 	/**
-	 * Operation prepare Bill (request)
+	 * Waiter - Operation prepare Bill (request)
 	 */
 	public static final int REQPRPREBILL = 34;
-
 	/**
-	 * Operation prepare Bill (reply)
+	 * Waiter - Operation prepare Bill (reply)
 	 */
 	public static final int REPPRPREBILL = 35;
-
 	/**
-	 * Operation say goodbye (request)
+	 * Waiter - Operation say goodbye (request)
 	 */
 	public static final int REQSAYGDBYE = 36;
-
 	/**
-	 * Operation say goodbye (reply)
+	 * Waiter - Operation say goodbye (reply)
 	 */
 	public static final int REPSAYGDBYE = 37;
-
 	/**
-	 * Operation enter (request)
+	 * Student - Operation enter (request)
 	 */
 	public static final int REQENTER = 38;
-
 	/**
-	 * Operation enter (reply)
+	 * Student - Operation enter (reply)
 	 */
 	public static final int REPENTER = 39;
-
 	/**
-	 * Operation call waiter (request)
+	 * Student - Operation call waiter (request)
 	 */
 	public static final int REQCALLWAI = 40;
-
 	/**
-	 * Operation call waiter (reply)
+	 * Student - Operation call waiter (reply)
 	 */
 	public static final int REPCALLWAI = 41;
-
 	/**
-	 * Operation signal waiter (request)
+	 * Student - Operation signal waiter (request)
 	 */
 	public static final int REQSIGWAI = 42;
-
 	/**
-	 * Operation signal waiter (reply)
+	 * Student - Operation signal waiter (reply)
 	 */
 	public static final int REPSIGWAI = 43;
-
 	/**
-	 * Operation exit (request)
+	 * Student - Operation exit (request)
 	 */
 	public static final int REQEXIT = 44;
-
 	/**
-	 * Operation exit (reply)
+	 * Student - Operation exit (reply)
 	 */
 	public static final int REPEXIT = 45;
+	/**
+	 * Additional - Operation get student being answered (request)
+	 */
+	public static final int REQGETSTDBEIANSW = 46;
+	/**
+	 * Additional - Operation get student being answered (reply)
+	 */
+	public static final int REPGETSTDBEIANSW = 47;
 
-
+	
+	
 	//---------TABLE INPUT/OUTPUT MESSAGES---------//
 
 	/**
-	 * Operation salute the client (request)
+	 * Waiter - Operation salute the client (request)
 	 */
 	public static final int REQSALUTCLI = 60;
-
 	/**
-	 * Operation salute the client (reply)
+	 * Waiter - Operation salute the client (reply)
 	 */
 	public static final int REPSALUTCLI = 61;
-
 	/**
-	 * Operation return to the bar (request)
+	 * Waiter - Operation return to the bar (request)
 	 */
 	public static final int REQRTRNBAR = 62;
-
 	/**
-	 * Operation return to the bar (reply)
+	 * Waiter - Operation return to the bar (reply)
 	 */
 	public static final int REPRTRNBAR = 63;
-
 	/**
-	 * Operation get the pad (request)
+	 * Waiter - Operation get the pad (request)
 	 */
 	public static final int REQGETPAD = 64;
-
 	/**
-	 * Operation get the pad (reply)
+	 * Waiter - Operation get the pad (reply)
 	 */
 	public static final int REPGETPAD = 65;
-
 	/**
-	 * Operation have all clients been served (request)
+	 * Waiter - Operation have all clients been served (request)
 	 */
 	public static final int REQALLCLISERVED = 66;
-
 	/**
-	 * Operation have all clients been served (reply)
+	 * Waiter - Operation have all clients been served (reply)
 	 */
 	public static final int REPALLCLISERVED = 67;
-
 	/**
-	 * Operation deliver portion (request)
+	 * Waiter - Operation deliver portion (request)
 	 */
 	public static final int REQDELPOR = 68;
-
 	/**
-	 * Operation deliver portion (reply)
+	 * Waiter - Operation deliver portion (reply)
 	 */
 	public static final int REPDELPOR = 69;
-
 	/**
-	 * Operation present the bill (request)
+	 * Waiter - Operation present the bill (request)
 	 */
 	public static final int REQPRESBILL = 70;
-
 	/**
-	 * Operation present the bill (reply)
+	 * Waiter - Operation present the bill (reply)
 	 */
 	public static final int REPPRESBILL = 71;
-
 	/**
-	 * Operation seat at table (request)
+	 * Student - Operation seat at table (request)
 	 */
 	public static final int REQSEATTABLE = 72;
-
 	/**
-	 * Operation seat at table (reply)
+	 * Student - Operation seat at table (reply)
 	 */
 	public static final int REPSEATTABLE = 73;
-
 	/**
-	 * Operation read the menu (request)
+	 * Student - Operation read the menu (request)
 	 */
 	public static final int REQRDMENU = 74;
-
 	/**
-	 * Operation read the menu (reply)
+	 * Student - Operation read the menu (reply)
 	 */
 	public static final int REPRDMENU = 75;
-
 	/**
-	 * Operation prepare the order (request)
+	 * Student - Operation prepare the order (request)
 	 */
 	public static final int REQPREPORDER = 76;
-
 	/**
-	 * Operation prepare the order (reply)
+	 * Student - Operation prepare the order (reply)
 	 */
 	public static final int REPPREPORDER = 77;
-
 	/**
-	 * Operation every body has chosen (request)
+	 * Student - Operation every body has chosen (request)
 	 */
 	public static final int REQEVERYBDYCHO = 78;
-
 	/**
-	 * Operation every body has chosen (reply)
+	 * Student - Operation every body has chosen (reply)
 	 */
 	public static final int REPEVERYBDYCHO = 79;
-
 	/**
-	 * Operation add up one choices (request)
+	 * Student - Operation add up one choices (request)
 	 */
 	public static final int REQADDUP1CHOI = 80;
-
 	/**
-	 * Operation add up ones choices (reply)
+	 * Student - Operation add up ones choices (reply)
 	 */
 	public static final int REPADDUP1CHOI = 81;
-
 	/**
-	 * Operation describe order (request)
+	 * Student - Operation describe order (request)
 	 */
 	public static final int REQDESCRORDER = 82;
-
 	/**
-	 * Operation describe order (reply)
+	 * Student - Operation describe order (reply)
 	 */
 	public static final int REPDESCRORDER = 83;
-
 	/**
-	 * Operation join talk (request)
+	 * Student - Operation join talk (request)
 	 */
 	public static final int REQJOINTALK = 84;
-
 	/**
-	 * Operation join talk (reply)
+	 * Student - Operation join talk (reply)
 	 */
 	public static final int REPJOINTALK = 85;
-
 	/**
-	 * Operation inform companion (request)
+	 * Student - Operation inform companion (request)
 	 */
 	public static final int REQINFORMCOMP = 86;
-
 	/**
-	 * Operation inform companion (reply)
+	 * Student - Operation inform companion (reply)
 	 */
 	public static final int REPINFORMCOMP = 87;
-
 	/**
-	 * Operation start eating (request)
+	 * Student - Operation start eating (request)
 	 */
 	public static final int REQSRTEATING = 88;
-
 	/**
-	 * Operation start eating (reply)
+	 * Student - Operation start eating (reply)
 	 */
 	public static final int REPSRTEATING = 89;
-
 	/**
-	 * Operation end eating (request)
+	 * Student - Operation end eating (request)
 	 */
 	public static final int REQENDEATING = 90;
-
 	/**
-	 * Operation end eating (reply)
+	 * Student - Operation end eating (reply)
 	 */
 	public static final int REPENDEATING = 91;
-
 	/**
-	 * Operation has every body finished eating (request)
+	 * Student - Operation has every body finished eating (request)
 	 */
 	public static final int REQEVERYBDFINISHEAT = 92;
-
 	/**
-	 * Operation has every body finished eating (reply)
+	 * Student - Operation has every body finished eating (reply)
 	 */
 	public static final int REPEVERYBDFINISHEAT = 93;
-
 	/**
-	 * Operation honour bill (request)
+	 * Student - Operation honour bill (request)
 	 */
 	public static final int REQHONBILL = 94;
 
 	/**
-	 * Operation honour bill (reply)
+	 * Student - Operation honour bill (reply)
 	 */
 	public static final int REPHONBILL = 95;
-
 	/**
-	 * Operation have all courses been eaten (request)
+	 * Student - Operation have all courses been eaten (request)
 	 */
 	public static final int REQALLCOURBEENEAT = 96;
-
 	/**
-	 * Operation have all courses been eaten (reply)
+	 * Student - Operation have all courses been eaten (reply)
 	 */
 	public static final int REPALLCOURBEENEAT = 97;
-
 	/**
-	 * Operation should have arrived earlier (request)
+	 * Student - Operation should have arrived earlier (request)
 	 */
 	public static final int REQSHOULDARREARLY = 98;
-
 	/**
-	 * Operation should have arrived earlier (reply)
+	 * Student - Operation should have arrived earlier (reply)
 	 */
 	public static final int REPSHOULDARREARLY = 99;
+	/**
+	 * Additional - Operation get first to arrive (request)
+	 */
+	public static final int REQGETFRSTARR= 100;
+	/**
+	 * Additional - Operation get first to arrive (reply)
+	 */
+	public static final int REPGETFRSTARR = 101;
+	/**
+	 * Additional - Operation get last to eat (request)
+	 */
+	public static final int REQGETLSTEAT = 102;
+	/**
+	 * Additional - Operation get first to arrive (reply)
+	 */
+	public static final int REPGETLSTEAT = 103;
+	/**
+	 * Additional - Operation set first to arrive (request)
+	 */
+	public static final int REQSETFRSTARR = 104;
+	/**
+	 * Additional - Operation get first to arrive (reply)
+	 */
+	public static final int REPSETFRSTARR = 105;
+	/**
+	 * Additional - Operation set last to arrive (request)
+	 */
+	public static final int REQSETLSTARR = 106;
+	/**
+	 * Additional - Operation set last to arrive (reply)
+	 */
+	public static final int REPSETLSTARR = 107;
+	
 }

@@ -7,7 +7,6 @@ import commInfra.Message;
 import commInfra.MessageException;
 import commInfra.MessageType;
 import serverSide.entities.BarClientProxy;
-import serverSide.entities.KitchenClientProxy;
 
 public class BarInterface {
 
@@ -44,43 +43,52 @@ public class BarInterface {
 
 		switch(inMessage.getMsgType())
 		{
-		// Chef Messages that require type and state verification
-		case MessageType.REQWATTNWS: 		// Alert the Waiter Request
-			if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
-				throw new MessageException ("Invalid Chef state!", inMessage);
-			break;
+			// Chef Messages that require type and state verification
+			case MessageType.REQALRTWAIT: 		// Alert the Waiter Request
+				if (inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER || inMessage.getChefState() > ChefStates.CLOSING_SERVICE)
+					throw new MessageException ("Invalid Chef state!", inMessage);
+				break;
+			
+			//Waiter Messages that require only type verification
+			case MessageType.REQLOOKARND: 		// Look around Request
+				break;
 			// Waiter Messages that require type and state verification
-		case MessageType.REQLOOKARND: 		// Look around Request
-		case MessageType.REQPRPREBILL: 		// Prepare the bill Request
-		case MessageType.REQSAYGDBYE: 		// Say goodbye Request
-			if (inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
-				throw new MessageException("Inavlid Waiter state!", inMessage);
-			break;
+			case MessageType.REQPRPREBILL: 		// Prepare the bill Request
+			case MessageType.REQSAYGDBYE: 		// Say goodbye Request
+				if (inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
+					throw new MessageException("Inavlid Waiter state!", inMessage);
+				break;
+			
+			//Student Messages that require only type and id verification (already done in Message Constructor)
+			case MessageType.REQCALLWAI:		// Call the waiter Request
+				break;
 			// Student Messages that require type, state and id verification (done in Message Constructor)
-		case MessageType.REQENTER:			// Enter Request
-		case MessageType.REQCALLWAI:		// Call the waiter Request
-		case MessageType.REQSIGWAI:			// Signal the waiter Request
-		case MessageType.REQEXIT:			// exit Request
-			if (inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
-				throw new MessageException("Inavlid Student state!", inMessage);
-			break;
-		default:
-			throw new MessageException ("Invalid message type!", inMessage);
+			case MessageType.REQENTER:			// Enter Request
+			case MessageType.REQSIGWAI:			// Signal the waiter Request
+			case MessageType.REQEXIT:			// exit Request
+				if (inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
+					throw new MessageException("Invalid Student state!", inMessage);
+				break;
+			
+			//Aditional Messages
+			case MessageType.REQGETSTDBEIANSW:
+				break;
+			default:
+				throw new MessageException ("Invalid message type!", inMessage);
 		}
 
 		/* Processing of the incoming message */
 
 		switch(inMessage.getMsgType())
 		{
-		case MessageType.REQWATTNWS:
+		case MessageType.REQALRTWAIT:
 			((BarClientProxy) Thread.currentThread()).setChefState(inMessage.getChefState());
 			bar.alertWaiter();
-			outMessage = new Message(MessageType.REPWATTNWS, ((BarClientProxy) Thread.currentThread()).getChefState());
+			outMessage = new Message(MessageType.REPALRTWAIT, ((BarClientProxy) Thread.currentThread()).getChefState());
 			break;
 		case MessageType.REQLOOKARND:
-			((BarClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
-			bar.lookAround();
-			outMessage = new Message(MessageType.REPLOOKARND, ((BarClientProxy) Thread.currentThread()).getWaiterState());
+			char c = bar.lookAround();
+			outMessage = new Message(MessageType.REPLOOKARND, c);
 			break;
 		case MessageType.REQPRPREBILL:
 			((BarClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
@@ -89,8 +97,8 @@ public class BarInterface {
 			break;
 		case MessageType.REQSAYGDBYE:
 			((BarClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
-			bar.sayGoodbye();
-			outMessage = new Message(MessageType.REPSAYGDBYE, ((BarClientProxy) Thread.currentThread()).getWaiterState());
+			boolean b = bar.sayGoodbye();
+			outMessage = new Message(MessageType.REPSAYGDBYE, b);
 			break;
 		case MessageType.REQENTER:
 			((BarClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
@@ -99,10 +107,9 @@ public class BarInterface {
 			outMessage = new Message(MessageType.REPENTER, ((BarClientProxy) Thread.currentThread()).getStudentId(), ((BarClientProxy) Thread.currentThread()).getStudentState());
 			break;
 		case MessageType.REQCALLWAI:
-			((BarClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 			((BarClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
 			bar.callWaiter();
-			outMessage = new Message(MessageType.REPCALLWAI, ((BarClientProxy) Thread.currentThread()).getStudentId(), ((BarClientProxy) Thread.currentThread()).getStudentState());
+			outMessage = new Message(MessageType.REPCALLWAI, ((BarClientProxy) Thread.currentThread()).getStudentId());
 			break;
 		case MessageType.REQSIGWAI:
 			((BarClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
@@ -115,6 +122,10 @@ public class BarInterface {
 			((BarClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
 			bar.exit();
 			outMessage = new Message(MessageType.REPEXIT, ((BarClientProxy) Thread.currentThread()).getStudentId(), ((BarClientProxy) Thread.currentThread()).getStudentState());
+			break;
+		case MessageType.REQGETSTDBEIANSW:
+			int id = bar.getStudentBeingAnswered();
+			outMessage = new Message(MessageType.REPGETSTDBEIANSW, id);
 			break;
 		}
 
