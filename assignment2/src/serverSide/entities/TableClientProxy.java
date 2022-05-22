@@ -1,33 +1,88 @@
 package serverSide.entities;
 
 import clientSide.entities.*;
+import commInfra.Message;
+import commInfra.MessageException;
+import commInfra.ServerCom;
+import genclass.GenericIO;
+import serverSide.sharedRegions.TableInterface;
 
 public class TableClientProxy extends Thread implements WaiterCloning, StudentCloning {
-	
+
+	/**
+	 *  Number of instantiated threads.
+	 */
+	private static int nProxy = 0;
+
+	/**
+	 *  Communication channel.
+	 */
+	private ServerCom sconi;
+
+	/**
+	 *  Interface to the Barber Shop.
+	 */
+	private TableInterface tabInter;
+
 	/**
 	 * State of the waiter
 	 */
 	private int waiterState;
-	
+
 	/**
 	 * State of the student
 	 */
 	private int studentState;
-	
+
 	/**
 	 * Id of the student
 	 */
 	private int studentId;
-	
+
 	/**
 	 * Id of the student whose request the waiter is taking care of
 	 */
 	private int studentBeingAnswered;
-	
-	
-	
-	
-	
+
+	/**
+	 *  Instantiation of a client proxy.
+	 *
+	 *     @param sconi communication channel
+	 *     @param tab interface to the table
+	 */
+	public TableClientProxy (ServerCom sconi, TableInterface tab)
+	{
+		super ("TableProxy_" + TableClientProxy.getProxyId ());
+		this.sconi = sconi;
+		this.tabInter = tab;
+	}
+
+	/**
+	 *  Generation of the instantiation identifier.
+	 *
+	 *     @return instantiation identifier
+	 */
+
+	private static int getProxyId ()
+	{
+		Class<?> cl = null;			// representation of the TableClientProxy object in JVM
+		int proxyId;				// instantiation identifier
+
+		try
+		{ cl = Class.forName ("serverSide.entities.TableClientProxy");
+		}
+		catch (ClassNotFoundException e)
+		{ GenericIO.writelnString ("Data type TableClientProxy was not found!");
+		e.printStackTrace ();
+		System.exit (1);
+		}
+		synchronized (cl)
+		{ proxyId = nProxy;
+		nProxy += 1;
+		}
+		return proxyId;
+	}
+
 	/**
 	 * Set student Id
 	 * 	@param id id of the student
@@ -63,7 +118,7 @@ public class TableClientProxy extends Thread implements WaiterCloning, StudentCl
 	 *	@return state of the waiter
 	 */
 	public int getWaiterState() { return studentState;	}
-	
+
 	/**
 	 * Set studentBeingAnswered Id
 	 * 	@param id studentBeingAnswered ID
@@ -75,5 +130,29 @@ public class TableClientProxy extends Thread implements WaiterCloning, StudentCl
 	 *	@return id studentBeingAnswered
 	 */
 	public int getStudentBeingAnswered() { return studentBeingAnswered;	}
+
+	/**
+	 *  Life cycle of the service provider agent.
+	 */
+	@Override
+	public void run ()
+	{
+		Message inMessage = null,                                      // service request
+				outMessage = null;                                     // service reply
+
+		/* service providing */
+
+		inMessage = (Message) sconi.readObject ();                     // get service request
+		try
+		{ outMessage = tabInter.processAndReply (inMessage);         // process it
+		}
+		catch (MessageException e)
+		{ GenericIO.writelnString ("Thread " + getName () + ": " + e.getMessage () + "!");
+		GenericIO.writelnString (e.getMessageVal ().toString ());
+		System.exit (1);
+		}
+		sconi.writeObject (outMessage);                                // send service reply
+		sconi.close ();                                                // close the communication channel
+	}
 
 }
