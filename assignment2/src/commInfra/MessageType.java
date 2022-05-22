@@ -375,5 +375,91 @@ public class MessageType
 	 * Additional - Operation set last to arrive (reply)
 	 */
 	public static final int REPSETLSTARR = 107;
+
 	
+	
+	
+	//---------GENERAL REPO INPUT/OUTPUT MESSAGES---------//
+	
+	/**
+	 * Operation initialise the simulation (request)
+	 */
+	public static final int REQINITSIMUL = 120;
+	/**
+	 * Operation initialise the simulation (reply)
+	 */
+	public static final int REPINITSIMUL = 121;
+	/**
+	 * Operation report legend (request)
+	 */
+	public static final int REQRPTLEGEND = 122;	
+	/**
+	 * Operation report legend (reply)
+	 */
+	public static final int REPRPTLEGEND = 123;
+	/**
+	 * Operation set chef state (request)
+	 */
+	public static final int REQSETCHST = 124;
+	/**
+	 * Operation set chef state (reply)
+	 */
+	public static final int REPSETCHST = 125;
+	/**
+	 * Operation set waiter state (request)
+	 */
+	public static final int REQSETWAIST = 126;
+	/**
+	 * Operation set waiter state (reply)
+	 */
+	public static final int REPSETWAIST = 127;
+	/**
+	 * Operation update student state version 1(request)
+	 */
+	public static final int REQUPDTSTUST1 = 128;
+	/**
+	 * Operation update student state version 1(reply)
+	 */
+	public static final int REPUPDTSTUST1 = 129;
+	/**
+	 * Operation update student state version 2(request)
+	 */
+	public static final int REQUPDTSTUST2 = 130;
+	/**
+	 * Operation update student state version 2(reply)
+	 */
+	public static final int REPUPDTSTUST2 = 131;
+	/**	
+	 * Operation set n courses (request)
+	 */
+	public static final int REQSETNCOURSES = 132;
+	/**	
+	 * Operation set n courses (reply)
+	 */
+	public static final int REPSETNCOURSES = 133;
+	/**	
+	 * Operation set n portions (request)
+	 */
+	public static final int REQSETNPORTIONS = 134;
+	/**	
+	 * Operation set n portions (reply)
+	 */
+	public static final int REPSETNPORTIONS = 135;
+	/**	
+	 * Operation update seats at table (request)
+	 */
+	public static final int REQUPDSEATSTABLE = 136;
+	/**	
+	 * Operation update seats at table (reply)
+	 */
+	public static final int REPUPDSEATSTABLE = 137;
+	/**	
+	 * Operation update seats at table at leaving (request)
+	 */
+	public static final int REQUPDSEATSTABLELV = 138;
+	/**	
+	 * Operation update seats at table at leaving (reply)
+	 */
+	public static final int REPUPDSEATSTABLELV = 139;
 }
+

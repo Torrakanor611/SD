@@ -112,6 +112,11 @@ public class Message implements Serializable
 	 */
 	private int lastToArrive;
 	
+	/**
+	 * Holds the name of the logfile
+	 */
+	private String filename;
+	
 
 	/**
 	 *  Message instantiation (form 1).
@@ -136,7 +141,7 @@ public class Message implements Serializable
 
 		if(entitie == 1) //Chef message
 			chefState = stateOrId;
-		else if (entitie == 2) //Waiter Message
+		else if (entitie == 2) //Waiter message
 			waiterState = stateOrId;
 		else if (entitie == 3) { //Student message
 			if(msgType == MessageType.REQCALLWAI || msgType == MessageType.REPCALLWAI)
@@ -144,7 +149,7 @@ public class Message implements Serializable
 			else if(msgType == MessageType.REQPREPORDER || msgType == MessageType.REQJOINTALK)
 				studentState = stateOrId;
 		}
-		else if (entitie == 4) {
+		else if (entitie == 4) {  //Additional message
 			if(msgType == MessageType.REQSALUTCLI)
 				studentBeingAnswered = stateOrId;
 			else if (msgType == MessageType.REPGETFRSTARR)
@@ -155,6 +160,10 @@ public class Message implements Serializable
 				firstToArrive = stateOrId;
 			else if (msgType == MessageType.REQSETLSTARR)
 				lastToArrive = stateOrId;
+		}
+		else if (entitie == 5) {
+			if (msgType == MessageType.REQSETCHST)
+				chefState = stateOrId;
 		}
 		else { 
 			GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation!");
@@ -256,6 +265,12 @@ public class Message implements Serializable
 	{
 		msgType = type;
 		requestType = c;		
+	}
+	
+	public Message(int type, String name)
+	{
+		msgType = type;
+		filename = name;
 	}
 	
 	
@@ -374,6 +389,11 @@ public class Message implements Serializable
 	public int getLastToArrive() { return (lastToArrive); }
 	
 	/**
+	 * Get name of the logging file
+	 * @return filename
+	 */
+	public String getFilename() { return (filename); }
+	/**
 	 * For a given message type, get the entity that called it (chef, waiter or student) 
 	 * @param messageType type of the message
 	 * @return 1 if called by chef, 2 if called bye waiter and 3 if called by student
@@ -383,36 +403,72 @@ public class Message implements Serializable
 		///FALTAM AQUI MENSAGENS
 		switch(messageType)
 		{
-		// Chef messages
-		case MessageType.REQWATTNWS: 		case MessageType.REPWATTNWS:
-		case MessageType.REQSTRPR: 			case MessageType.REPSTRPR:
-		case MessageType.REQPROCPREP: 		case MessageType.REPPROCPREP:
-		case MessageType.REQHVPRTDLVD: 		case MessageType.REPHVPRTDLVD:
-		case MessageType.REQHORDCOMPL: 		case MessageType.REPHORDCOMPL:
-		case MessageType.REQCONTPREP: 		case MessageType.REPCONTPREP :
-		case MessageType.REQHAVNEXPORRD: 	case MessageType.REPHAVNEXPORRD:
-		case MessageType.REQCLEANUP: 		case MessageType.REPCLEANUP:
-			return 1;
-		// Waiter messages
-		case MessageType.REQALRTWAIT: 		case MessageType.REPALRTWAIT:
-		case MessageType.REQLOOKARND:		case MessageType.REPLOOKARND:
-		case MessageType.REQRETURNTOBAR: 	case MessageType.REPRETURNTOBAR:
-		case MessageType.REQCOLLPORT: 		case MessageType.REPCOLLPORT:
-		case MessageType.REQPRPREBILL: 		case MessageType.REPPRPREBILL:
-		case MessageType.REQSAYGDBYE: 		case MessageType.REPSAYGDBYE:
-		case MessageType.REQSALUTCLI: 		case MessageType.REPSALUTCLI:
-			return 2;
-		// Student messages
-		case MessageType.REQENTER: 			case MessageType.REPENTER:
-		case MessageType.REQCALLWAI: 		case MessageType.REPCALLWAI:
-		case MessageType.REQSIGWAI: 		case MessageType.REPSIGWAI:
-		case MessageType.REQEXIT: 			case MessageType.REPEXIT:
-			return 3;
-		//Aditional Messages
-		case MessageType.REQGETSTDBEIANSW:	case MessageType.REPGETSTDBEIANSW:
-			return 4;
-		default:
-			return -1;
+			// Chef messages
+			case MessageType.REQWATTNWS: 		case MessageType.REPWATTNWS:
+			case MessageType.REQSTRPR: 			case MessageType.REPSTRPR:
+			case MessageType.REQPROCPREP: 		case MessageType.REPPROCPREP:
+			case MessageType.REQHVPRTDLVD: 		case MessageType.REPHVPRTDLVD:
+			case MessageType.REQHORDCOMPL: 		case MessageType.REPHORDCOMPL:
+			case MessageType.REQCONTPREP: 		case MessageType.REPCONTPREP :
+			case MessageType.REQHAVNEXPORRD: 	case MessageType.REPHAVNEXPORRD:
+			case MessageType.REQCLEANUP: 		case MessageType.REPCLEANUP:
+			case MessageType.REQALRTWAIT: 		case MessageType.REPALRTWAIT:
+				return 1;
+			// Waiter messages
+			case MessageType.REQHNDNOTCHEF:		case MessageType.REPHNDNOTCHEF:
+			case MessageType.REQRETURNTOBAR: 	case MessageType.REPRETURNTOBAR:
+			case MessageType.REQCOLLPORT: 		case MessageType.REPCOLLPORT:
+			case MessageType.REQLOOKARND:		case MessageType.REPLOOKARND:
+			case MessageType.REQPRPREBILL: 		case MessageType.REPPRPREBILL:
+			case MessageType.REQSAYGDBYE: 		case MessageType.REPSAYGDBYE:
+			case MessageType.REQSALUTCLI: 		case MessageType.REPSALUTCLI:
+			case MessageType.REQRTRNBAR:		case MessageType.REPRTRNBAR:
+			case MessageType.REQGETPAD:			case MessageType.REPGETPAD:
+			case MessageType.REQALLCLISERVED:	case MessageType.REPALLCLISERVED:
+			case MessageType.REQDELPOR:			case MessageType.REPDELPOR:
+			case MessageType.REQPRESBILL:		case MessageType.REPPRESBILL:
+				return 2;
+			// Student messages
+			case MessageType.REQENTER: 				case MessageType.REPENTER:
+			case MessageType.REQCALLWAI: 			case MessageType.REPCALLWAI:
+			case MessageType.REQSIGWAI: 			case MessageType.REPSIGWAI:
+			case MessageType.REQEXIT: 				case MessageType.REPEXIT:
+			case MessageType.REQSEATTABLE:			case MessageType.REPSEATTABLE:
+			case MessageType.REQRDMENU:				case MessageType.REPRDMENU:
+			case MessageType.REQPREPORDER:			case MessageType.REPPREPORDER:
+			case MessageType.REQEVERYBDYCHO:		case MessageType.REPEVERYBDYCHO:
+			case MessageType.REQADDUP1CHOI:			case MessageType.REPADDUP1CHOI:
+			case MessageType.REQDESCRORDER:			case MessageType.REPDESCRORDER:
+			case MessageType.REQJOINTALK:			case MessageType.REPJOINTALK:
+			case MessageType.REQINFORMCOMP:			case MessageType.REPINFORMCOMP:
+			case MessageType.REQSRTEATING:			case MessageType.REPSRTEATING:
+			case MessageType.REQENDEATING:			case MessageType.REPENDEATING:
+			case MessageType.REQEVERYBDFINISHEAT:	case MessageType.REPEVERYBDFINISHEAT:
+			case MessageType.REQHONBILL:			case MessageType.REPHONBILL:
+			case MessageType.REQALLCOURBEENEAT:		case MessageType.REPALLCOURBEENEAT:
+			case MessageType.REQSHOULDARREARLY:		case MessageType.REPSHOULDARREARLY:
+				return 3;
+			//Additional Messages
+			case MessageType.REQGETSTDBEIANSW:	case MessageType.REPGETSTDBEIANSW:
+			case MessageType.REQGETFRSTARR:		case MessageType.REPGETFRSTARR:
+			case MessageType.REQGETLSTEAT:		case MessageType.REPGETLSTEAT:
+			case MessageType.REQSETFRSTARR:		case MessageType.REPSETFRSTARR:
+			case MessageType.REQSETLSTARR:		case MessageType.REPSETLSTARR:
+				return 4;
+			//GeneralRepo Message
+			case MessageType.REQINITSIMUL:		 case MessageType.REPINITSIMUL:
+			case MessageType.REQRPTLEGEND:		 case MessageType.REPRPTLEGEND:
+			case MessageType.REQSETCHST:		 case MessageType.REPSETCHST:
+			case MessageType.REQSETWAIST:		 case MessageType.REPSETWAIST:
+			case MessageType.REQUPDTSTUST1:		 case MessageType.REPUPDTSTUST1:
+			case MessageType.REQUPDTSTUST2:		 case MessageType.REPUPDTSTUST2:
+			case MessageType.REQSETNCOURSES:	 case MessageType.REPSETNCOURSES:
+			case MessageType.REQSETNPORTIONS:	 case MessageType.REPSETNPORTIONS:
+			case MessageType.REQUPDSEATSTABLE:	 case MessageType.REPUPDSEATSTABLE:
+			case MessageType.REQUPDSEATSTABLELV: case MessageType.REPUPDSEATSTABLELV:
+				return 5;
+			default:
+				return -1;
 		}
 	}
 

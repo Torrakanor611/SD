@@ -38,7 +38,7 @@ public class GeneralRepoStub {
 	
 	
 	/**
-	 * Operation initialization of the simulation.
+	 * Operation initialisation of the simulation.
 	 * 
 	 * 	@param filename logging file name
 	 */
@@ -56,12 +56,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType, filename);
+		outMessage = new Message (MessageType.REQINITSIMUL, filename);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPINITSIMUL)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -70,6 +70,7 @@ public class GeneralRepoStub {
 		//Close communication channel
 		com.close ();
 	}
+	
 	
 	
 	/**
@@ -89,12 +90,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType);
+		outMessage = new Message (MessageType.REQRPTLEGEND);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPRPTLEGEND)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -124,12 +125,12 @@ public class GeneralRepoStub {
 			catch (InterruptedException e) {}
 		}
 		
-		outMessage = new Message (MessageType., state);
+		outMessage = new Message (MessageType.REQSETCHST, state);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		
 		//Validate inGoing message type and arguments
-		if(inMessage.getMsgType() != MessageType.)
+		if(inMessage.getMsgType() != MessageType.REPSETCHST)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
