@@ -2,6 +2,7 @@ package serverSide.sharedRegions;
 
 import serverSide.main.*;
 import clientSide.entities.*;
+import clientSide.stubs.GeneralRepoStub;
 
 /**
  * 	Kitchen
@@ -37,7 +38,7 @@ public class Kitchen
 	/**
      * Reference to the General Repository.
      */
-    private final GeneralRepos repos;
+    private final GeneralRepoStub repos;
     
     /**
      * Number of entities that requested shutdown
@@ -51,7 +52,7 @@ public class Kitchen
      * 
      * @param repos reference to general repository
      */
-	public Kitchen(GeneralRepos repos)
+	public Kitchen(GeneralRepoStub repos)
 	{
 		this.numberOfPortionsReady = 0;
 		this.numberOfPortionsDelivered = 0;
@@ -59,8 +60,6 @@ public class Kitchen
 		this.repos = repos;
 		this.nEntities = 0;
 	}
-
-	
 	
 	/**
 	 * 	Operation watch the news
