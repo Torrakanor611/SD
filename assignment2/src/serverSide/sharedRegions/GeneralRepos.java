@@ -1,7 +1,6 @@
 package serverSide.sharedRegions;
 
 import java.util.Objects;
-import serverSide.entities.*;
 import serverSide.main.*;
 import genclass.GenericIO;
 import genclass.TextFile;
@@ -59,7 +58,14 @@ public class GeneralRepos
 	 * 	Seats at the table
 	 */
 	private int[] seatsAtTable;
+	
+	/**
+	 * Number of entities that requested shutdown
+	 */
+	private int nEntities;
 
+	
+	
 	/**
 	 *	Instantiation of a general repository object.
 	 *
@@ -68,6 +74,7 @@ public class GeneralRepos
 
 	public GeneralRepos (String logFileName)
 	{
+		nEntities = 0;
 		if ((logFileName == null) || Objects.equals (logFileName, ""))
 			this.logFileName = "logger";
 		else this.logFileName = logFileName;  		
@@ -256,6 +263,18 @@ public class GeneralRepos
 	public synchronized void updateSeatsAtTable(int seat, int id) {
 		this.seatsAtTable[seat] = id;
 		reportStatus();
+	}
+	
+	
+	/**
+	 * Operation Table server shutdown
+	 */
+	public synchronized void shutdown()
+	{
+		nEntities += 1;
+		if(nEntities >= ExecuteConst.S)
+			ServerRestaurantGeneralRepos.waitConnection = false;
+		notifyAll ();
 	}
 }
 

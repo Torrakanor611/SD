@@ -1,6 +1,5 @@
 package serverSide.sharedRegions;
 
-import serverSide.entities.*;
 import serverSide.main.*;
 import clientSide.entities.*;
 
@@ -39,6 +38,11 @@ public class Kitchen
      * Reference to the General Repository.
      */
     private final GeneralRepos repos;
+    
+    /**
+     * Number of entities that requested shutdown
+     */
+    private int nEntities;
 
 	
     
@@ -53,6 +57,7 @@ public class Kitchen
 		this.numberOfPortionsDelivered = 0;
 		this.numberOfCoursesDelivered = 0;
 		this.repos = repos;
+		this.nEntities = 0;
 	}
 
 	
@@ -303,6 +308,18 @@ public class Kitchen
 		//Signal chef that portion was delivered
 		notifyAll();
 		
+	}
+	
+	
+	/**
+	 * Operation kitchen server shutdown
+	 */
+	public synchronized void shutdown()
+	{
+		nEntities += 1;
+		if(nEntities >= ExecuteConst.E)
+			ServerRestaurantKitchen.waitConnection = false;
+		notifyAll ();
 	}
 
 }

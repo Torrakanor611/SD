@@ -1,7 +1,6 @@
 package serverSide.sharedRegions;
 
 import commInfra.*;
-import serverSide.entities.*;
 import serverSide.main.*;
 import clientSide.entities.*;
 
@@ -65,6 +64,11 @@ public class Bar
 	 */
 	private final Table tab;
 	
+	/**
+	 * Number of entity groups requesting the shutdown
+	 */
+	private int nEntities;
+	
 	
 	
 	/**
@@ -92,6 +96,7 @@ public class Bar
 		this.studentBeingAnswered = -1;
 		this.repos = repos;
 		this.tab = tab;
+		this.nEntities = 0;
 		
 		this.studentsGreeted = new boolean[ExecuteConst.N];
 		for(int i = 0 ;i < ExecuteConst.N; i++)
@@ -397,6 +402,17 @@ public class Bar
 				e.printStackTrace();
 			}
 		}	
+	}
+	
+	/**
+	 * Operation bar server shutdown
+	 */
+	public synchronized void shutdown()
+	{
+		nEntities += 1;
+		if(nEntities >= ExecuteConst.E)
+			ServerRestaurantBar.waitConnection = false;
+		notifyAll ();
 	}
 }
 

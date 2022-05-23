@@ -45,6 +45,7 @@ public class TableInterface {
 			//Waiter Messages that require only type verification
 			case MessageType.REQALLCLISERVED:		// Have all clients been served
 			case MessageType.REQDELPOR:				// Deliver portion
+			case MessageType.REQTABSHUT:			// Table shutdown
 				break;
 			// Waiter Messages that require type and state verification
 			case MessageType.REQSALUTCLI:			// Salute the clients
@@ -200,10 +201,16 @@ public class TableInterface {
 				break;
 			case MessageType.REQSETFRSTARR:
 				tab.setFirstToArrive(inMessage.getFirstToArrive());
+				outMessage = new Message(MessageType.REPSETFRSTARR);
 				break;
 			case MessageType.REQSETLSTARR:	
 				tab.setLastToArrive(inMessage.getLastToArrive());
+				outMessage = new Message(MessageType.REPSETLSTARR);
 				break;
+			case MessageType.REQTABSHUT:
+				tab.shutdown();
+				outMessage = new Message(MessageType.REPTABSHUT);
+				break;				
 		}
 		
 		return (outMessage);

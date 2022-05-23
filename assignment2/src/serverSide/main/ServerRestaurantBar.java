@@ -73,4 +73,3 @@ public class ServerRestaurantBar
       scon.end ();                                                   // operations termination
       GenericIO.writelnString ("Server was shutdown.");
    }
-}

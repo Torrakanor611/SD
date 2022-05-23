@@ -99,7 +99,14 @@ public class MessageType
 	 * Waiter - Operation collect portion (reply)
 	 */
 	public static final int REPCOLLPORT = 22;
-
+	/**
+	 * Additional - Operation kitchen server shutdown (request)
+	 */
+	public static final int REQKITSHUT = 23;
+	/**
+	 * Additional - Operation kitchen server shutdown (reply)
+	 */
+	public static final int REPKITSHUT = 24;
 
 
 
@@ -177,7 +184,16 @@ public class MessageType
 	 * Additional - Operation get student being answered (reply)
 	 */
 	public static final int REPGETSTDBEIANSW = 47;
-
+	/**
+	 * Additional - Operation bar server shutdown (request)
+	 */
+	public static final int REQBARSHUT = 48;
+	/**
+	 * Additional - Operation bar server shutdown (reply)
+	 */
+	public static final int REPBARSHUT = 49;
+	
+	
 	
 	
 	//---------TABLE INPUT/OUTPUT MESSAGES---------//
@@ -375,91 +391,98 @@ public class MessageType
 	 * Additional - Operation set last to arrive (reply)
 	 */
 	public static final int REPSETLSTARR = 107;
-
+	/**
+	 * Additional - Operation table server shutdown (request)
+	 */
+	public static final int REQTABSHUT = 108;
+	/**
+	 * Additional - Operation table server shutdown (reply)
+	 */
+	public static final int REPTABSHUT = 109;
 	
 	
 	
 	//---------GENERAL REPO INPUT/OUTPUT MESSAGES---------//
 	
 	/**
-	 * Operation initialise the simulation (request)
-	 */
-	public static final int REQINITSIMUL = 120;
-	/**
-	 * Operation initialise the simulation (reply)
-	 */
-	public static final int REPINITSIMUL = 121;
-	/**
 	 * Operation report legend (request)
 	 */
-	public static final int REQRPTLEGEND = 122;	
+	public static final int REQRPTLEGEND = 120;	
 	/**
 	 * Operation report legend (reply)
 	 */
-	public static final int REPRPTLEGEND = 123;
+	public static final int REPRPTLEGEND = 121;
 	/**
 	 * Operation set chef state (request)
 	 */
-	public static final int REQSETCHST = 124;
+	public static final int REQSETCHST = 122;
 	/**
 	 * Operation set chef state (reply)
 	 */
-	public static final int REPSETCHST = 125;
+	public static final int REPSETCHST = 123;
 	/**
 	 * Operation set waiter state (request)
 	 */
-	public static final int REQSETWAIST = 126;
+	public static final int REQSETWAIST = 124;
 	/**
 	 * Operation set waiter state (reply)
 	 */
-	public static final int REPSETWAIST = 127;
+	public static final int REPSETWAIST = 125;
 	/**
 	 * Operation update student state version 1(request)
 	 */
-	public static final int REQUPDTSTUST1 = 128;
+	public static final int REQUPDTSTUST1 = 126;
 	/**
 	 * Operation update student state version 1(reply)
 	 */
-	public static final int REPUPDTSTUST1 = 129;
+	public static final int REPUPDTSTUST1 = 127;
 	/**
 	 * Operation update student state version 2(request)
 	 */
-	public static final int REQUPDTSTUST2 = 130;
+	public static final int REQUPDTSTUST2 = 128;
 	/**
 	 * Operation update student state version 2(reply)
 	 */
-	public static final int REPUPDTSTUST2 = 131;
+	public static final int REPUPDTSTUST2 = 129;
 	/**	
 	 * Operation set n courses (request)
 	 */
-	public static final int REQSETNCOURSES = 132;
+	public static final int REQSETNCOURSES = 130;
 	/**	
 	 * Operation set n courses (reply)
 	 */
-	public static final int REPSETNCOURSES = 133;
+	public static final int REPSETNCOURSES = 131;
 	/**	
 	 * Operation set n portions (request)
 	 */
-	public static final int REQSETNPORTIONS = 134;
+	public static final int REQSETNPORTIONS = 132;
 	/**	
 	 * Operation set n portions (reply)
 	 */
-	public static final int REPSETNPORTIONS = 135;
+	public static final int REPSETNPORTIONS = 133;
 	/**	
 	 * Operation update seats at table (request)
 	 */
-	public static final int REQUPDSEATSTABLE = 136;
+	public static final int REQUPDSEATSTABLE = 134;
 	/**	
 	 * Operation update seats at table (reply)
 	 */
-	public static final int REPUPDSEATSTABLE = 137;
+	public static final int REPUPDSEATSTABLE = 135;
 	/**	
 	 * Operation update seats at table at leaving (request)
 	 */
-	public static final int REQUPDSEATSTABLELV = 138;
+	public static final int REQUPDSEATSTABLELV = 136;
 	/**	
 	 * Operation update seats at table at leaving (reply)
 	 */
-	public static final int REPUPDSEATSTABLELV = 139;
+	public static final int REPUPDSEATSTABLELV = 137;
+	/**
+	 * Operation shut down general repository (request)
+	 */
+	public static final int REQGENERALREPOSHUT = 138;
+	/**
+	 * Operation shut down general repository (reply)
+	 */
+	public static final int REPGENERALREPOSHUT = 139;
 }
 
