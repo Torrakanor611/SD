@@ -3,6 +3,8 @@ package serverSide.sharedRegions;
 import commInfra.*;
 import serverSide.main.*;
 import clientSide.entities.*;
+import clientSide.stubs.GeneralRepoStub;
+import clientSide.stubs.TableStub;
 
 /**
  * 
@@ -11,7 +13,7 @@ import clientSide.entities.*;
  *	It is responsible for keeping track of the several requests that must be full filled by the waiter
  *	Implemented as an implicit monitor
  *	Public methods executed in mutual exclusion
- *	Synchronisation points include:
+ *	Synchronization points include:
  *		Waiter waits for pending requests if there are none
  *		When a student has to wait for the waiter to say goodbye to him so he can leave the restaurant
  *		Chef must wait for everybody to eat before alerting the waiter
@@ -47,7 +49,7 @@ public class Bar
 	/**
 	 * Reference to the general repository
 	 */
-	private final GeneralRepos repos;
+	private final GeneralRepoStub repos;
 	
 	/**
 	 * Auxiliary variable to keep track of the id of the student whose request is being answered by waiter
@@ -62,7 +64,7 @@ public class Bar
 	/**
 	 * Reference to the table
 	 */
-	private final Table tab;
+	private final TableStub tab;
 	
 	/**
 	 * Number of entity groups requesting the shutdown
@@ -77,14 +79,14 @@ public class Bar
 	 * @param repos reference to the general repository
 	 * @param tab reference to the table
 	 */
-	public Bar(GeneralRepos repos, Table tab) 
+	public Bar(GeneralRepoStub repos, TableStub tab)
 	{
-		//Initizalization of students threads
+		//Initialization of students threads
 		students = new Student[ExecuteConst.N];
 		for(int i = 0; i < ExecuteConst.N; i++ ) 
 			students[i] = null;
 		
-		//Initialisation of the queue of pending requests
+		//Initialization of the queue of pending requests
 		try {
 			pendingServiceRequestQueue = new MemFIFO<> (new Request [ExecuteConst.N * ExecuteConst.M]);
 		} catch (MemException e) {

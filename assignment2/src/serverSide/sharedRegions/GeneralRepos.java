@@ -63,9 +63,17 @@ public class GeneralRepos
 	 * Number of entities that requested shutdown
 	 */
 	private int nEntities;
+	
+	/**
+	 *	Instantiation of a general repository object.
+	 */
 
-	
-	
+	public GeneralRepos ()
+	{
+		this("");
+	}
+
+
 	/**
 	 *	Instantiation of a general repository object.
 	 *
