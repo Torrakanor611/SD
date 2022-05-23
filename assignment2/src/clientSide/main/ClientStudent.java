@@ -100,8 +100,6 @@ public class ClientStudent {
 			}catch(InterruptedException e) {}
 			GenericIO.writelnString ("The student"+(i+1)+" thread has terminated.");
 		}
-		barStub.shutdown();
-		tabStub.shutdown();
 		genReposStub.shutdown();
 
 	}

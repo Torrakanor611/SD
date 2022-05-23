@@ -51,6 +51,7 @@ public class KitchenInterface {
 		// Chef Messages that require only type verification
 		case MessageType.REQHVPRTDLVD: 		// Have all portions been delivered
 		case MessageType.REQHORDCOMPL: 		// Has the order been completed
+		case MessageType.REQKITSHUT:		//Kitchen shutdown
 			break;
 
 		// Waiter Messages that require type and state verification	
@@ -119,6 +120,10 @@ public class KitchenInterface {
 			((KitchenClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 			kit.collectPortion();
 			outMessage = new Message(MessageType.REPCOLLPORT, ((KitchenClientProxy) Thread.currentThread()).getWaiterState());
+			break;
+		case MessageType.REPKITSHUT: //Kitchen shutdown
+			kit.shutdown();
+			outMessage = new Message(MessageType.REPKITSHUT);
 			break;
 		}
 

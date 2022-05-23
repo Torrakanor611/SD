@@ -1,6 +1,5 @@
 package serverSide.sharedRegions;
 
-import serverSide.entities.*;
 import serverSide.main.*;
 import clientSide.entities.*;
 
@@ -114,6 +113,8 @@ public class Table {
      */
     private final GeneralRepos repos;
     
+    private int nEntities;
+    
     
     
     
@@ -139,6 +140,8 @@ public class Table {
     	this.informingCompanion = false;
     	this.processingBill = false;
     	this.repos = repos;
+    	this.nEntities = 0;
+    	
     	
     	//initialisation of the boolean arrays
     	studentsSeated = new boolean[ExecuteConst.N];
@@ -738,6 +741,18 @@ public class Table {
     	}
     	else
     		return false;
-    }    
+    }
+    
+    
+	/**
+	 * Operation Table server shutdown
+	 */
+	public synchronized void shutdown()
+	{
+		nEntities += 1;
+		if(nEntities >= ExecuteConst.E)
+			ServerRestaurantTable.waitConnection = false;
+		notifyAll ();
+	}
     
 }

@@ -112,7 +112,6 @@ public class ClientWaiter {
 			waiter.join();
 		}catch(InterruptedException e) {}
 		GenericIO.writelnString ("The waiter thread has terminated.");
-		kitStub.shutdown();
 		barStub.shutdown();
 		tabStub.shutdown();
 		genReposStub.shutdown();

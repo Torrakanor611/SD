@@ -113,11 +113,6 @@ public class Message implements Serializable
 	private int lastToArrive;
 	
 	/**
-	 * Holds the name of the logfile
-	 */
-	private String filename;
-	
-	/**
 	 * Holds the number of courses served (to be used in general repo)
 	 */
 	private int nCourses;
@@ -307,18 +302,6 @@ public class Message implements Serializable
 	}
 	
 	/**
-	 * 	Message instantiation (form 8).
-	 * 		@param type message type
-	 * 		@param name name of the logging file
-	 */
-	public Message(int type, String name)
-	{
-		msgType = type;
-		filename = name;
-	}
-	
-	
-	/**
 	 *  Getting message type.
 	 *     @return message type
 	 */
@@ -433,12 +416,6 @@ public class Message implements Serializable
 	public int getLastToArrive() { return (lastToArrive); }
 	
 	/**
-	 * Get name of the logging file
-	 * @return filename
-	 */
-	public String getFilename() { return (filename); }
-	
-	/**
 	 * Get seatAtTable value
 	 * @return the value of the variable seatAtTable
 	 */
@@ -531,7 +508,6 @@ public class Message implements Serializable
 			case MessageType.REQTABSHUT:		case MessageType.REPTABSHUT:
 				return 4;
 			//GeneralRepo Message
-			case MessageType.REQINITSIMUL:		 case MessageType.REPINITSIMUL:
 			case MessageType.REQRPTLEGEND:		 case MessageType.REPRPTLEGEND:
 			case MessageType.REQSETCHST:		 case MessageType.REPSETCHST:
 			case MessageType.REQSETWAIST:		 case MessageType.REPSETWAIST:
