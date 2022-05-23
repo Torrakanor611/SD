@@ -34,15 +34,15 @@ public class ServerRestaurantBar
 	 */
 	public static void main (String [] args)
 	{
-		Bar bar;							// barber shop (service to be rendered)
-		BarInterface barInter;				// interface to the barber shop
+		Bar bar;							// bar (service to be rendered)
+		BarInterface barInter;				// interface to the bar
 		GeneralRepoStub reposStub;			// stub to the general repository
 		TableStub tableStub;				// stub to the table
 		ServerCom scon, sconi;				// communication channels
 		int portNumb = -1;					// port number for listening to service requests
 		String reposServerName;				// name of the platform where is located the server for the general repository
 		int reposPortNumb = -1;				// port number where the server for the general repository is listening to service requests
-		String tableServerName;				// name of the platform where is located the server for the general repository
+		String tableServerName;				// name of the platform where is located the server for the table
 		int tablePortNumb = -1;				// port number where the server for the table is listening to service requests
 
 		if (args.length != 5)
@@ -71,7 +71,7 @@ public class ServerRestaurantBar
 		/* service is established */
 
 		reposStub = new GeneralRepoStub (reposServerName, reposPortNumb);	// communication to the general repository is instantiated
-		tableStub = new TableStub (tableServerName, tablePortNumb);
+		tableStub = new TableStub (tableServerName, tablePortNumb);			// communication to the table is instantiated
 		bar = new Bar(reposStub, tableStub);								// service is instantiated
 		barInter = new BarInterface (bar);									// interface to the service is instantiated
 		scon = new ServerCom (portNumb);									// listening channel at the public port is established

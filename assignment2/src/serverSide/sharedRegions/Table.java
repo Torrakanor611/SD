@@ -2,6 +2,7 @@ package serverSide.sharedRegions;
 
 import serverSide.main.*;
 import clientSide.entities.*;
+import clientSide.stubs.GeneralRepoStub;
 
 /**
  * 	Table
@@ -111,7 +112,7 @@ public class Table {
 	/**
      * Reference to the General Repository.
      */
-    private final GeneralRepos repos;
+    private final GeneralRepoStub repos;
     
     private int nEntities;
     
@@ -123,9 +124,9 @@ public class Table {
      * 
      * @param repos reference to the general repository
      */    
-    public Table(GeneralRepos repos)
+    public Table(GeneralRepoStub repos)
     {
-    	//Initialisation of atributes
+    	//Initialization of attributes
     	this.firstToArrive = -1;
     	this.lastToArrive = -1;
     	this.numOrders = 0;
@@ -143,7 +144,7 @@ public class Table {
     	this.nEntities = 0;
     	
     	
-    	//initialisation of the boolean arrays
+    	//Initialization of the boolean arrays
     	studentsSeated = new boolean[ExecuteConst.N];
     	studentsReadMenu = new boolean[ExecuteConst.N];
     	for(int i = 0; i < ExecuteConst.N; i++)
@@ -152,7 +153,7 @@ public class Table {
     		studentsReadMenu[i] = false;
     	}
     	
-		//Initialisation of students thread
+		//Initialization of students thread
 		students = new Student[ExecuteConst.N];
 		for(int i = 0; i < ExecuteConst.N; i++ ) 
 			students[i] = null;

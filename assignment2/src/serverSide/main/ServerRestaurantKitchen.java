@@ -33,8 +33,8 @@ public class ServerRestaurantKitchen
 
    public static void main (String [] args)
    {
-      Kitchen kit;								// barber shop (service to be rendered)
-      KitchenInterface kitInter;				// interface to the barber shop
+      Kitchen kit;								// kitchen (service to be rendered)
+      KitchenInterface kitInter;				// interface to the kitchen
       GeneralRepoStub reposStub;				// stub to the general repository
       ServerCom scon, sconi;					// communication channels
       int portNumb = -1;						// port number for listening to service requests
@@ -88,7 +88,7 @@ public class ServerRestaurantKitchen
       { try
         { sconi = scon.accept ();								// enter listening procedure
           cliProxy = new KitchenClientProxy (sconi, kitInter);	// start a service provider agent to address
-          cliProxy.start ();									//   the request of service
+          cliProxy.start ();									// the request of service
         }
         catch (SocketTimeoutException e) {}
       }
