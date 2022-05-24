@@ -1,5 +1,5 @@
 echo "Transfering data to the general repository node."
-sshpass -f password ssh sd102b@l040101-ws07.ua.pt 'mkdir -p Restaurant'
+sshpass -f password ssh sd102@l040101-ws07.ua.pt 'mkdir -p Restaurant'
 sshpass -f password ssh sd102@l040101-ws07.ua.pt 'rm -rf Restaurant/*'
 sshpass -f password scp dirGeneralRepos.zip sd102@l040101-ws07.ua.pt:Restaurant
 echo "Decompressing data sent to the general repository node."

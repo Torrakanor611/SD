@@ -2,7 +2,10 @@ package serverSide.sharedRegions;
 
 import commInfra.*;
 import serverSide.main.*;
-import clientSide.entities.*;
+import clientSide.entities.ChefStates;
+import clientSide.entities.WaiterStates;
+import clientSide.entities.StudentStates;
+import serverSide.entities.BarClientProxy;
 import clientSide.stubs.GeneralReposStub;
 import clientSide.stubs.TableStub;
 
@@ -44,10 +47,10 @@ public class Bar
 	/**
 	 * Reference to the student threads
 	 */
-	private final Student [] students;
+	private final BarClientProxy [] students;
 	
 	/**
-	 * Reference to the general repository
+	 * Reference to the stub of the general repository
 	 */
 	private final GeneralReposStub repos;
 	
@@ -82,7 +85,7 @@ public class Bar
 	public Bar(GeneralReposStub repos, TableStub tab)
 	{
 		//Initialization of students threads
-		students = new Student[ExecuteConst.N];
+		students = new BarClientProxy[ExecuteConst.N];
 		for(int i = 0; i < ExecuteConst.N; i++ ) 
 			students[i] = null;
 		
@@ -148,8 +151,8 @@ public class Bar
 		courseFinished = false;
 		
 		//Update chefs state
-		((Chef) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repos.setChefState(((Chef) Thread.currentThread()).getChefState());
+		((BarClientProxy) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
+		repos.setChefState(((BarClientProxy) Thread.currentThread()).getChefState());
 		
 		//Signal waiter that there is a pending request
 		notifyAll();
@@ -214,8 +217,8 @@ public class Bar
 	public synchronized void preprareBill()
 	{
 		//Update Waiter state
-		((Waiter) Thread.currentThread()).setWaiterState(WaiterStates.PROCESSING_THE_BILL);
-		repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		((BarClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PROCESSING_THE_BILL);
+		repos.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
 	}
 	
 	
@@ -238,7 +241,7 @@ public class Bar
 		numberOfStudentsAtRestaurant--;
 		studentBeingAnswered = -1;
 		
-		repos.setWaiterState(((Waiter) Thread.currentThread()).getWaiterState());
+		repos.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
 		
 		if(numberOfStudentsAtRestaurant == 0)
 			return true;
@@ -258,10 +261,10 @@ public class Bar
 	{		
 		synchronized(this)
 		{
-			int studentId = ((Student) Thread.currentThread()).getStudentId();
+			int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
 			
 			//Update student state
-			students[studentId] = ((Student) Thread.currentThread());
+			students[studentId] = ((BarClientProxy) Thread.currentThread());
 			students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
 			
 			numberOfStudentsAtRestaurant++;
@@ -284,7 +287,7 @@ public class Bar
 			
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-			repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+			repos.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
 			//register seat at the general repo
 			repos.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
 			
@@ -309,7 +312,7 @@ public class Bar
 	 */
 	public synchronized void callWaiter()
 	{
-		int studentId = ((Student) Thread.currentThread()).getStudentId();
+		int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
 		Request r = new Request(studentId,'o');
 		
 		//Add a new service request to queue of pending requests (portion to be collected)
@@ -339,9 +342,9 @@ public class Bar
 	 */
 	public synchronized void signalWaiter()
 	{
-		int studentId = ((Student) Thread.currentThread()).getStudentId();
+		int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
 
-		if(((Student) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_BILL)
+		if(((BarClientProxy) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_BILL)
 		{		
 			//Add a new pending requests to the queue
 			try {
@@ -376,7 +379,7 @@ public class Bar
 	 */
 	public synchronized void exit()
 	{
-		int studentId = ((Student) Thread.currentThread()).getStudentId();
+		int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
 		Request r = new Request(studentId,'g');
 		
 		//Add a new service request to queue of pending requests (portion to be collected)
@@ -391,7 +394,7 @@ public class Bar
 		numberOfPendingRequests++;
 		//Update student test
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
-		repos.updateStudentState(studentId, ((Student) Thread.currentThread()).getStudentState());
+		repos.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
 		//notify waiter that there is a pending request
 		notifyAll();
 	

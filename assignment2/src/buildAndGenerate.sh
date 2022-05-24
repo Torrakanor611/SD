@@ -1,5 +1,5 @@
 echo "Compiling source code."
-javac -cp ../../genclass.jar */*.java */*/*.java
+javac -source 8 -target 8 -cp ../../genclass.jar */*.java */*/*.java
 
 echo "Distributing intermediate code to the different execution environments."
 
@@ -35,9 +35,9 @@ mkdir -p dirBar dirBar/serverSide dirBar/serverSide/main dirBar/serverSide/entit
 
 cp serverSide/main/ExecuteConst.class serverSide/main/ServerRestaurantBar.class dirBar/serverSide/main
 cp serverSide/entities/BarClientProxy.class dirBar/serverSide/entities
-cp serverSide/sharedRegions/GeneralReposInterface.class serverSide/sharedRegions/TableInterface.class serverSide/sharedRegions/BarInterface.class serverSide/sharedRegions/Bar.class dirKitchen/serverSide/sharedRegions
+cp serverSide/sharedRegions/GeneralReposInterface.class serverSide/sharedRegions/TableInterface.class serverSide/sharedRegions/BarInterface.class serverSide/sharedRegions/Bar.class dirBar/serverSide/sharedRegions
 cp clientSide/entities/ChefStates.class clientSide/entities/WaiterStates.class clientSide/entities/StudentStates.class clientSide/entities/ChefCloning.class clientSide/entities/WaiterCloning.class clientSide/entities/StudentCloning.class dirBar/clientSide/entities
-cp clientSide/stubs/GeneralReposStub.class clientSide/stubs/Table.class dirBarShop/clientSide/stubs
+cp clientSide/stubs/GeneralReposStub.class clientSide/stubs/TableStub.class dirBar/clientSide/stubs
 cp commInfra/*.class dirBar/commInfra
 
 
