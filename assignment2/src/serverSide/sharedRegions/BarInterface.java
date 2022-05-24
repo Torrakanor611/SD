@@ -9,7 +9,6 @@ import commInfra.MessageType;
 import serverSide.entities.BarClientProxy;
 
 public class BarInterface {
-
 	/**
 	 * Reference to the Bar
 	 */
@@ -71,7 +70,7 @@ public class BarInterface {
 					throw new MessageException("Invalid Student state!", inMessage);
 				break;
 			
-			//Aditional Messages
+			//Additional Messages
 			case MessageType.REQGETSTDBEIANSW:
 				break;
 			default:

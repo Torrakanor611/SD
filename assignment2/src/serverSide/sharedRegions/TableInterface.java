@@ -62,6 +62,9 @@ public class TableInterface {
 			case MessageType.REQEVERYBDFINISHEAT:	// Has everybody finished eating
 			case MessageType.REQHONBILL:			// Honour the bill
 			case MessageType.REQALLCOURBEENEAT:		// Have all courses been eaten
+				if (inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
+					throw new MessageException("Invalid Student state!", inMessage);
+
 				break;
 			// Student Messages that require type, state and id verification (done in Message Constructor)
 			case MessageType.REQSEATTABLE:			// Seat at table

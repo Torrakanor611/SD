@@ -182,10 +182,20 @@ public class Message implements Serializable
 				chefState = stateOrId;
 			else if (msgType == MessageType.REQSETWAIST)
 				waiterState = stateOrId;
-			else if (msgType == MessageType.REQSETNCOURSES)
+			else if (msgType == MessageType.REQSETNCOURSES) {
+				if ( stateOrId < 0 || stateOrId  > ExecuteConst.M) {	// Not a valid number of courses
+					GenericIO.writelnString ("Invalid number of courses");
+					System.exit (1);
+				} 
 				nCourses = stateOrId;
-			else if (msgType == MessageType.REQSETNPORTIONS)
+			}
+			else if (msgType == MessageType.REQSETNPORTIONS) {
+				if ( stateOrId < 0 || stateOrId  > ExecuteConst.N) {	// Not a valid number of portions
+					GenericIO.writelnString ("Invalid number of portions");
+					System.exit (1);
+				}
 				nPortions = stateOrId;
+			}
 			else if (msgType == MessageType.REQUPDSEATSTABLELV)
 				studentId = stateOrId;
 		}
