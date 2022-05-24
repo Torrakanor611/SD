@@ -29,7 +29,7 @@ public class ClientStudent {
 		Student[] student = new Student[ExecuteConst.N]; 	//Student threads
 		BarStub barStub;									//remote reference to the bar stub
 		TableStub tabStub;									//remote reference to the table stub
-		GeneralRepoStub genReposStub;						//remote reference to the general repository
+		GeneralReposStub genReposStub;						//remote reference to the general repository
 		
 		//Name of the platforms where kitchen and bar servers are located
 		String barServerHostName, tabServerHostName, genRepoServerHostName;
@@ -84,7 +84,7 @@ public class ClientStudent {
 		/* problem initialisation */
 		barStub = new BarStub(barServerHostName, barServerPortNumb);
 		tabStub = new TableStub(tabServerHostName, tabServerPortNumb);
-		genReposStub = new GeneralRepoStub(genRepoServerHostName, genRepoServerPortNumb);
+		genReposStub = new GeneralReposStub(genRepoServerHostName, genRepoServerPortNumb);
 		for (int i = 0; i < ExecuteConst.N; i++)
 			student[i] = new Student ("student_" + (i+1), i, barStub, tabStub);
 		

@@ -6,7 +6,6 @@ import clientSide.entities.WaiterStates;
 import commInfra.Message;
 import commInfra.MessageException;
 import commInfra.MessageType;
-import serverSide.entities.BarClientProxy;
 import serverSide.entities.GeneralReposClientProxy;
 
 public class GeneralReposInterface {

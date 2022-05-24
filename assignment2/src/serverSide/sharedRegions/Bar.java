@@ -3,7 +3,7 @@ package serverSide.sharedRegions;
 import commInfra.*;
 import serverSide.main.*;
 import clientSide.entities.*;
-import clientSide.stubs.GeneralRepoStub;
+import clientSide.stubs.GeneralReposStub;
 import clientSide.stubs.TableStub;
 
 /**
@@ -49,7 +49,7 @@ public class Bar
 	/**
 	 * Reference to the general repository
 	 */
-	private final GeneralRepoStub repos;
+	private final GeneralReposStub repos;
 	
 	/**
 	 * Auxiliary variable to keep track of the id of the student whose request is being answered by waiter
@@ -79,7 +79,7 @@ public class Bar
 	 * @param repos reference to the general repository
 	 * @param tab reference to the table
 	 */
-	public Bar(GeneralRepoStub repos, TableStub tab)
+	public Bar(GeneralReposStub repos, TableStub tab)
 	{
 		//Initialization of students threads
 		students = new Student[ExecuteConst.N];

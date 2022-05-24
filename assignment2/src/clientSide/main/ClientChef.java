@@ -28,7 +28,7 @@ public class ClientChef {
 		Chef chef;						//Chef thread
 		KitchenStub kitStub;			//remote reference to the kitchen stub
 		BarStub barStub;				//remote reference to the bar stub
-		GeneralRepoStub genReposStub;	//remote reference to the general repository
+		GeneralReposStub genReposStub;	//remote reference to the general repository
 		
 		//Name of the platforms where kitchen and bar servers are located
 		String kitServerHostName, barServerHostName, genRepoServerHostName;
@@ -83,7 +83,7 @@ public class ClientChef {
 		/* problem initialisation */
 		kitStub = new KitchenStub(kitServerHostName, kitServerPortNumb);
 		barStub = new BarStub(barServerHostName, barServerPortNumb);
-		genReposStub = new GeneralRepoStub(genRepoServerHostName, genRepoServerPortNumb);
+		genReposStub = new GeneralReposStub(genRepoServerHostName, genRepoServerPortNumb);
 		chef = new Chef("chef", kitStub, barStub);
 		
 		/* start simulation */

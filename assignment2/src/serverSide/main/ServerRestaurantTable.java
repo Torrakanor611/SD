@@ -35,7 +35,7 @@ public class ServerRestaurantTable
    {
       Table tab;								// table (service to be rendered)
       TableInterface tabInter;					// interface to the table
-      GeneralRepoStub reposStub;				// stub to the general repository
+      GeneralReposStub reposStub;				// stub to the general repository
       ServerCom scon, sconi;					// communication channels
       int portNumb = -1;						// port number for listening to service requests
       String reposServerName;					// name of the platform where is located the server for the general repository
@@ -71,7 +71,7 @@ public class ServerRestaurantTable
 
      /* service is established */
 
-      reposStub = new GeneralRepoStub (reposServerName, reposPortNumb);		// communication to the general repository is instantiated
+      reposStub = new GeneralReposStub (reposServerName, reposPortNumb);		// communication to the general repository is instantiated
       tab = new Table (reposStub);										// service is instantiated
       tabInter = new TableInterface (tab);								// interface to the service is instantiated
       scon = new ServerCom (portNumb);										// listening channel at the public port is established

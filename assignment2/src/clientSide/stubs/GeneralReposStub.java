@@ -12,7 +12,7 @@ import genclass.GenericIO;
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on a communication channel under the TCP protocol.
  */
-public class GeneralRepoStub {
+public class GeneralReposStub {
 	/**
 	 * Name of the platform where is located the kitchen server
 	 */
@@ -29,7 +29,7 @@ public class GeneralRepoStub {
 	 * @param serverHostName name of the platform where is located the kitchen server
 	 * @param serverPortNumb port number for listening to service requests
 	 */
-	public GeneralRepoStub(String serverHostName, int serverPortNumb)
+	public GeneralReposStub(String serverHostName, int serverPortNumb)
 	{
 		this.serverHostName = serverHostName;
 		this.serverPortNumb = serverPortNumb;

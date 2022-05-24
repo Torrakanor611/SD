@@ -31,7 +31,7 @@ public class ClientWaiter {
 		KitchenStub kitStub;			//remote reference to the kitchen stub
 		BarStub barStub;				//remote reference to the bar stub
 		TableStub tabStub;				//remote reference to the table stub
-		GeneralRepoStub genReposStub;	//remote reference to the general repository
+		GeneralReposStub genReposStub;	//remote reference to the general repository
 		
 		//Name of the platforms where kitchen and bar servers are located
 		String kitServerHostName, barServerHostName, tabServerHostName, genRepoServerHostName;
@@ -101,7 +101,7 @@ public class ClientWaiter {
 		kitStub = new KitchenStub(kitServerHostName, kitServerPortNumb);
 		barStub = new BarStub(barServerHostName, barServerPortNumb);
 		tabStub = new TableStub(tabServerHostName, tabServerPortNumb);
-		genReposStub = new GeneralRepoStub(genRepoServerHostName, genRepoServerPortNumb);
+		genReposStub = new GeneralReposStub(genRepoServerHostName, genRepoServerPortNumb);
 		waiter = new Waiter("waiter", kitStub, barStub, tabStub);
 		
 		/* start simulation */

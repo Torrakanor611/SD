@@ -2,7 +2,7 @@ package serverSide.sharedRegions;
 
 import serverSide.main.*;
 import clientSide.entities.*;
-import clientSide.stubs.GeneralRepoStub;
+import clientSide.stubs.GeneralReposStub;
 
 /**
  * 	Table
@@ -112,8 +112,11 @@ public class Table {
 	/**
      * Reference to the General Repository.
      */
-    private final GeneralRepoStub repos;
+    private final GeneralReposStub repos;
     
+    /**
+     * Number of entities that must make shutdown
+     */
     private int nEntities;
     
     
@@ -124,7 +127,7 @@ public class Table {
      * 
      * @param repos reference to the general repository
      */    
-    public Table(GeneralRepoStub repos)
+    public Table(GeneralReposStub repos)
     {
     	//Initialization of attributes
     	this.firstToArrive = -1;
