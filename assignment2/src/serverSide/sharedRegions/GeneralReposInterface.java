@@ -55,8 +55,12 @@ public class GeneralReposInterface {
 				throw new MessageException("Invalid Student state!", inMessage);
 			break;
 		// verify only message type
+		case MessageType.REQRPTLEGEND:
+		case MessageType.REQSETNCOURSES:
+		case MessageType.REQSETNPORTIONS:
 		case MessageType.REQUPDSEATSTABLE:
 		case MessageType.REQUPDSEATSTABLELV:
+		case MessageType.REQGENERALREPOSHUT:
 			break;
 		default:
 			throw new MessageException ("Invalid message type!", inMessage);
@@ -84,11 +88,12 @@ public class GeneralReposInterface {
 		case MessageType.REQUPDTSTUST2:
 			((GeneralReposClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 			((GeneralReposClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
-			repos.updateStudentState(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentState());
 			if (inMessage.getMsgType() == MessageType.REQUPDTSTUST1) {
+				repos.updateStudentState(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentState());
 				outMessage = new Message(MessageType.REPUPDTSTUST1);
 				break;
 			}
+			repos.updateStudentState(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentState(), inMessage.getHold());
 			outMessage = new Message(MessageType.REPUPDTSTUST2);
 			break;
 		case MessageType.REQSETNCOURSES:
@@ -111,6 +116,10 @@ public class GeneralReposInterface {
 			((GeneralReposClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
 			repos.updateSeatsAtTable(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), -1);
 			outMessage = new Message(MessageType.REPUPDSEATSTABLELV);
+			break;
+		case MessageType.REQGENERALREPOSHUT:
+			repos.shutdown();
+			outMessage = new Message(MessageType.REPGENERALREPOSHUT);
 			break;
 		}
 		return (outMessage);
