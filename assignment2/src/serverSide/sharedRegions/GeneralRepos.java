@@ -124,7 +124,6 @@ public class GeneralRepos
 			GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
 			System.exit (1);
 		}
-		reportStatus ();
 	}
 
 	/**
@@ -180,12 +179,10 @@ public class GeneralRepos
 
 		line += "    " + String.valueOf(nCourses);
 		line += "        " + String.valueOf(nPortions);
-		line += seatsAtTable[0] >= 0 ? "        " : "       ";
-		line += String.valueOf(seatsAtTable[0]);
+		line += "        " + (seatsAtTable[0] >= 0 ? String.valueOf(seatsAtTable[0]) : "-");
 		for(int i = 1; i < ExecuteConst.N; i++)
 		{
-			line += seatsAtTable[i] >= 0 ? "     " : "    ";
-			line += String.valueOf(seatsAtTable[i]);
+			line += "     " + (seatsAtTable[i] >= 0 ? String.valueOf(seatsAtTable[i]) : "-");
 		}
 
 		log.writelnString (line);
@@ -196,6 +193,11 @@ public class GeneralRepos
 		}
 	}
 	
+	
+	
+	/**
+	 * Write in the logging file the legend
+	 */
 	public void reportLegend()
 	{
 		TextFile log = new TextFile ();                  	// instantiation of a text file handler
@@ -224,6 +226,7 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Write in the logging file the new chef state
 	 * @param value chef state to set
 	 */
 	public synchronized void setChefState(int value) {
@@ -232,6 +235,7 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Write in the logging file the new waiter state
 	 * @param value waiter state to set
 	 */
 	public synchronized void setWaiterState(int value) {
@@ -240,6 +244,7 @@ public class GeneralRepos
 	}
 
 	/**
+	 * Write in the logging file the updated student state
 	 * @param id student id
 	 * @param value student state to set
 	 */
@@ -247,24 +252,37 @@ public class GeneralRepos
 		this.studentState[id] = value;
 		reportStatus();
 	}
+	
+	/**
+	 * Update student state
+	 * @param id student id
+	 * @param value student state to set
+	 * @param hold specifies if prints line of report status
+	 */
+	public synchronized void updateStudentState(int id, int value, boolean hold) {
+		this.studentState[id] = value;
+	}
 
 	/**
+	 * Set variable nCourses and report status in the logging file
 	 * @param value nCourses value to set
 	 */
 	public synchronized void setnCourses(int value) {
 		this.nCourses = value;
-		reportStatus();
 	}
 
 	/**
+	 * Write the portion value in the logging file
+	 * 
 	 * @param value nPortions value to set
 	 */
 	public synchronized void setnPortions(int value) {
 		this.nPortions = value;
-		reportStatus();
 	}
 
 	/**
+	 * Write to the logging file the updated seats values at the table 
+	 * 
 	 * @param seat seat at the table
 	 * @param id student id to sit
 	 */
@@ -272,7 +290,22 @@ public class GeneralRepos
 		this.seatsAtTable[seat] = id;
 		reportStatus();
 	}
-	
+
+	/**
+	 * Update the leaving of a student in the seats of the table
+	 * 
+	 * @param id student id to leave table
+	 */
+	public synchronized void updateSeatsAtLeaving(int id) {
+		int seat = 0;
+		
+		for(int i=0; i < this.seatsAtTable.length; i++) {
+			if(this.seatsAtTable[i] == id)
+				seat = i;
+		}
+		
+		this.seatsAtTable[seat] = -1;
+	}	
 	
 	/**
 	 * Operation Table server shutdown

@@ -119,9 +119,7 @@ public class Table {
     /**
      * Number of entities that must make shutdown
      */
-    private int nEntities;
-    
-    
+    private int nEntities;   
     
     
     /**
@@ -131,7 +129,7 @@ public class Table {
      */    
     public Table(GeneralReposStub reposStub)
     {
-    	//Initialization of attributes
+    	//Initialisation of attributes
     	this.firstToArrive = -1;
     	this.lastToArrive = -1;
     	this.numOrders = 0;
@@ -148,8 +146,7 @@ public class Table {
     	this.reposStub = reposStub;
     	this.nEntities = 0;
     	
-    	
-    	//Initialization of the boolean arrays
+    	//initialisation of the boolean arrays
     	studentsSeated = new boolean[ExecuteConst.N];
     	studentsReadMenu = new boolean[ExecuteConst.N];
     	for(int i = 0; i < ExecuteConst.N; i++)
@@ -158,7 +155,7 @@ public class Table {
     		studentsReadMenu[i] = false;
     	}
     	
-		//Initialization of students thread
+		//Initialisation of students thread
 		students = new TableClientProxy[ExecuteConst.N];
 		for(int i = 0; i < ExecuteConst.N; i++ ) 
 			students[i] = null;
@@ -169,24 +166,25 @@ public class Table {
     
     
     /**
+     * Obtain id of the first student to arrive
      * @return id of the first student to arrive at the restaurant
      */
     public int getFirstToArrive() { return firstToArrive; }
     
     /**
-     * 
+     * Obtain id of the last student to arrive
      * @return id of the last student to finish eating a meal
      */
     public int getLastToEat() { return lastToEat; }
     
     /**
-     * 
+     * Set id of the first student to arrive
      * @param firstToArrive id of the first student to arrive
      */
     public void setFirstToArrive(int firstToArrive) { this.firstToArrive = firstToArrive; }
     
     /**
-     * 
+     * Set id of the last student to arrive
      * @param lastToArrive if of the last student to arrive to the restaurant
      */
     public void setLastToArrive(int lastToArrive) { this.lastToArrive = lastToArrive; }
@@ -205,7 +203,6 @@ public class Table {
      */
     public synchronized void saluteClient(int studentIdBeingAnswered)
     {
-		System.out.println("ID OF STUDENT "+studentIdBeingAnswered);
     	studentBeingAnswered = studentIdBeingAnswered;
     	
     	//Update Waiter state
@@ -570,7 +567,7 @@ public class Table {
      * 
      * Called by the student to start eating the meal (During random time)
      */    
-    public synchronized void startEating()
+    public void startEating()
     {
     	int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
     	 
@@ -762,4 +759,4 @@ public class Table {
 		notifyAll ();
 	}
     
-}
+}  

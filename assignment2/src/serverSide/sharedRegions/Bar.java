@@ -16,7 +16,7 @@ import clientSide.stubs.TableStub;
  *	It is responsible for keeping track of the several requests that must be full filled by the waiter
  *	Implemented as an implicit monitor
  *	Public methods executed in mutual exclusion
- *	Synchronization points include:
+ *	Synchronisation points include:
  *		Waiter waits for pending requests if there are none
  *		When a student has to wait for the waiter to say goodbye to him so he can leave the restaurant
  *		Chef must wait for everybody to eat before alerting the waiter
@@ -50,7 +50,7 @@ public class Bar
 	private final BarClientProxy [] students;
 	
 	/**
-	 * Reference to the stub of the general repository
+	 * Reference to the general repository
 	 */
 	private final GeneralReposStub reposStub;
 	
@@ -75,7 +75,6 @@ public class Bar
 	private int nEntities;
 	
 	
-	
 	/**
 	 * Bar instantiation
 	 *  
@@ -84,12 +83,12 @@ public class Bar
 	 */
 	public Bar(GeneralReposStub reposStub, TableStub tabStub)
 	{
-		//Initialization of students threads
+		//Initizalization of students threads
 		students = new BarClientProxy[ExecuteConst.N];
 		for(int i = 0; i < ExecuteConst.N; i++ ) 
 			students[i] = null;
 		
-		//Initialization of the queue of pending requests
+		//Initialisation of the queue of pending requests
 		try {
 			pendingServiceRequestQueue = new MemFIFO<> (new Request [ExecuteConst.N * ExecuteConst.M]);
 		} catch (MemException e) {
@@ -110,6 +109,7 @@ public class Bar
 	
 	
 	/**
+	 * Return id of the student whose request is being answered
 	 * @return Id of the student whose request is being answered
 	 */
 	public int getStudentBeingAnswered() { return studentBeingAnswered; }
@@ -239,6 +239,8 @@ public class Bar
 		
 		//Update number of students at the restaurant
 		numberOfStudentsAtRestaurant--;
+		// seat at table becomes empty after waiter greets the student
+		repos.updateSeatsAtLeaving(studentBeingAnswered);
 		studentBeingAnswered = -1;
 		
 		reposStub.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
@@ -392,7 +394,7 @@ public class Bar
 		
 		//Update number of pending requests
 		numberOfPendingRequests++;
-		//Update student test
+		//Update student state
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
 		reposStub.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
 		//notify waiter that there is a pending request
@@ -406,8 +408,9 @@ public class Bar
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}	
+		}
 	}
+	
 	
 	/**
 	 * Operation bar server shutdown
