@@ -53,7 +53,7 @@ public class TableInterface {
 			case MessageType.REQGETPAD:				// Get the pad
 			case MessageType.REQPRESBILL:			// Present the bill
 				if (inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
-					throw new MessageException("Inavlid Waiter state!", inMessage);
+					throw new MessageException("Invalid Waiter state!", inMessage);
 				break;
 			//Student Messages that require only type verification
 			case MessageType.REQEVERYBDYCHO:		// Has everybody chosen
@@ -95,8 +95,9 @@ public class TableInterface {
 			case MessageType.REQSALUTCLI:
 				((TableClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 				((TableClientProxy) Thread.currentThread()).setStudentBeingAnswered(inMessage.getStudentIdBeingAnswered());
+				System.out.println("FROM TABLE INTERFACE STUDENT BEING ANSWERED IS "+((TableClientProxy) Thread.currentThread()).getStudentBeingAnswered());
 				tab.saluteClient(inMessage.getStudentIdBeingAnswered());
-				outMessage = new Message(MessageType.REPSALUTCLI, ((TableClientProxy) Thread.currentThread()).getStudentBeingAnswered(), ((TableClientProxy) Thread.currentThread()).getWaiterState(), true);
+				outMessage = new Message(MessageType.REPSALUTCLI, ((TableClientProxy) Thread.currentThread()).getWaiterState());
 				break;
 			case MessageType.REQRTRNBAR:
 				((TableClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());

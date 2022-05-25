@@ -166,9 +166,7 @@ public class Message implements Serializable
 				studentState = stateOrId;
 		}
 		else if (entitie == 4) {  //Additional message
-			if(msgType == MessageType.REQSALUTCLI)
-				studentBeingAnswered = stateOrId;
-			else if (msgType == MessageType.REPGETFRSTARR)
+			if (msgType == MessageType.REPGETFRSTARR)
 				firstToArrive = stateOrId;
 			else if (msgType == MessageType.REPGETLSTEAT)
 				lastToEat = stateOrId;
@@ -176,6 +174,10 @@ public class Message implements Serializable
 				firstToArrive = stateOrId;
 			else if (msgType == MessageType.REQSETLSTARR)
 				lastToArrive = stateOrId;
+			else if (msgType == MessageType.REPGETSTDBEIANSW){
+				System.out.println("FROM MESSAGE "+stateOrId);
+				studentBeingAnswered = stateOrId;
+			}
 		}
 		else if (entitie == 5) {	//General repository messages
 			if (msgType == MessageType.REQSETCHST)
@@ -196,8 +198,13 @@ public class Message implements Serializable
 				}
 				nPortions = stateOrId;
 			}
-			else if (msgType == MessageType.REQUPDSEATSTABLELV)
+			else if (msgType == MessageType.REQUPDSEATSTABLELV){
+				if ( stateOrId < 0 || stateOrId  >= ExecuteConst.N) {	// Not a valid Student id
+					GenericIO.writelnString ("Invalid student id");
+					System.exit (1);
+				}
 				studentId = stateOrId;
+			}
 		}
 		else { 
 			GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation!");
@@ -235,8 +242,8 @@ public class Message implements Serializable
 	 *  Message instantiation (form 4).
 	 *
 	 *     @param type message type
-	 *     @param id student identification
-	 *     @param state student state or seat at the table (when used in the general repos functions)
+	 *     @param id student identification or student being answered by the waiter identification
+	 *     @param state student state, waiter state or seat at the table (when used in the general repos functions)
 	 */
 
 	public Message (int type, int id, int stateOrSeat)
@@ -244,11 +251,19 @@ public class Message implements Serializable
 		msgType = type;
 		int entity = getEntitieFromMessageType(type);
 		
+		//Update seats at the table (general repos)
 		if (msgType == MessageType.REQUPDSEATSTABLE)
 			seatAtTable = stateOrSeat;
+		//salute a client (waiter in the table)
+		else if (msgType == MessageType.REQSALUTCLI){
+			studentBeingAnswered = id;
+			waiterState = stateOrSeat;
+			System.out.println("FNKJEFNKDSNKFONDFKONDFKO MESSAGE "+studentBeingAnswered);
+			return;
+		}
 		else 
 		{
-			if ((entity != 3) || msgType != MessageType.REQUPDTSTUST1) {	// Not a Student entity Type Message
+			if ((entity != 3) && msgType != MessageType.REQUPDTSTUST1) {	// Not a Student entity Type Message
 				GenericIO.writelnString ("Message type = " + msgType + ": non-implemented instantiation on Student!");
 				System.exit (1);
 			}
@@ -547,6 +562,10 @@ public class Message implements Serializable
 	{
 		return ("Message type = " + msgType +
 				"\nChef State = " + chefState +
+				"\nWaiter State = " + waiterState +
+				"\nStudentId = " + studentId + " StudentState = " + studentState + 
+				"\nStudentIdBeingAnswered = " + studentIdBeingAnswered +
+				"\nStudentsAtRestaurant = " + studentsAtRestaurant +
 				"\nAll Portions Been Delivered = " + allPortionsDelivered + 
 				"\nHas the Order been completed = " + orderCompleted);
 	}

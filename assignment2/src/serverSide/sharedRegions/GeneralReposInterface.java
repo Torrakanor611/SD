@@ -46,13 +46,17 @@ public class GeneralReposInterface {
 		// verify Waiter state
 		case MessageType.REQSETWAIST:
 			if (inMessage.getWaiterState() < WaiterStates.APRAISING_SITUATION || inMessage.getWaiterState() > WaiterStates.RECEIVING_PAYMENT)
-				throw new MessageException("Inavlid Waiter state!", inMessage);
+				throw new MessageException("Invalid Waiter state!", inMessage);
 			break;
 		// verify Student state
 		case MessageType.REQUPDTSTUST1:
 		case MessageType.REQUPDTSTUST2:
 			if (inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
 				throw new MessageException("Invalid Student state!", inMessage);
+			break;
+		// verify only message type
+		case MessageType.REQUPDSEATSTABLE:
+		case MessageType.REQUPDSEATSTABLELV:
 			break;
 		default:
 			throw new MessageException ("Invalid message type!", inMessage);
@@ -106,7 +110,7 @@ public class GeneralReposInterface {
 		case MessageType.REQUPDSEATSTABLELV:
 			((GeneralReposClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
 			repos.updateSeatsAtTable(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), -1);
-			outMessage = new Message(MessageType.REQUPDSEATSTABLELV);
+			outMessage = new Message(MessageType.REPUPDSEATSTABLELV);
 			break;
 		}
 		return (outMessage);

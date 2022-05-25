@@ -205,6 +205,7 @@ public class Table {
      */
     public synchronized void saluteClient(int studentIdBeingAnswered)
     {
+		System.out.println("ID OF STUDENT "+studentIdBeingAnswered);
     	studentBeingAnswered = studentIdBeingAnswered;
     	
     	//Update Waiter state

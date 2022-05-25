@@ -202,8 +202,8 @@ public class TableStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		
-		outMessage = new Message (MessageType.REQSALUTCLI, ((Waiter) Thread.currentThread()).getWaiterState(), studentIdBeingAnswered);
+		System.out.println("STUDENT BEING ANSWERED "+studentIdBeingAnswered);
+		outMessage = new Message (MessageType.REQSALUTCLI, studentIdBeingAnswered, ((Waiter) Thread.currentThread()).getWaiterState());
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
 		

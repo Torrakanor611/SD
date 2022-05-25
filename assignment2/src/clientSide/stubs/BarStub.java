@@ -69,6 +69,7 @@ public class BarStub {
 		}
 		//Close communication channel
 		com.close ();
+		System.out.println("FROM BAR STUB THE ID OF THE STUDENT IS "+inMessage.getStudentBeingAnswered());
 		return inMessage.getStudentBeingAnswered();
 	}
 	

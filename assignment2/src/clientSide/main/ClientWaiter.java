@@ -105,6 +105,7 @@ public class ClientWaiter {
 		waiter = new Waiter("waiter", kitStub, barStub, tabStub);
 		
 		/* start simulation */
+		GenericIO.writelnString ("Launching Waiter Thread");
 		waiter.start();
 		
 		/* waiting for the end of the simulation */

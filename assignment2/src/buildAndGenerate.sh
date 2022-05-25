@@ -81,7 +81,7 @@ rm -rf dirStudent
 mkdir -p dirStudent dirStudent/serverSide dirStudent/serverSide/main dirStudent/clientSide dirStudent/clientSide/main dirStudent/clientSide/entities \
         dirStudent/clientSide/stubs dirStudent/commInfra
 cp serverSide/main/ExecuteConst.class dirStudent/serverSide/main
-cp clientSide/main/ClientStudent.class dirWaiter/clientSide/main
+cp clientSide/main/ClientStudent.class dirStudent/clientSide/main
 cp clientSide/entities/Student.class clientSide/entities/StudentStates.class dirStudent/clientSide/entities
 cp clientSide/stubs/GeneralReposStub.class clientSide/stubs/BarStub.class clientSide/stubs/TableStub.class dirStudent/clientSide/stubs
 cp commInfra/Message.class commInfra/MessageType.class commInfra/MessageException.class commInfra/ClientCom.class dirStudent/commInfra

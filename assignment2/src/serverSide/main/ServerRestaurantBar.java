@@ -65,6 +65,9 @@ public class ServerRestaurantBar
 			System.exit (1);
 			}
 		}
+		portNumb = Integer.parseInt (args[0]);
+		reposPortNumb = Integer.parseInt (args[2]);
+		tablePortNumb = Integer.parseInt (args[4]);
 		reposServerName = args[1];
 		tableServerName = args[3];
 

@@ -89,8 +89,10 @@ public class ClientStudent {
 			student[i] = new Student ("student_" + (i+1), i, barStub, tabStub);
 		
 		/* start simulation */
-		for (int i = 0; i < ExecuteConst.N; i++)
+		for (int i = 0; i < ExecuteConst.N; i++) {
+			GenericIO.writelnString ("Launching Student Thread "+i);
 			student[i].start();
+		}
 		
 		/* waiting for the end of the simulation */
 		for(int i = 0; i < ExecuteConst.N; i++)

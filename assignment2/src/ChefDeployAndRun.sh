@@ -1,7 +1,7 @@
 echo "Transfering data to the Chef node."
 sshpass -f password ssh sd102@l040101-ws01.ua.pt 'mkdir -p Restaurant'
 sshpass -f password ssh sd102@l040101-ws01.ua.pt 'rm -rf Restaurant/*'
-sshpass -f password scp dirChef.zip sd102@l040101-ws02.ua.pt:Restaurant
+sshpass -f password scp dirChef.zip sd102@l040101-ws01.ua.pt:Restaurant
 echo "Decompressing data sent to Chef node."
 sshpass -f password ssh sd102@l040101-ws01.ua.pt 'cd Restaurant ; unzip -uq dirChef.zip'
 echo "Executing program at the Chef node."

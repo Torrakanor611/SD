@@ -87,6 +87,7 @@ public class ClientChef {
 		chef = new Chef("chef", kitStub, barStub);
 		
 		/* start simulation */
+		GenericIO.writelnString ("Launching Chef Thread ");
 		chef.start();
 		
 		/* waiting for the end of the simulation */

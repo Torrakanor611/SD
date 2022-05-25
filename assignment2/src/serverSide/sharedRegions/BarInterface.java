@@ -125,6 +125,7 @@ public class BarInterface {
 				break;
 			case MessageType.REQGETSTDBEIANSW:
 				int id = bar.getStudentBeingAnswered();
+				System.out.println("ID OF STUDENT BEING ANSWERED FROM BAR getStudentIdBeing "+id);
 				outMessage = new Message(MessageType.REPGETSTDBEIANSW, id);
 				break;
 			case MessageType.REQBARSHUT:
