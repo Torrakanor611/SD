@@ -114,7 +114,7 @@ public class Table {
 	/**
      * Reference to the General Repository.
      */
-    private final GeneralReposStub repos;
+    private final GeneralReposStub reposStub;
     
     /**
      * Number of entities that must make shutdown
@@ -129,7 +129,7 @@ public class Table {
      * 
      * @param repos reference to the general repository
      */    
-    public Table(GeneralReposStub repos)
+    public Table(GeneralReposStub reposStub)
     {
     	//Initialization of attributes
     	this.firstToArrive = -1;
@@ -145,7 +145,7 @@ public class Table {
     	this.takingTheOrder = false;
     	this.informingCompanion = false;
     	this.processingBill = false;
-    	this.repos = repos;
+    	this.reposStub = reposStub;
     	this.nEntities = 0;
     	
     	
@@ -210,7 +210,7 @@ public class Table {
     	
     	//Update Waiter state
     	((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PRESENTING_THE_MENU);
-    	repos.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
+    	reposStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
     	
     	presentingTheMenu = true;
     	
@@ -258,7 +258,7 @@ public class Table {
     {
     	//Update Waiter state
     	((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.APRAISING_SITUATION);
-    	repos.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());    	
+    	reposStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());    	
     }
     
     
@@ -274,7 +274,7 @@ public class Table {
     {
     	//Update Waiter state
     	((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.TAKING_THE_ORDER);
-    	repos.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
+    	reposStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
     	
     	takingTheOrder = true;
     	
@@ -346,7 +346,7 @@ public class Table {
     	notifyAll();
     	
     	((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.RECEIVING_PAYMENT);
-    	repos.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
+    	reposStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
     	//Block waiting for his payment
     	try {
 			wait();
@@ -406,7 +406,7 @@ public class Table {
     	
     	//Update student state
     	students[studentId].setStudentState(StudentStates.SELECTING_THE_COURSES);
-    	repos.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
+    	reposStub.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
     	
     	studentsReadMenu[studentId] = true;
     	//Signal waiter that menu was already read
@@ -430,7 +430,7 @@ public class Table {
     	
     	//Update student state
     	students[firstToArrive].setStudentState(StudentStates.ORGANIZING_THE_ORDER);
-    	repos.updateStudentState(firstToArrive, ((TableClientProxy) Thread.currentThread()).getStudentState());
+    	reposStub.updateStudentState(firstToArrive, ((TableClientProxy) Thread.currentThread()).getStudentState());
     	
     }
     
@@ -523,7 +523,7 @@ public class Table {
     {
     	//Update student state
     	students[firstToArrive].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
-    	repos.updateStudentState(firstToArrive, ((TableClientProxy) Thread.currentThread()).getStudentState());   
+    	reposStub.updateStudentState(firstToArrive, ((TableClientProxy) Thread.currentThread()).getStudentState());   
     }
     
     
@@ -557,7 +557,7 @@ public class Table {
     	
     	//Update student state
     	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
-    	repos.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
+    	reposStub.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
     	
     	
     }
@@ -576,7 +576,7 @@ public class Table {
     	 
     	//Update student state
     	students[studentId].setStudentState(StudentStates.ENJOYING_THE_MEAL);
-    	repos.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
+    	reposStub.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
     	
     	//Enjoy meal during random time
         try
@@ -609,7 +609,7 @@ public class Table {
     	
     	//Update student state
     	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
-    	repos.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
+    	reposStub.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
     }
     
     
@@ -743,7 +743,7 @@ public class Table {
     	if(studentId == lastToArrive) {
 	    	//Update student state
 	    	students[studentId].setStudentState(StudentStates.PAYING_THE_BILL);
-	    	repos.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
+	    	reposStub.updateStudentState(studentId, ((TableClientProxy) Thread.currentThread()).getStudentState());
 	    	return true;
     	}
     	else

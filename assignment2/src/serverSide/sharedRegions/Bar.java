@@ -52,7 +52,7 @@ public class Bar
 	/**
 	 * Reference to the stub of the general repository
 	 */
-	private final GeneralReposStub repos;
+	private final GeneralReposStub reposStub;
 	
 	/**
 	 * Auxiliary variable to keep track of the id of the student whose request is being answered by waiter
@@ -67,7 +67,7 @@ public class Bar
 	/**
 	 * Reference to the table
 	 */
-	private final TableStub tab;
+	private final TableStub tabStub;
 	
 	/**
 	 * Number of entity groups requesting the shutdown
@@ -82,7 +82,7 @@ public class Bar
 	 * @param repos reference to the general repository
 	 * @param tab reference to the table
 	 */
-	public Bar(GeneralReposStub repos, TableStub tab)
+	public Bar(GeneralReposStub reposStub, TableStub tabStub)
 	{
 		//Initialization of students threads
 		students = new BarClientProxy[ExecuteConst.N];
@@ -99,8 +99,8 @@ public class Bar
 	
 		this.courseFinished = true;
 		this.studentBeingAnswered = -1;
-		this.repos = repos;
-		this.tab = tab;
+		this.reposStub = reposStub;
+		this.tabStub = tabStub;
 		this.nEntities = 0;
 		
 		this.studentsGreeted = new boolean[ExecuteConst.N];
@@ -152,7 +152,7 @@ public class Bar
 		
 		//Update chefs state
 		((BarClientProxy) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repos.setChefState(((BarClientProxy) Thread.currentThread()).getChefState());
+		reposStub.setChefState(((BarClientProxy) Thread.currentThread()).getChefState());
 		
 		//Signal waiter that there is a pending request
 		notifyAll();
@@ -218,7 +218,7 @@ public class Bar
 	{
 		//Update Waiter state
 		((BarClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PROCESSING_THE_BILL);
-		repos.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
+		reposStub.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
 	}
 	
 	
@@ -241,7 +241,7 @@ public class Bar
 		numberOfStudentsAtRestaurant--;
 		studentBeingAnswered = -1;
 		
-		repos.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
+		reposStub.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
 		
 		if(numberOfStudentsAtRestaurant == 0)
 			return true;
@@ -271,9 +271,9 @@ public class Bar
 
 			//Register first and last to arrive
 			if(numberOfStudentsAtRestaurant == 1)
-				tab.setFirstToArrive(studentId);
+				tabStub.setFirstToArrive(studentId);
 			else if (numberOfStudentsAtRestaurant == ExecuteConst.N)
-				tab.setLastToArrive(studentId);
+				tabStub.setLastToArrive(studentId);
 			
 			//Add a new pending requests to the queue
 			try {
@@ -287,16 +287,16 @@ public class Bar
 			
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-			repos.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
+			reposStub.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
 			//register seat at the general repo
-			repos.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
+			reposStub.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
 			
 			//Signal waiter that there is a pending request
 			notifyAll();
 		}
 		
 		//Seat student at table and block it
-		tab.seatAtTable();
+		tabStub.seatAtTable();
 
 	}
 	
@@ -394,7 +394,7 @@ public class Bar
 		numberOfPendingRequests++;
 		//Update student test
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
-		repos.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
+		reposStub.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
 		//notify waiter that there is a pending request
 		notifyAll();
 	

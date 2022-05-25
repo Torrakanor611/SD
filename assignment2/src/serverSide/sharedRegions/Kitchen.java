@@ -40,7 +40,7 @@ public class Kitchen
 	/**
      * Reference to the General Repository.
      */
-    private final GeneralReposStub repos;
+    private final GeneralReposStub reposStub;
     
     /**
      * Number of entities that requested shutdown
@@ -52,14 +52,14 @@ public class Kitchen
     /**
      * Kitchen instantiation
      * 
-     * @param repos reference to general repository
+     * @param reposStub reference to general repository
      */
-	public Kitchen(GeneralReposStub repos)
+	public Kitchen(GeneralReposStub reposStub)
 	{
 		this.numberOfPortionsReady = 0;
 		this.numberOfPortionsDelivered = 0;
 		this.numberOfCoursesDelivered = 0;
-		this.repos = repos;
+		this.reposStub = reposStub;
 		this.nEntities = 0;
 	}
 	
@@ -72,7 +72,7 @@ public class Kitchen
 	{
 		//Set chef state
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.WAITING_FOR_AN_ORDER);
-		repos.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
+		reposStub.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 		
 		//Block waiting for waiter to notify of the order
 		try {
@@ -95,7 +95,7 @@ public class Kitchen
 	{
 		//Update new Chef State
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
-		repos.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
+		reposStub.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 		
 		//Notify Waiter that the preparation of the order has started
 		notifyAll();
@@ -113,7 +113,7 @@ public class Kitchen
 	{
 		//Update new Chef state
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
-		repos.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
+		reposStub.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 		
 		//Update numberOfPortionsReady
 		numberOfPortionsReady++;
@@ -183,7 +183,7 @@ public class Kitchen
 	{
 		//Update chefs state
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
-		repos.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
+		reposStub.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 	}
 	
 	
@@ -198,14 +198,14 @@ public class Kitchen
 	{	
 		//Update chefs state
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.DISHING_THE_PORTIONS);
-		repos.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
+		reposStub.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 		
 		//Update numberOfPortionsReady
 		numberOfPortionsReady++;
 		
 		//Update chefs state
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		repos.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
+		reposStub.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 		
 		//Notify Waiter that there is a portion waiting to be delivered
 		notifyAll();
@@ -223,7 +223,7 @@ public class Kitchen
 	{	
 		//Update chefs state to terminate life cycle
 		((KitchenClientProxy) Thread.currentThread()).setChefState(ChefStates.CLOSING_SERVICE);
-		repos.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
+		reposStub.setChefState(((KitchenClientProxy) Thread.currentThread()).getChefState());
 	}
 	
 	
@@ -239,7 +239,7 @@ public class Kitchen
 	{		
 		//Update waiter state
 		((KitchenClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PLACING_ODER);
-		repos.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
+		reposStub.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 		
 		//Notify chef that he can start the preparation of the order
 		notifyAll();
@@ -267,7 +267,7 @@ public class Kitchen
 	{
 		//Update waiter state
 		((KitchenClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.APRAISING_SITUATION);
-		repos.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
+		reposStub.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 	}
 	
 	
@@ -282,7 +282,7 @@ public class Kitchen
 	public synchronized void collectPortion()
 	{
 		((KitchenClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.WAITING_FOR_PORTION);
-		repos.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
+		reposStub.setWaiterState(((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 		
 		//If there are no portions to deliver waiter must block
 		while (numberOfPortionsReady == 0) {
@@ -303,8 +303,8 @@ public class Kitchen
 			numberOfPortionsDelivered = 1;
 		
 		//Update portion number and course number in general repository
-		repos.setnPortions(numberOfPortionsDelivered);
-		repos.setnCourses(numberOfCoursesDelivered+1);
+		reposStub.setnPortions(numberOfPortionsDelivered);
+		reposStub.setnCourses(numberOfCoursesDelivered+1);
 		
 		//Signal chef that portion was delivered
 		notifyAll();
