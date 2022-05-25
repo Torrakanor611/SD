@@ -240,7 +240,7 @@ public class Bar
 		//Update number of students at the restaurant
 		numberOfStudentsAtRestaurant--;
 		// seat at table becomes empty after waiter greets the student
-		repos.updateSeatsAtLeaving(studentBeingAnswered);
+		reposStub.updateSeatsAtLeaving(studentBeingAnswered);
 		studentBeingAnswered = -1;
 		
 		reposStub.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());

@@ -476,6 +476,7 @@ public class TableStub {
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
+		System.out.println("Student "+((Student) Thread.currentThread()).getStudentId()+"  took a SEAT");
 		((Student) Thread.currentThread ()).setStudentState (inMessage.getStudentState());
 		//Close communication channel
 		com.close ();
