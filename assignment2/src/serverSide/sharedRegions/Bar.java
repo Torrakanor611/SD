@@ -201,7 +201,7 @@ public class Bar
 		}		
 		//Register student id in studentBeingAnswered
 		studentBeingAnswered = r.id;
-		
+		System.out.println("STUDENT "+studentBeingAnswered+"   REQUEST");
 		return r.type;
 	}
 	
@@ -264,7 +264,7 @@ public class Bar
 		synchronized(this)
 		{
 			int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
-			
+
 			//Update student state
 			students[studentId] = ((BarClientProxy) Thread.currentThread());
 			students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
@@ -276,7 +276,7 @@ public class Bar
 				tabStub.setFirstToArrive(studentId);
 			else if (numberOfStudentsAtRestaurant == ExecuteConst.N)
 				tabStub.setLastToArrive(studentId);
-			
+
 			//Add a new pending requests to the queue
 			try {
 				pendingServiceRequestQueue.write(new Request(studentId, 'c'));
@@ -296,7 +296,7 @@ public class Bar
 			//Signal waiter that there is a pending request
 			notifyAll();
 		}
-		
+
 		//Seat student at table and block it
 		tabStub.seatAtTable();
 

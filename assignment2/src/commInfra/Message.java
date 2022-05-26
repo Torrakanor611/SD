@@ -162,7 +162,7 @@ public class Message implements Serializable
 		else if (entitie == 3) { //Student message
 			if(msgType == MessageType.REQCALLWAI || msgType == MessageType.REPCALLWAI)
 				studentId = stateOrId;
-			else if(msgType == MessageType.REQPREPORDER || msgType == MessageType.REQJOINTALK)
+			else if(msgType == MessageType.REQPREPORDER || msgType == MessageType.REPPREPORDER|| msgType == MessageType.REQJOINTALK)
 				studentState = stateOrId;
 		}
 		else if (entitie == 4) {  //Additional message
@@ -233,7 +233,7 @@ public class Message implements Serializable
 			allClientsBeenServed = bValue;
 		else if (msgType == MessageType.REPEVERYBDYCHO)
 			everybodyHasChosen = bValue;
-		else if (msgType == MessageType.REQALLCOURBEENEAT)
+		else if (msgType == MessageType.REPALLCOURBEENEAT)
 			haveAllCoursesBeenEaten = bValue;
 			
 	}
@@ -255,11 +255,10 @@ public class Message implements Serializable
 		if (msgType == MessageType.REQUPDSEATSTABLE)
 			seatAtTable = stateOrSeat;
 		//salute a client (waiter in the table)
-		else if (msgType == MessageType.REQSALUTCLI){
+		else if (msgType == MessageType.REQSALUTCLI || msgType == MessageType.REPSALUTCLI){
 			studentBeingAnswered = id;
 			waiterState = stateOrSeat;
 			System.out.println("FNKJEFNKDSNKFONDFKONDFKO MESSAGE "+studentBeingAnswered);
-			return;
 		}
 		else 
 		{
@@ -276,6 +275,9 @@ public class Message implements Serializable
 			System.exit (1);
 		}
 		studentId = id;
+		if(msgType == MessageType.REQENTER || msgType == MessageType.REPENTER)
+			System.out.print(msgType +" -> studentId" +studentId+ " State"+studentState);
+		//if(msgType == MessageType.REQSEATTABLE)
 	}
 	
 	

@@ -110,3 +110,25 @@ zip -rq dirWaiter.zip dirWaiter
 echo "  Student"
 rm -f dirStudent.zip
 zip -rq dirStudent.zip dirStudent
+
+
+echo "Deploying and decompressing execution environments."
+mkdir -p /home/joao/Restaurant
+rm -rf /home/joao/Restaurant/*
+cp dirGeneralRepos.zip /home/joao/Restaurant
+cp dirKitchen.zip /home/joao/Restaurant
+cp dirBar.zip /home/joao/Restaurant
+cp dirTable.zip /home/joao/Restaurant
+cp dirChef.zip /home/joao/Restaurant
+cp dirWaiter.zip /home/joao/Restaurant
+cp dirStudent.zip /home/joao/Restaurant
+cp genclass.jar /home/joao/Restaurant
+cd /home/joao/Restaurant
+
+unzip -q dirGeneralRepos.zip
+unzip -q dirKitchen.zip
+unzip -q dirTable.zip
+unzip -q dirBar.zip
+unzip -q dirChef.zip
+unzip -q dirWaiter.zip
+unzip -q dirStudent.zip

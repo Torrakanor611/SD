@@ -181,13 +181,13 @@ public class Table {
      * Set id of the first student to arrive
      * @param firstToArrive id of the first student to arrive
      */
-    public void setFirstToArrive(int firstToArrive) { this.firstToArrive = firstToArrive; }
+    public synchronized void setFirstToArrive(int firstToArrive) { this.firstToArrive = firstToArrive; }
     
     /**
      * Set id of the last student to arrive
      * @param lastToArrive if of the last student to arrive to the restaurant
      */
-    public void setLastToArrive(int lastToArrive) { this.lastToArrive = lastToArrive; }
+    public synchronized void setLastToArrive(int lastToArrive) { this.lastToArrive = lastToArrive; }
     
     
     
@@ -204,7 +204,7 @@ public class Table {
     public synchronized void saluteClient(int studentIdBeingAnswered)
     {
     	studentBeingAnswered = studentIdBeingAnswered;
-    	
+    	System.out.println("I SALUTED THE CLIENT "+ studentBeingAnswered);
     	//Update Waiter state
     	((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PRESENTING_THE_MENU);
     	reposStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
@@ -225,7 +225,7 @@ public class Table {
     	
     	//Waiter wakes student that has just arrived in order to greet him
     	notifyAll();
-
+		System.out.println("IAAAAAA SALUTED THE CLIENT"+studentBeingAnswered);
     	//Block waiting for student to read the menu
     	while(studentsReadMenu[studentBeingAnswered] == false)
     	{
@@ -236,7 +236,7 @@ public class Table {
 				e.printStackTrace();
 			}    
     	}
-    	
+    	System.out.println("IAAAAAAAAAAAAAAAAAAA SALUTED THE CLIENT"+studentBeingAnswered);
     	//When student has finished reading the menu his request was completed
     	studentBeingAnswered = -1;
     	presentingTheMenu  = false;
@@ -365,10 +365,10 @@ public class Table {
     public synchronized void seatAtTable()
     {
     	int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
-    	
+    	System.out.println("I am at the table " + studentId+"\n");
 		students[studentId] = ((TableClientProxy) Thread.currentThread());
 		students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-    	
+
     	//Register that student took a seat
     	studentsSeated[studentId] = true;
     	//notify waiter that student took a seat (waiter may be waiting)

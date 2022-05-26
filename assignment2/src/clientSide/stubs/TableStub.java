@@ -202,13 +202,22 @@ public class TableStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		System.out.println("STUDENT BEING ANSWERED "+studentIdBeingAnswered);
+		System.out.println("AAASTUDENT BEING ANSWERED "+studentIdBeingAnswered);
 		outMessage = new Message (MessageType.REQSALUTCLI, studentIdBeingAnswered, ((Waiter) Thread.currentThread()).getWaiterState());
+		System.out.println("AASTUDENT BEING ANSWERED "+studentIdBeingAnswered);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		System.out.println("ASTUDENT BEING ANSWERED "+studentIdBeingAnswered);
 		inMessage = (Message) com.readObject(); //Read inGoing message
-		
+		System.out.println("STUDENT BEING ANSWERED "+studentIdBeingAnswered);
+
 		//Validate inGoing message type and arguments
 		if(inMessage.getMsgType() != MessageType.REPSALUTCLI)
+		{
+			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
+			GenericIO.writelnString (inMessage.toString ());
+			System.exit (1);
+		}
+		if(inMessage.getStudentBeingAnswered() != -1)
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid message type!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -443,7 +452,6 @@ public class TableStub {
     {
     	ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
-		
 		com = new ClientCom (serverHostName, serverPortNumb);
 		//Wait for a connection to be established
 		while(!com.open())
@@ -452,11 +460,13 @@ public class TableStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		
-		outMessage = new Message (MessageType.REQSEATTABLE, ((Student) Thread.currentThread()).getStudentId(),((Student) Thread.currentThread()).getStudentState());
+		System.out.println("11IM GOING TO TRY TO TAKE A FUCKING SEAT");	
+		outMessage = new Message (MessageType.REQSEATTABLE, ((StudentCloning) Thread.currentThread()).getStudentId(),((StudentCloning) Thread.currentThread()).getStudentState());
+		System.out.println("22IM GOING TO TRY TO TAKE A FUCKING SEAT");
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
+		System.out.println("33IM GOING TO TRY TO TAKE A FUCKING SEAT");
 		inMessage = (Message) com.readObject(); //Read inGoing message
-		
+		System.out.println("44IM GOING TO TRY TO TAKE A FUCKING SEAT");
 		//Validate inGoing message type and arguments
 		if(inMessage.getMsgType() != MessageType.REPSEATTABLE)
 		{
@@ -464,7 +474,7 @@ public class TableStub {
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		if(inMessage.getStudentId() != ((Student) Thread.currentThread()).getStudentId())
+		if(inMessage.getStudentId() != ((StudentCloning) Thread.currentThread()).getStudentId())
 		{
 			GenericIO.writelnString ("Thread " + Thread.currentThread ().getName () + ": Invalid student id!");
 			GenericIO.writelnString (inMessage.toString ());
@@ -476,8 +486,7 @@ public class TableStub {
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		System.out.println("Student "+((Student) Thread.currentThread()).getStudentId()+"  took a SEAT");
-		((Student) Thread.currentThread ()).setStudentState (inMessage.getStudentState());
+		((StudentCloning) Thread.currentThread ()).setStudentState (inMessage.getStudentState());
 		//Close communication channel
 		com.close ();
     }

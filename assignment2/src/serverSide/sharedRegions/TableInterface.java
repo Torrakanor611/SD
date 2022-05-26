@@ -62,9 +62,6 @@ public class TableInterface {
 			case MessageType.REQEVERYBDFINISHEAT:	// Has everybody finished eating
 			case MessageType.REQHONBILL:			// Honour the bill
 			case MessageType.REQALLCOURBEENEAT:		// Have all courses been eaten
-				if (inMessage.getStudentState() < StudentStates.GOING_TO_THE_RESTAURANT || inMessage.getStudentState() > StudentStates.GOING_HOME)
-					throw new MessageException("Invalid Student state!", inMessage);
-
 				break;
 			// Student Messages that require type, state and id verification (done in Message Constructor)
 			case MessageType.REQSEATTABLE:			// Seat at table
@@ -93,16 +90,21 @@ public class TableInterface {
 		switch(inMessage.getMsgType())
 		{
 			case MessageType.REQSALUTCLI:
+				System.out.println("EWWWW "+inMessage.getStudentIdBeingAnswered());
 				((TableClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 				((TableClientProxy) Thread.currentThread()).setStudentBeingAnswered(inMessage.getStudentIdBeingAnswered());
-				System.out.println("FROM TABLE INTERFACE STUDENT BEING ANSWERED IS "+((TableClientProxy) Thread.currentThread()).getStudentBeingAnswered());
-				tab.saluteClient(inMessage.getStudentIdBeingAnswered());
-				outMessage = new Message(MessageType.REPSALUTCLI, ((TableClientProxy) Thread.currentThread()).getWaiterState());
+				int i = inMessage.getStudentBeingAnswered();
+				System.out.println("FROM TABLE INTERFACE STUDENT BEING SALUTED IS "+inMessage.getStudentIdBeingAnswered());
+				tab.saluteClient(i);
+				System.out.println("FROM TABLE INTERFACE STUDENT BEING SALUTED IS "+inMessage.getStudentIdBeingAnswered());
+				outMessage = new Message(MessageType.REPSALUTCLI,  ((TableClientProxy) Thread.currentThread()).getStudentBeingAnswered(), ((TableClientProxy) Thread.currentThread()).getWaiterState());
+				System.out.println("I SALUTEDD STUDENT" +inMessage.getStudentId());
 				break;
 			case MessageType.REQRTRNBAR:
 				((TableClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 				tab.returnBar();
 				outMessage = new Message(MessageType.REPRTRNBAR, ((TableClientProxy) Thread.currentThread()).getWaiterState());
+				System.out.println("I RETURNED TO TEH BAR");
 				break;
 			case MessageType.REQGETPAD:
 				((TableClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
@@ -125,6 +127,7 @@ public class TableInterface {
 			case MessageType.REQSEATTABLE:
 				((TableClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 				((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
+				System.out.println("I AM GOING TO SEAT  "+inMessage.getStudentId()+" "+inMessage.getStudentIdBeingAnswered());
 				tab.seatAtTable();
 				outMessage = new Message(MessageType.REPSEATTABLE, ((TableClientProxy) Thread.currentThread()).getStudentId(), ((TableClientProxy) Thread.currentThread()).getStudentState());
 				break;
@@ -184,10 +187,8 @@ public class TableInterface {
 				outMessage = new Message(MessageType.REPHONBILL);
 				break;
 			case MessageType.REQALLCOURBEENEAT:
-				((TableClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
-				((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
-				tab.haveAllCoursesBeenEaten();
-				outMessage = new Message(MessageType.REPALLCOURBEENEAT, ((TableClientProxy) Thread.currentThread()).getStudentId(), ((TableClientProxy) Thread.currentThread()).getStudentState());
+				boolean haveAllCoursesBeenEaten = tab.haveAllCoursesBeenEaten();
+				outMessage = new Message(MessageType.REPALLCOURBEENEAT, haveAllCoursesBeenEaten);
 				break;
 			case MessageType.REQSHOULDARREARLY:
 				((TableClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
