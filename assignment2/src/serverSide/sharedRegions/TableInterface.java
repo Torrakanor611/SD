@@ -197,7 +197,7 @@ public class TableInterface {
 				break;
 			case MessageType.REQGETLSTEAT:
 				int idLast = tab.getFirstToArrive();
-				outMessage = new Message(MessageType.REPGETFRSTARR, idLast);
+				outMessage = new Message(MessageType.REPGETLSTEAT, idLast);
 				break;
 			case MessageType.REQSETFRSTARR:
 				tab.setFirstToArrive(inMessage.getFirstToArrive());

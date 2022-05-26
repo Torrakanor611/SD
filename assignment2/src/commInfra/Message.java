@@ -311,7 +311,7 @@ public class Message implements Serializable
 		msgType = type;
 		studentId = id;
 		studentState = state;
-		if(msgType == MessageType.REQSHOULDARREARLY)
+		if(msgType == MessageType.REPSHOULDARREARLY)
 			shouldArrivedEarlier = bValue;
 		else if (msgType == MessageType.REQUPDTSTUST2)
 			hold = bValue;
