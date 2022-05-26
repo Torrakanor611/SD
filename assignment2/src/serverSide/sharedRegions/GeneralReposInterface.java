@@ -92,9 +92,10 @@ public class GeneralReposInterface {
 				repos.updateStudentState(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentState());
 				outMessage = new Message(MessageType.REPUPDTSTUST1);
 				break;
+			} else { 
+				repos.updateStudentState(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentState(), inMessage.getHold());
+				outMessage = new Message(MessageType.REPUPDTSTUST2);
 			}
-			repos.updateStudentState(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentState(), inMessage.getHold());
-			outMessage = new Message(MessageType.REPUPDTSTUST2);
 			break;
 		case MessageType.REQSETNCOURSES:
 			((GeneralReposClientProxy) Thread.currentThread()).setValue(inMessage.getNCourses());

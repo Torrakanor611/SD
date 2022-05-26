@@ -1,5 +1,6 @@
 package clientSide.stubs;
 
+import clientSide.entities.StudentStates;
 import commInfra.ClientCom;
 import commInfra.Message;
 import commInfra.MessageType;
@@ -148,7 +149,8 @@ public class GeneralReposStub {
 	{
 	   	ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
-			
+		if(state == StudentStates.ORGANIZING_THE_ORDER)
+			System.out.println("STUDENT STATE IS GOING TO BE UPDATED");	
 		com = new ClientCom (serverHostName, serverPortNumb);
 		//Wait for a connection to be established
 		while(!com.open())
@@ -170,7 +172,9 @@ public class GeneralReposStub {
 			System.exit (1);
 		}
 		//Close communication channel
-		com.close ();		
+		com.close ();
+		if(state == StudentStates.ORGANIZING_THE_ORDER)
+			System.out.println("STUDENT STATE UPDATED WITH SUCESS");		
 	}
 
 

@@ -204,7 +204,6 @@ public class Table {
     public synchronized void saluteClient(int studentIdBeingAnswered)
     {
     	studentBeingAnswered = studentIdBeingAnswered;
-    	System.out.println("I SALUTED THE CLIENT "+ studentBeingAnswered);
     	//Update Waiter state
     	((TableClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PRESENTING_THE_MENU);
     	reposStub.setWaiterState(((TableClientProxy) Thread.currentThread()).getWaiterState());
@@ -225,7 +224,6 @@ public class Table {
     	
     	//Waiter wakes student that has just arrived in order to greet him
     	notifyAll();
-		System.out.println("IAAAAAA SALUTED THE CLIENT"+studentBeingAnswered);
     	//Block waiting for student to read the menu
     	while(studentsReadMenu[studentBeingAnswered] == false)
     	{
@@ -236,7 +234,6 @@ public class Table {
 				e.printStackTrace();
 			}    
     	}
-    	System.out.println("IAAAAAAAAAAAAAAAAAAA SALUTED THE CLIENT"+studentBeingAnswered);
     	//When student has finished reading the menu his request was completed
     	studentBeingAnswered = -1;
     	presentingTheMenu  = false;
@@ -424,10 +421,11 @@ public class Table {
     {    	
     	//Register that first student to arrive already choose his own option
     	numOrders++;
-    	
+
     	//Update student state
     	students[firstToArrive].setStudentState(StudentStates.ORGANIZING_THE_ORDER);
-    	reposStub.updateStudentState(firstToArrive, ((TableClientProxy) Thread.currentThread()).getStudentState());
+    	System.out.println("PREPARING THE ORDER OF ID :"+students[firstToArrive].getStudentState());
+		reposStub.updateStudentState(firstToArrive, ((TableClientProxy) Thread.currentThread()).getStudentState());
     	
     }
     

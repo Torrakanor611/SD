@@ -174,10 +174,8 @@ public class Message implements Serializable
 				firstToArrive = stateOrId;
 			else if (msgType == MessageType.REQSETLSTARR)
 				lastToArrive = stateOrId;
-			else if (msgType == MessageType.REPGETSTDBEIANSW){
-				System.out.println("FROM MESSAGE "+stateOrId);
+			else if (msgType == MessageType.REPGETSTDBEIANSW)
 				studentBeingAnswered = stateOrId;
-			}
 		}
 		else if (entitie == 5) {	//General repository messages
 			if (msgType == MessageType.REQSETCHST)
@@ -258,7 +256,7 @@ public class Message implements Serializable
 		else if (msgType == MessageType.REQSALUTCLI || msgType == MessageType.REPSALUTCLI){
 			studentBeingAnswered = id;
 			waiterState = stateOrSeat;
-			System.out.println("FNKJEFNKDSNKFONDFKONDFKO MESSAGE "+studentBeingAnswered);
+			return;
 		}
 		else 
 		{
@@ -275,9 +273,6 @@ public class Message implements Serializable
 			System.exit (1);
 		}
 		studentId = id;
-		if(msgType == MessageType.REQENTER || msgType == MessageType.REPENTER)
-			System.out.print(msgType +" -> studentId" +studentId+ " State"+studentState);
-		//if(msgType == MessageType.REQSEATTABLE)
 	}
 	
 	

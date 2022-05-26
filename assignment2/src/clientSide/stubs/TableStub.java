@@ -202,13 +202,9 @@ public class TableStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		System.out.println("AAASTUDENT BEING ANSWERED "+studentIdBeingAnswered);
 		outMessage = new Message (MessageType.REQSALUTCLI, studentIdBeingAnswered, ((Waiter) Thread.currentThread()).getWaiterState());
-		System.out.println("AASTUDENT BEING ANSWERED "+studentIdBeingAnswered);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
-		System.out.println("ASTUDENT BEING ANSWERED "+studentIdBeingAnswered);
 		inMessage = (Message) com.readObject(); //Read inGoing message
-		System.out.println("STUDENT BEING ANSWERED "+studentIdBeingAnswered);
 
 		//Validate inGoing message type and arguments
 		if(inMessage.getMsgType() != MessageType.REPSALUTCLI)
@@ -460,13 +456,11 @@ public class TableStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		System.out.println("11IM GOING TO TRY TO TAKE A FUCKING SEAT");	
+
 		outMessage = new Message (MessageType.REQSEATTABLE, ((StudentCloning) Thread.currentThread()).getStudentId(),((StudentCloning) Thread.currentThread()).getStudentState());
-		System.out.println("22IM GOING TO TRY TO TAKE A FUCKING SEAT");
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
-		System.out.println("33IM GOING TO TRY TO TAKE A FUCKING SEAT");
 		inMessage = (Message) com.readObject(); //Read inGoing message
-		System.out.println("44IM GOING TO TRY TO TAKE A FUCKING SEAT");
+		
 		//Validate inGoing message type and arguments
 		if(inMessage.getMsgType() != MessageType.REPSEATTABLE)
 		{
@@ -487,6 +481,7 @@ public class TableStub {
 			System.exit (1);
 		}
 		((StudentCloning) Thread.currentThread ()).setStudentState (inMessage.getStudentState());
+		System.out.println("I student "+inMessage.getStudentId()+" took a seat at the table");
 		//Close communication channel
 		com.close ();
     }
@@ -502,7 +497,7 @@ public class TableStub {
     { 
     	ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
-		
+		System.out.println("I Student " +((Student) Thread.currentThread()).getStudentId()+" am going to read the menu" );
 		com = new ClientCom (serverHostName, serverPortNumb);
 		//Wait for a connection to be established
 		while(!com.open())
@@ -560,7 +555,7 @@ public class TableStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		
+		System.out.println("I AM GOING TO PREPARE THE ORDER");
 		outMessage = new Message (MessageType.REQPREPORDER,((Student) Thread.currentThread()).getStudentState());
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
@@ -580,6 +575,7 @@ public class TableStub {
 		}
 		((Student) Thread.currentThread ()).setStudentState (inMessage.getStudentState());
 		//Close communication channel
+		System.out.println("I AM Preparing the order");
 		com.close ();
     }
     
@@ -715,6 +711,7 @@ public class TableStub {
 			catch (InterruptedException e) {}
 		}
 		
+		System.out.println("STUDENT "+((Student) Thread.currentThread()).getStudentId()+"  -> "+((Student) Thread.currentThread()).getStudentState()+" is joining talk");
 		outMessage = new Message (MessageType.REQJOINTALK,((Student) Thread.currentThread()).getStudentState());
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message

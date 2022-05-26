@@ -88,7 +88,6 @@ public class BarInterface {
 				break;
 			case MessageType.REQLOOKARND:
 				char c = bar.lookAround();
-				System.out.println("I GOT A FUCKING REQUEST");
 				outMessage = new Message(MessageType.REPLOOKARND, c);
 				break;
 			case MessageType.REQPRPREBILL:
@@ -126,7 +125,6 @@ public class BarInterface {
 				break;
 			case MessageType.REQGETSTDBEIANSW:
 				int id = bar.getStudentBeingAnswered();
-				System.out.println("ID OF STUDENT BEING ANSWERED FROM BAR getStudentIdBeing "+id);
 				outMessage = new Message(MessageType.REPGETSTDBEIANSW, id);
 				break;
 			case MessageType.REQBARSHUT:

@@ -90,21 +90,16 @@ public class TableInterface {
 		switch(inMessage.getMsgType())
 		{
 			case MessageType.REQSALUTCLI:
-				System.out.println("EWWWW "+inMessage.getStudentIdBeingAnswered());
 				((TableClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 				((TableClientProxy) Thread.currentThread()).setStudentBeingAnswered(inMessage.getStudentIdBeingAnswered());
 				int i = inMessage.getStudentBeingAnswered();
-				System.out.println("FROM TABLE INTERFACE STUDENT BEING SALUTED IS "+inMessage.getStudentIdBeingAnswered());
 				tab.saluteClient(i);
-				System.out.println("FROM TABLE INTERFACE STUDENT BEING SALUTED IS "+inMessage.getStudentIdBeingAnswered());
 				outMessage = new Message(MessageType.REPSALUTCLI,  ((TableClientProxy) Thread.currentThread()).getStudentBeingAnswered(), ((TableClientProxy) Thread.currentThread()).getWaiterState());
-				System.out.println("I SALUTEDD STUDENT" +inMessage.getStudentId());
 				break;
 			case MessageType.REQRTRNBAR:
 				((TableClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 				tab.returnBar();
 				outMessage = new Message(MessageType.REPRTRNBAR, ((TableClientProxy) Thread.currentThread()).getWaiterState());
-				System.out.println("I RETURNED TO TEH BAR");
 				break;
 			case MessageType.REQGETPAD:
 				((TableClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
@@ -127,7 +122,7 @@ public class TableInterface {
 			case MessageType.REQSEATTABLE:
 				((TableClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 				((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
-				System.out.println("I AM GOING TO SEAT  "+inMessage.getStudentId()+" "+inMessage.getStudentIdBeingAnswered());
+				System.out.println("I " +inMessage.getStudentId()+ " AM GOING TO SEAT  ");
 				tab.seatAtTable();
 				outMessage = new Message(MessageType.REPSEATTABLE, ((TableClientProxy) Thread.currentThread()).getStudentId(), ((TableClientProxy) Thread.currentThread()).getStudentState());
 				break;
