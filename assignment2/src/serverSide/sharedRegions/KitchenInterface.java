@@ -116,12 +116,12 @@ public class KitchenInterface {
 			kit.returnToBar();
 			outMessage = new Message(MessageType.REPRETURNTOBAR, ((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 			break;
-		case MessageType.REPCOLLPORT: //collect portion
+		case MessageType.REQCOLLPORT: //collect portion
 			((KitchenClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
 			kit.collectPortion();
 			outMessage = new Message(MessageType.REPCOLLPORT, ((KitchenClientProxy) Thread.currentThread()).getWaiterState());
 			break;
-		case MessageType.REPKITSHUT: //Kitchen shutdown
+		case MessageType.REQKITSHUT: //Kitchen shutdown
 			kit.shutdown();
 			outMessage = new Message(MessageType.REPKITSHUT);
 			break;

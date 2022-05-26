@@ -338,7 +338,7 @@ public class TableStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		
+
 		outMessage = new Message (MessageType.REQALLCLISERVED);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
@@ -350,8 +350,9 @@ public class TableStub {
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
-		((Waiter) Thread.currentThread ()).setWaiterState (inMessage.getWaiterState());
+		
 		//Close communication channel
+		System.out.println("AFTER TEST FUNCTION WAITER STATE IS "+((Waiter) Thread.currentThread ()).getWaiterState ());
 		com.close ();
 		return inMessage.getAllClientsBeenServed();
     }

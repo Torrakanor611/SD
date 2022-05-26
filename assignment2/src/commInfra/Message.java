@@ -162,7 +162,8 @@ public class Message implements Serializable
 		else if (entitie == 3) { //Student message
 			if(msgType == MessageType.REQCALLWAI || msgType == MessageType.REPCALLWAI)
 				studentId = stateOrId;
-			else if(msgType == MessageType.REQPREPORDER || msgType == MessageType.REPPREPORDER|| msgType == MessageType.REQJOINTALK)
+			else if(msgType == MessageType.REQPREPORDER || msgType == MessageType.REPPREPORDER || 
+				    msgType == MessageType.REQJOINTALK || msgType == MessageType.REPJOINTALK)
 				studentState = stateOrId;
 		}
 		else if (entitie == 4) {  //Additional message
