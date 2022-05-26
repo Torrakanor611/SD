@@ -160,7 +160,7 @@ public class Message implements Serializable
 		else if (entitie == 2) //Waiter message
 			waiterState = stateOrId;
 		else if (entitie == 3) { //Student message
-			if(msgType == MessageType.REQCALLWAI || msgType == MessageType.REPCALLWAI)
+			if(msgType == MessageType.REQCALLWAI || msgType == MessageType.REPCALLWAI || msgType == MessageType.REQEVERYBDFINISHEAT)
 				studentId = stateOrId;
 			else if(msgType == MessageType.REQPREPORDER || msgType == MessageType.REPPREPORDER || 
 				    msgType == MessageType.REQJOINTALK || msgType == MessageType.REPJOINTALK)
@@ -234,6 +234,9 @@ public class Message implements Serializable
 			everybodyHasChosen = bValue;
 		else if (msgType == MessageType.REPALLCOURBEENEAT)
 			haveAllCoursesBeenEaten = bValue;
+		else if (msgType == MessageType.REPEVERYBDFINISHEAT)
+			everybodyHasEaten = bValue;
+
 			
 	}
 
@@ -288,7 +291,9 @@ public class Message implements Serializable
 	{
 		msgType = type;
 		studentId = id;
-		everybodyHasEaten = everybodyEaten;		
+		if (msgType == MessageType.REPEVERYBDFINISHEAT)
+			everybodyHasEaten = everybodyEaten;	
+
 	}
 	
 	

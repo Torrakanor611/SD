@@ -797,7 +797,7 @@ public class TableStub {
     {
     	ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
-		
+		System.out.println("I AM GOING TO EAT  "+((Student) Thread.currentThread()).getStudentId());
 		com = new ClientCom (serverHostName, serverPortNumb);
 		//Wait for a connection to be established
 		while(!com.open())
@@ -907,11 +907,11 @@ public class TableStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		
+		System.out.println("STUDENT ID SENT  "+((Student) Thread.currentThread()).getStudentId());
 		outMessage = new Message (MessageType.REQEVERYBDFINISHEAT, ((Student) Thread.currentThread()).getStudentId());
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
-		
+
 		//Validate inGoing message type and arguments
 		if(inMessage.getMsgType() != MessageType.REPEVERYBDFINISHEAT)
 		{
