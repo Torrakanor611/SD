@@ -42,6 +42,7 @@ public class KitchenInterface {
 		case MessageType.REQWATTNWS: 		// Watching the news request
 		case MessageType.REQSTRPR: 			// Start preparation of a course request
 		case MessageType.REQPROCPREP: 		// Proceed to presentation request
+		case MessageType.REQHAVNEXPORRD:	// Have next portion ready
 		case MessageType.REQCONTPREP: 		// Continue preparation
 		case MessageType.REQCLEANUP: 		// Clean up
 			if ((inMessage.getChefState() < ChefStates.WAITING_FOR_AN_ORDER) || (inMessage.getChefState() > ChefStates.CLOSING_SERVICE))
