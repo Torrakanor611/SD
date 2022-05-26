@@ -289,7 +289,7 @@ public class Bar
 			
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-			reposStub.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
+			reposStub.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState(),  true);
 			//register seat at the general repo
 			reposStub.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
 			

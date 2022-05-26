@@ -308,6 +308,12 @@ public class Message implements Serializable
 
 	public Message (int type, int id, int state, boolean bValue)
 	{
+		//Check if student id is valid
+		if ( id < 0 || id  >= ExecuteConst.N) {	// Not a valid Student id
+			GenericIO.writelnString ("Invalid student id");
+			System.exit (1);
+		}
+
 		msgType = type;
 		studentId = id;
 		studentState = state;

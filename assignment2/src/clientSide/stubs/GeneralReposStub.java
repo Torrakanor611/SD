@@ -149,8 +149,7 @@ public class GeneralReposStub {
 	{
 	   	ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
-		if(state == StudentStates.ORGANIZING_THE_ORDER)
-			System.out.println("STUDENT STATE IS GOING TO BE UPDATED");	
+
 		com = new ClientCom (serverHostName, serverPortNumb);
 		//Wait for a connection to be established
 		while(!com.open())
@@ -160,6 +159,7 @@ public class GeneralReposStub {
 			catch (InterruptedException e) {}
 		}
 		
+		System.out.println("STATE TO UPDATE "+state);
 		outMessage = new Message (MessageType.REQUPDTSTUST1, id, state);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
@@ -172,9 +172,7 @@ public class GeneralReposStub {
 			System.exit (1);
 		}
 		//Close communication channel
-		com.close ();
-		if(state == StudentStates.ORGANIZING_THE_ORDER)
-			System.out.println("STUDENT STATE UPDATED WITH SUCESS");		
+		com.close ();		
 	}
 
 

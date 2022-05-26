@@ -75,25 +75,21 @@ public class GeneralReposInterface {
 			outMessage = new Message(MessageType.REPRPTLEGEND);
 			break;
 		case MessageType.REQSETCHST:
-			((GeneralReposClientProxy) Thread.currentThread()).setChefState(inMessage.getChefState());
-			repos.setChefState(((GeneralReposClientProxy) Thread.currentThread()).getChefState());
+			repos.setChefState(inMessage.getChefState());
 			outMessage = new Message(MessageType.REPSETCHST);
 			break;
 		case MessageType.REQSETWAIST:
-			((GeneralReposClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
-			repos.setWaiterState(((GeneralReposClientProxy) Thread.currentThread()).getWaiterState());
+			repos.setWaiterState(inMessage.getWaiterState());
 			outMessage = new Message(MessageType.REPSETWAIST);
 			break;
 		case MessageType.REQUPDTSTUST1:
 		case MessageType.REQUPDTSTUST2:
-			((GeneralReposClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
-			((GeneralReposClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
 			if (inMessage.getMsgType() == MessageType.REQUPDTSTUST1) {
-				repos.updateStudentState(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentState());
+				repos.updateStudentState(inMessage.getStudentId(), inMessage.getStudentState());
 				outMessage = new Message(MessageType.REPUPDTSTUST1);
 				break;
 			} else { 
-				repos.updateStudentState(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentState(), inMessage.getHold());
+				repos.updateStudentState(inMessage.getStudentId(), inMessage.getStudentState(), inMessage.getHold());
 				outMessage = new Message(MessageType.REPUPDTSTUST2);
 			}
 			break;
