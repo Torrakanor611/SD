@@ -289,7 +289,7 @@ public class Bar
 			
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
-			reposStub.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState(),  true);
+			reposStub.updateStudentState(studentId, students[studentId].getStudentState(), true);
 			//register seat at the general repo
 			reposStub.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
 			
@@ -396,7 +396,7 @@ public class Bar
 		numberOfPendingRequests++;
 		//Update student state
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
-		reposStub.updateStudentState(studentId, ((BarClientProxy) Thread.currentThread()).getStudentState());
+		reposStub.updateStudentState(studentId, students[studentId].getStudentState());
 		//notify waiter that there is a pending request
 		notifyAll();
 	

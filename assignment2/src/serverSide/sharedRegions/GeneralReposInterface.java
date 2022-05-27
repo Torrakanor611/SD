@@ -104,14 +104,11 @@ public class GeneralReposInterface {
 			outMessage = new Message(MessageType.REPSETNPORTIONS);
 			break;
 		case MessageType.REQUPDSEATSTABLE:
-			((GeneralReposClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
-			((GeneralReposClientProxy) Thread.currentThread()).setValue(inMessage.getSeatAtTable());
-			repos.updateSeatsAtTable(((GeneralReposClientProxy) Thread.currentThread()).getValue(), ((GeneralReposClientProxy) Thread.currentThread()).getStudentId());
+			repos.updateSeatsAtTable(inMessage.getSeatAtTable(), inMessage.getStudentId());
 			outMessage = new Message(MessageType.REPUPDSEATSTABLE);
 			break;
 		case MessageType.REQUPDSEATSTABLELV:
-			((GeneralReposClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
-			repos.updateSeatsAtTable(((GeneralReposClientProxy) Thread.currentThread()).getStudentId(), -1);
+			repos.updateSeatsAtTable(inMessage.getStudentId(), -1);
 			outMessage = new Message(MessageType.REPUPDSEATSTABLELV);
 			break;
 		case MessageType.REQGENERALREPOSHUT:
