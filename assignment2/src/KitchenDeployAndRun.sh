@@ -6,4 +6,4 @@ echo "Decompressing data sent to the kitchen node."
 sshpass -f password ssh sd102@l040101-ws05.ua.pt 'cd Restaurant ; unzip -uq dirKitchen.zip'
 echo "Executing program at the kitchen repository."
 sshpass -f password ssh sd102@l040101-ws05.ua.pt 'cd Restaurant/dirKitchen ; java serverSide.main.ServerRestaurantKitchen 22110 l040101-ws07.ua.pt 22113'
-echo "Kitchen Server shutdown."
+echo "Kitchen server shutdown."

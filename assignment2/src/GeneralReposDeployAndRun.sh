@@ -6,5 +6,5 @@ echo "Decompressing data sent to the general repository node."
 sshpass -f password ssh sd102@l040101-ws07.ua.pt 'cd Restaurant ; unzip -uq dirGeneralRepos.zip'
 echo "Executing program at the server general repository."
 sshpass -f password ssh sd102@l040101-ws07.ua.pt 'cd Restaurant/dirGeneralRepos ; java serverSide.main.ServerRestaurantGeneralRepos 22113'
-echo "GeneralRepository Server shutdown."
+echo "General repository server shutdown."
 sshpass -f password ssh sd102@l040101-ws07.ua.pt 'cd Restaurant/dirGeneralRepos ; less logger'
