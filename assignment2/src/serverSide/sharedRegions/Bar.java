@@ -242,8 +242,6 @@ public class Bar
 		reposStub.updateSeatsAtLeaving(studentBeingAnswered);
 		studentBeingAnswered = -1;
 		
-		reposStub.setWaiterState(((BarClientProxy) Thread.currentThread()).getWaiterState());
-		
 		if(numberOfStudentsAtRestaurant == 0)
 			return true;
 		return false;
