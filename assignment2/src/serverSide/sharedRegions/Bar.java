@@ -267,7 +267,8 @@ public class Bar
 			//Update student state
 			students[studentId] = ((BarClientProxy) Thread.currentThread());
 			students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
-			
+			((BarClientProxy) Thread.currentThread()).setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
+
 			numberOfStudentsAtRestaurant++;
 
 			//Register first and last to arrive
@@ -288,6 +289,7 @@ public class Bar
 			
 			//Update student state
 			students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
+			((BarClientProxy) Thread.currentThread()).setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
 			reposStub.updateStudentState(studentId, students[studentId].getStudentState(), true);
 			//register seat at the general repo
 			reposStub.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
@@ -295,7 +297,6 @@ public class Bar
 			//Signal waiter that there is a pending request
 			notifyAll();
 		}
-
 		//Seat student at table and block it
 		tabStub.seatAtTable();
 
@@ -338,14 +339,16 @@ public class Bar
 	 * Operation signal the waiter
 	 * 
 	 * It is called by the last student to finish eating that next course can be brought 
-	 * signal chef that he can put request in the queue and waiter that he proceed his executing to collect portions
+	 * signal chef that he can put request in the queue and waiter that he proceed his execution to collect portions
 	 * It is also used by last student to arrive to signal that he wishes to pay the bill
 	 */
 	public synchronized void signalWaiter()
 	{
 		int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
+		System.out.println(studentId+"  i am signalling waiter + state "+((BarClientProxy) Thread.currentThread()).getStudentState());
 		if(((BarClientProxy) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_BILL)
-		{		
+		{
+			System.out.println("I "+studentId+" Am paying thr bill");	
 			//Add a new pending requests to the queue
 			try {
 				pendingServiceRequestQueue.write(new Request(studentId, 'b'));
@@ -362,6 +365,7 @@ public class Bar
 		}
 		else
 		{
+			System.out.println("I "+studentId+" am finished eating");
 			courseFinished = true;		
 			//Wake chef up because he is waiting to tell waiter to collect portion
 			// and waiter so he can collect a new portion
@@ -394,6 +398,7 @@ public class Bar
 		numberOfPendingRequests++;
 		//Update student state
 		students[studentId].setStudentState(StudentStates.GOING_HOME);
+		((BarClientProxy) Thread.currentThread()).setStudentState(StudentStates.GOING_HOME);
 		reposStub.updateStudentState(studentId, students[studentId].getStudentState());
 		//notify waiter that there is a pending request
 		notifyAll();

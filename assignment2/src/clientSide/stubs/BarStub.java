@@ -361,7 +361,7 @@ public class BarStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		
+		System.out.println(((Student) Thread.currentThread()).getStudentId()+" ------ "+((Student) Thread.currentThread()).getStudentState());
 		outMessage = new Message (MessageType.REQSIGWAI, ((Student) Thread.currentThread()).getStudentId(),((Student) Thread.currentThread()).getStudentState());
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message

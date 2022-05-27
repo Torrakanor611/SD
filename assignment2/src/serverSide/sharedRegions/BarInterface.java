@@ -101,10 +101,11 @@ public class BarInterface {
 				outMessage = new Message(MessageType.REPSAYGDBYE, b);
 				break;
 			case MessageType.REQENTER:
-				((BarClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 				((BarClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
+				((BarClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 				bar.enter();
 				outMessage = new Message(MessageType.REPENTER, ((BarClientProxy) Thread.currentThread()).getStudentId(), ((BarClientProxy) Thread.currentThread()).getStudentState());
+				System.out.println("NEW STUDENT STATE = "+ ((BarClientProxy) Thread.currentThread()).getStudentState());
 				break;
 			case MessageType.REQCALLWAI:
 				((BarClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
@@ -112,8 +113,9 @@ public class BarInterface {
 				outMessage = new Message(MessageType.REPCALLWAI, ((BarClientProxy) Thread.currentThread()).getStudentId());
 				break;
 			case MessageType.REQSIGWAI:
-				((BarClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
+				System.out.println("SIGNAL WAITER -> id"+inMessage.getStudentId()+"   "+inMessage.getStudentState());
 				((BarClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
+				((BarClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 				bar.signalWaiter();
 				outMessage = new Message(MessageType.REPSIGWAI, ((BarClientProxy) Thread.currentThread()).getStudentId(), ((BarClientProxy) Thread.currentThread()).getStudentState());
 				break;

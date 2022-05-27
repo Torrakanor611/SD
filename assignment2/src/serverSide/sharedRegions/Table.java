@@ -361,8 +361,8 @@ public class Table {
     public synchronized void seatAtTable()
     {
     	int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
-    	System.out.println("I am at the table " + studentId+"\n");
-		students[studentId] = ((TableClientProxy) Thread.currentThread());
+    	System.out.println("I am at the table " + studentId);
+		students[studentId] = (TableClientProxy) Thread.currentThread();
 		students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
 
     	//Register that student took a seat
@@ -399,9 +399,9 @@ public class Table {
     	
     	//Update student state
     	students[studentId].setStudentState(StudentStates.SELECTING_THE_COURSES);
+		((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.SELECTING_THE_COURSES);
     	reposStub.updateStudentState(studentId, students[studentId].getStudentState());
-    	
-    	studentsReadMenu[studentId] = true;
+		studentsReadMenu[studentId] = true;
     	//Signal waiter that menu was already read
     	notifyAll();
     }    
@@ -423,6 +423,7 @@ public class Table {
 
     	//Update student state
     	students[firstToArrive].setStudentState(StudentStates.ORGANIZING_THE_ORDER);
+		((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.ORGANIZING_THE_ORDER);
     	reposStub.updateStudentState(firstToArrive, students[firstToArrive].getStudentState());
     }
     
@@ -515,7 +516,8 @@ public class Table {
     {
     	//Update student state
     	students[firstToArrive].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
-    	reposStub.updateStudentState(firstToArrive, students[firstToArrive].getStudentState());
+    	((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
+		reposStub.updateStudentState(firstToArrive, students[firstToArrive].getStudentState());
 	}
     
     
@@ -549,6 +551,7 @@ public class Table {
     	
     	//Update student state
     	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
+		((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
     	reposStub.updateStudentState(studentId, students[studentId].getStudentState());
     }
     
@@ -563,9 +566,9 @@ public class Table {
     public void startEating()
     {
     	int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
-    	 
     	//Update student state
     	students[studentId].setStudentState(StudentStates.ENJOYING_THE_MEAL);
+		((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.ENJOYING_THE_MEAL);
     	reposStub.updateStudentState(studentId, students[studentId].getStudentState());
     	
     	//Enjoy meal during random time
@@ -596,9 +599,9 @@ public class Table {
     		//register last to eat
     		lastToEat = studentId;
     	}
-    	
     	//Update student state
     	students[studentId].setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
+		((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.CHATING_WITH_COMPANIONS);
     	reposStub.updateStudentState(studentId, students[studentId].getStudentState());
     }
     
@@ -654,6 +657,7 @@ public class Table {
     	if(numStudentsWokeUp == ExecuteConst.N)
     		notifyAll();
     	
+		System.out.println("I "+studentId+" have woke up from finished eating");
     	return true;
     }
     
@@ -699,7 +703,7 @@ public class Table {
     public synchronized boolean haveAllCoursesBeenEaten()
     {
     	if(numOfCoursesEaten == ExecuteConst.M)
-    		return true;
+			return true;
 		else {
     		//Student blocks waiting for all companions to be served
     		while(numStudentsServed != ExecuteConst.N)
@@ -733,6 +737,7 @@ public class Table {
     	if(studentId == lastToArrive) {
 	    	//Update student state
 	    	students[studentId].setStudentState(StudentStates.PAYING_THE_BILL);
+			((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.PAYING_THE_BILL);
 	    	reposStub.updateStudentState(studentId, students[studentId].getStudentState());
 	    	return true;
     	}

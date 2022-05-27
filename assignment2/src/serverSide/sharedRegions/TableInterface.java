@@ -122,13 +122,12 @@ public class TableInterface {
 			case MessageType.REQSEATTABLE:
 				((TableClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
 				((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
-				System.out.println("I " +inMessage.getStudentId()+ " AM GOING TO SEAT  ");
 				tab.seatAtTable();
 				outMessage = new Message(MessageType.REPSEATTABLE, ((TableClientProxy) Thread.currentThread()).getStudentId(), ((TableClientProxy) Thread.currentThread()).getStudentState());
 				break;
 			case MessageType.REQRDMENU:
+				((TableClientProxy) Thread.currentThread()).setStudentId( inMessage.getStudentId() );
 				((TableClientProxy) Thread.currentThread()).setStudentState(inMessage.getStudentState());
-				((TableClientProxy) Thread.currentThread()).setStudentId(inMessage.getStudentId());
 				tab.readMenu();
 				outMessage = new Message(MessageType.REPRDMENU, ((TableClientProxy) Thread.currentThread()).getStudentId(), ((TableClientProxy) Thread.currentThread()).getStudentState());
 				break;
