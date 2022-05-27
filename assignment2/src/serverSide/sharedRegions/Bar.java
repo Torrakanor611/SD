@@ -343,10 +343,9 @@ public class Bar
 	public synchronized void signalWaiter()
 	{
 		int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
-		System.out.println(studentId+"  i am signalling waiter + state "+((BarClientProxy) Thread.currentThread()).getStudentState());
+
 		if(((BarClientProxy) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_BILL)
 		{
-			System.out.println("I "+studentId+" Am paying thr bill");	
 			//Add a new pending requests to the queue
 			try {
 				pendingServiceRequestQueue.write(new Request(studentId, 'b'));
@@ -363,7 +362,6 @@ public class Bar
 		}
 		else
 		{
-			System.out.println("I "+studentId+" am finished eating");
 			courseFinished = true;		
 			//Wake chef up because he is waiting to tell waiter to collect portion
 			// and waiter so he can collect a new portion

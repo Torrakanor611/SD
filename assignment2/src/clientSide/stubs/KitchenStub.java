@@ -482,11 +482,11 @@ public class KitchenStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		System.out.println("WAITER STATE BEFORE COLLECTING "+((Waiter) Thread.currentThread()).getWaiterState());
+		
 		outMessage = new Message (MessageType.REQCOLLPORT, ((Waiter) Thread.currentThread()).getWaiterState());
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
-		System.out.println("WAITER STATE AFTER COLLECTING "+inMessage.getWaiterState());
+
 		//Validate inGoing message type and arguments
 		if(inMessage.getMsgType() != MessageType.REPCOLLPORT)
 		{

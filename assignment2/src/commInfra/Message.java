@@ -285,14 +285,13 @@ public class Message implements Serializable
 	 * 
 	 * 		@param type message type
 	 * 		@param id id of the student
-	 * 		@param bValue can hold the value of everybodyHasFinished
+	 * 		@param bValue holds the value of everybodyHasFinished
 	 */
 	public Message (int type, int id, boolean everybodyEaten)
 	{
 		msgType = type;
 		studentId = id;
-		if (msgType == MessageType.REPEVERYBDFINISHEAT)
-			everybodyHasEaten = everybodyEaten;	
+		everybodyHasEaten = everybodyEaten;	
 
 	}
 	

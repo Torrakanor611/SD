@@ -361,7 +361,7 @@ public class Table {
     public synchronized void seatAtTable()
     {
     	int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
-    	System.out.println("I am at the table " + studentId);
+
 		students[studentId] = (TableClientProxy) Thread.currentThread();
 		students[studentId].setStudentState(StudentStates.TAKING_A_SEAT_AT_THE_TABLE);
 
@@ -657,7 +657,6 @@ public class Table {
     	if(numStudentsWokeUp == ExecuteConst.N)
     		notifyAll();
     	
-		System.out.println("I "+studentId+" have woke up from finished eating");
     	return true;
     }
     

@@ -127,7 +127,6 @@ public class GeneralReposStub {
 			catch (InterruptedException e) {}
 		}
 		
-		System.out.println("STATE TO UPDATE "+state);
 		outMessage = new Message (MessageType.REQUPDTSTUST1, id, state);
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message

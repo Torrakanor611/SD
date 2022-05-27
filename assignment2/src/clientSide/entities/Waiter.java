@@ -81,8 +81,6 @@ public class Waiter extends Thread{
 		while(true)
 		{
 			request = barStub.lookAround();
-			if(request == 'b')
-				System.out.println("FUCKING BILLLLLL");
 			switch(request)
 			{
 				case 'c':	//Client arriving, needs to be presented with the menu

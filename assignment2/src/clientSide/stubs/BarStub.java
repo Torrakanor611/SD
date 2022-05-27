@@ -69,7 +69,6 @@ public class BarStub {
 		}
 		//Close communication channel
 		com.close ();
-		System.out.println("I am going to server student "+inMessage.getStudentBeingAnswered());
 		return inMessage.getStudentBeingAnswered();
 	}
 	
@@ -290,7 +289,6 @@ public class BarStub {
 		}
 
 		((Student) Thread.currentThread ()).setStudentState (inMessage.getStudentState());
-		System.out.println("Student "+ inMessage.getStudentId() + " took a seat");
 		//Close communication channel
 		com.close ();		
 	}
@@ -361,7 +359,7 @@ public class BarStub {
 		  	}
 			catch (InterruptedException e) {}
 		}
-		System.out.println(((Student) Thread.currentThread()).getStudentId()+" ------ "+((Student) Thread.currentThread()).getStudentState());
+		
 		outMessage = new Message (MessageType.REQSIGWAI, ((Student) Thread.currentThread()).getStudentId(),((Student) Thread.currentThread()).getStudentState());
 		com.writeObject (outMessage); 			//Write outGoing message in the communication channel
 		inMessage = (Message) com.readObject(); //Read inGoing message
