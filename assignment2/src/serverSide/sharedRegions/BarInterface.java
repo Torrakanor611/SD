@@ -92,7 +92,7 @@ public class BarInterface {
 				break;
 			case MessageType.REQPRPREBILL:
 				((BarClientProxy) Thread.currentThread()).setWaiterState(inMessage.getWaiterState());
-				bar.preprareBill();
+				bar.prepareBill();
 				outMessage = new Message(MessageType.REPPRPREBILL, ((BarClientProxy) Thread.currentThread()).getWaiterState());
 				break;
 			case MessageType.REQSAYGDBYE:

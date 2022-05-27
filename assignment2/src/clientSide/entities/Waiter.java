@@ -81,7 +81,8 @@ public class Waiter extends Thread{
 		while(true)
 		{
 			request = barStub.lookAround();
-			
+			if(request == 'b')
+				System.out.println("FUCKING BILLLLLL");
 			switch(request)
 			{
 				case 'c':	//Client arriving, needs to be presented with the menu
@@ -102,7 +103,7 @@ public class Waiter extends Thread{
 					tabStub.returnBar();
 					break;
 				case 'b':	//Bill needs to be prepared so it can be payed by the student
-					barStub.preprareBill();
+					barStub.prepareBill();
 					tabStub.presentBill();
 					tabStub.returnBar();
 					break;

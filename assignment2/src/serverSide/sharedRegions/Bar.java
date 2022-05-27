@@ -201,7 +201,6 @@ public class Bar
 		}		
 		//Register student id in studentBeingAnswered
 		studentBeingAnswered = r.id;
-		System.out.println("STUDENT "+studentBeingAnswered+"   REQUEST");
 		return r.type;
 	}
 	
@@ -214,7 +213,7 @@ public class Bar
 	 * 
 	 * It is called the waiter to prepare the bill of the meal eaten by the students
 	 */
-	public synchronized void preprareBill()
+	public synchronized void prepareBill()
 	{
 		//Update Waiter state
 		((BarClientProxy) Thread.currentThread()).setWaiterState(WaiterStates.PROCESSING_THE_BILL);
@@ -345,7 +344,6 @@ public class Bar
 	public synchronized void signalWaiter()
 	{
 		int studentId = ((BarClientProxy) Thread.currentThread()).getStudentId();
-
 		if(((BarClientProxy) Thread.currentThread()).getStudentState() == StudentStates.PAYING_THE_BILL)
 		{		
 			//Add a new pending requests to the queue

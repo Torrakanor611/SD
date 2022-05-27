@@ -168,7 +168,7 @@ public class BarStub {
 	 * 
 	 * It is called the waiter to prepare the bill of the meal eaten by the students
 	 */
-	public void preprareBill() 
+	public void prepareBill() 
 	{ 
     	ClientCom com;					//Client communication
 		Message outMessage, inMessage; 	//outGoing and inGoing messages
