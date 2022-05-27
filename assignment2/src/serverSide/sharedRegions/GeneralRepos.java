@@ -313,8 +313,10 @@ public class GeneralRepos
 	public synchronized void shutdown()
 	{
 		nEntities += 1;
-		if(nEntities >= ExecuteConst.S)
+		if(nEntities >= ExecuteConst.S) {
+			reportLegend();
 			ServerRestaurantGeneralRepos.waitConnection = false;
+		}
 		notifyAll ();
 	}
 }

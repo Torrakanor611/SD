@@ -55,7 +55,6 @@ public class GeneralReposInterface {
 				throw new MessageException("Invalid Student state!", inMessage);
 			break;
 		// verify only message type
-		case MessageType.REQRPTLEGEND:
 		case MessageType.REQSETNCOURSES:
 		case MessageType.REQSETNPORTIONS:
 		case MessageType.REQUPDSEATSTABLE:
@@ -70,10 +69,6 @@ public class GeneralReposInterface {
 
 		switch(inMessage.getMsgType())
 		{
-		case MessageType.REQRPTLEGEND:
-			repos.reportLegend();
-			outMessage = new Message(MessageType.REPRPTLEGEND);
-			break;
 		case MessageType.REQSETCHST:
 			repos.setChefState(inMessage.getChefState());
 			outMessage = new Message(MessageType.REPSETCHST);

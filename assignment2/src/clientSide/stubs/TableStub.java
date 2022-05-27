@@ -1052,6 +1052,7 @@ public class TableStub {
 			GenericIO.writelnString (inMessage.toString ());
 			System.exit (1);
 		}
+		((Student) Thread.currentThread ()).setStudentState (inMessage.getStudentState());
 		//Close communication channel
 		com.close ();
 		return inMessage.getArrivedEarlier();

@@ -285,7 +285,7 @@ public class Message implements Serializable
 	 * 
 	 * 		@param type message type
 	 * 		@param id id of the student
-	 * 		@param bValue can hold the value of everybodyHasFinished or shouldHaveArrivedEarlier
+	 * 		@param bValue can hold the value of everybodyHasFinished
 	 */
 	public Message (int type, int id, boolean everybodyEaten)
 	{
@@ -542,7 +542,6 @@ public class Message implements Serializable
 			case MessageType.REQTABSHUT:		case MessageType.REPTABSHUT:
 				return 4;
 			//GeneralRepo Message
-			case MessageType.REQRPTLEGEND:		 case MessageType.REPRPTLEGEND:
 			case MessageType.REQSETCHST:		 case MessageType.REPSETCHST:
 			case MessageType.REQSETWAIST:		 case MessageType.REPSETWAIST:
 			case MessageType.REQUPDTSTUST1:		 case MessageType.REPUPDTSTUST1:

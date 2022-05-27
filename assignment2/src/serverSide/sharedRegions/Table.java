@@ -738,7 +738,7 @@ public class Table {
 	    	//Update student state
 	    	students[studentId].setStudentState(StudentStates.PAYING_THE_BILL);
 			((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.PAYING_THE_BILL);
-	    	reposStub.updateStudentState(studentId, students[studentId].getStudentState());
+			reposStub.updateStudentState(studentId, students[studentId].getStudentState());
 	    	return true;
     	}
     	else

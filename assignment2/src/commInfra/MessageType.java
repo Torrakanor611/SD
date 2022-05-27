@@ -405,84 +405,76 @@ public class MessageType
 	//---------GENERAL REPO INPUT/OUTPUT MESSAGES---------//
 	
 	/**
-	 * Operation report legend (request)
-	 */
-	public static final int REQRPTLEGEND = 120;	
-	/**
-	 * Operation report legend (reply)
-	 */
-	public static final int REPRPTLEGEND = 121;
-	/**
 	 * Operation set chef state (request)
 	 */
-	public static final int REQSETCHST = 122;
+	public static final int REQSETCHST = 120;
 	/**
 	 * Operation set chef state (reply)
 	 */
-	public static final int REPSETCHST = 123;
+	public static final int REPSETCHST = 121;
 	/**
 	 * Operation set waiter state (request)
 	 */
-	public static final int REQSETWAIST = 124;
+	public static final int REQSETWAIST = 122;
 	/**
 	 * Operation set waiter state (reply)
 	 */
-	public static final int REPSETWAIST = 125;
+	public static final int REPSETWAIST = 123;
 	/**
 	 * Operation update student state version 1(request)
 	 */
-	public static final int REQUPDTSTUST1 = 126;
+	public static final int REQUPDTSTUST1 = 124;
 	/**
 	 * Operation update student state version 1(reply)
 	 */
-	public static final int REPUPDTSTUST1 = 127;
+	public static final int REPUPDTSTUST1 = 125;
 	/**
 	 * Operation update student state version 2(request)
 	 */
-	public static final int REQUPDTSTUST2 = 128;
+	public static final int REQUPDTSTUST2 = 126;
 	/**
 	 * Operation update student state version 2(reply)
 	 */
-	public static final int REPUPDTSTUST2 = 129;
+	public static final int REPUPDTSTUST2 = 127;
 	/**	
 	 * Operation set n courses (request)
 	 */
-	public static final int REQSETNCOURSES = 130;
+	public static final int REQSETNCOURSES = 128;
 	/**	
 	 * Operation set n courses (reply)
 	 */
-	public static final int REPSETNCOURSES = 131;
+	public static final int REPSETNCOURSES = 129;
 	/**	
 	 * Operation set n portions (request)
 	 */
-	public static final int REQSETNPORTIONS = 132;
+	public static final int REQSETNPORTIONS = 130;
 	/**	
 	 * Operation set n portions (reply)
 	 */
-	public static final int REPSETNPORTIONS = 133;
+	public static final int REPSETNPORTIONS = 131;
 	/**	
 	 * Operation update seats at table (request)
 	 */
-	public static final int REQUPDSEATSTABLE = 134;
+	public static final int REQUPDSEATSTABLE = 132;
 	/**	
 	 * Operation update seats at table (reply)
 	 */
-	public static final int REPUPDSEATSTABLE = 135;
+	public static final int REPUPDSEATSTABLE = 133;
 	/**	
 	 * Operation update seats at table at leaving (request)
 	 */
-	public static final int REQUPDSEATSTABLELV = 136;
+	public static final int REQUPDSEATSTABLELV = 134;
 	/**	
 	 * Operation update seats at table at leaving (reply)
 	 */
-	public static final int REPUPDSEATSTABLELV = 137;
+	public static final int REPUPDSEATSTABLELV = 135;
 	/**
 	 * Operation shut down general repository (request)
 	 */
-	public static final int REQGENERALREPOSHUT = 138;
+	public static final int REQGENERALREPOSHUT = 136;
 	/**
 	 * Operation shut down general repository (reply)
 	 */
-	public static final int REPGENERALREPOSHUT = 139;
+	public static final int REPGENERALREPOSHUT = 137;
 }
 
