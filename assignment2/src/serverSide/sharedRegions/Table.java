@@ -9,7 +9,7 @@ import clientSide.stubs.GeneralReposStub;
 /**
  * 	Table
  * 
- *  It is responsible for keeping track of the courses being eaten
+ *  It is responsible for keeping track of the courses being eaten.
  *  Implemented as an implicit monitor
  *	Public methods executed in mutual exclusion
  *	Synchronisation points for the waiter include:
@@ -111,7 +111,7 @@ public class Table {
 	private final TableClientProxy [] students;
 	
 	/**
-     * Reference to the General Repository.
+     * Reference to the stub of the General Repository.
      */
     private final GeneralReposStub reposStub;
     
@@ -124,7 +124,7 @@ public class Table {
     /**
      * Table instantiation
      * 
-     * @param repos reference to the general repository
+     * @param reposStub reference to the stub of the general repository
      */    
     public Table(GeneralReposStub reposStub)
     {

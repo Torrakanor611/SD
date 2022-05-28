@@ -14,7 +14,7 @@ import clientSide.stubs.TableStub;
  * Bar
  *
  *	It is responsible for keeping track of the several requests that must be full filled by the waiter
- *	Implemented as an implicit monitor
+ *	Implemented as an implicit monitor.
  *	Public methods executed in mutual exclusion
  *	Synchronisation points include:
  *		Waiter waits for pending requests if there are none
@@ -50,7 +50,7 @@ public class Bar
 	private final BarClientProxy [] students;
 	
 	/**
-	 * Reference to the general repository
+	 * Reference to the stub of the general repository
 	 */
 	private final GeneralReposStub reposStub;
 	
@@ -65,7 +65,7 @@ public class Bar
 	private boolean[] studentsGreeted;
 	
 	/**
-	 * Reference to the table
+	 * Reference to the stub of the table
 	 */
 	private final TableStub tabStub;
 	
@@ -78,8 +78,8 @@ public class Bar
 	/**
 	 * Bar instantiation
 	 *  
-	 * @param repos reference to the general repository
-	 * @param tab reference to the table
+	 * @param reposStub reference to the stub of the general repository
+	 * @param tabStub reference to the stub of the table
 	 */
 	public Bar(GeneralReposStub reposStub, TableStub tabStub)
 	{

@@ -47,6 +47,7 @@ public class Message implements Serializable
 	 * student Id Being Answered
 	 */	
 	private int studentIdBeingAnswered = -1;
+	
 	/**
 	 * Boolean value to be transported that holds true if all portions have been delivered, false otherwise
 	 */
@@ -147,8 +148,8 @@ public class Message implements Serializable
 	 *  Message instantiation (form 2).
 	 *
 	 *     @param type message type
-	 *     @param stateOrId chef, waiter or student state, or student id or id of studentBeingAnswered 
-	 *     	or nCourses value or nPortions value
+	 *     @param stateOrId chef, waiter or student state. It can also hold student id or id of studentBeingAnswered 
+	 *     	or nCourses value or nPortions value.
 	 */
 	public Message (int type, int stateOrId)
 	{
@@ -216,8 +217,8 @@ public class Message implements Serializable
 	 * Message instantiation (form 3).
 	 * 
 	 * 	@param type message type
-	 * 	@param bValue boolean that can have haveAllPortionsBeenDeliverd, hasOrderBeenCompleted, studentsAtRestaurant 
-	 * 		or allBeenClientsServed value
+	 * 	@param bValue boolean that can have haveAllPortionsBeenDelivered, hasOrderBeenCompleted, number of studentsAtRestaurant 
+	 * 		or allBeenClientsServed value.
 	 */
 	public Message(int type, boolean bValue)
 	{
@@ -245,7 +246,7 @@ public class Message implements Serializable
 	 *
 	 *     @param type message type
 	 *     @param id student identification or student being answered by the waiter identification
-	 *     @param state student state, waiter state or seat at the table (when used in the general repos functions)
+	 *     @param stateOrSeat student state, waiter state or seat at the table (when used in the general repos functions)
 	 */
 
 	public Message (int type, int id, int stateOrSeat)
@@ -285,7 +286,7 @@ public class Message implements Serializable
 	 * 
 	 * 		@param type message type
 	 * 		@param id id of the student
-	 * 		@param bValue holds the value of everybodyHasFinished
+	 * 		@param everybodyEaten holds the value of everybody has eaten (true if yes, false otherwise)
 	 */
 	public Message (int type, int id, boolean everybodyEaten)
 	{
@@ -302,7 +303,7 @@ public class Message implements Serializable
 	 *     @param type message type
 	 *     @param id of the student
 	 *     @param state student state
-	 *     @param shouldArrived shouldHaveArrived Earlier value or hold value (used in general repos
+	 *     @param bValue that can hold shouldHaveArrivedEarlier value or hold value (used in general repos)
 	 */
 
 	public Message (int type, int id, int state, boolean bValue)

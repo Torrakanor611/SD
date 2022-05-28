@@ -7,17 +7,25 @@ import commInfra.MessageException;
 import commInfra.MessageType;
 import serverSide.entities.TableClientProxy;
 
+/**
+ *  Interface to the Table
+ *
+ *    It is responsible to validate and process the incoming message, execute the corresponding method on the
+ *    Table and generate the outgoing message.
+ *    Implementation of a client-server model of type 2 (server replication).
+ *    Communication is based on a communication channel under the TCP protocol.
+ */
 public class TableInterface {
 
 	/**
-	 * Reference to the Bar
+	 * Reference to the Table
 	 */
 	private final Table tab;
 
 
 	/**
-	 * Instantiation of an interface to the Bar.
-	 * 	@param bar reference to the kitchen
+	 * Instantiation of an interface to the Table.
+	 * 	@param tab reference to the table
 	 */
 	public TableInterface(Table tab)
 	{

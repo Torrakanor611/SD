@@ -7,7 +7,7 @@ import genclass.TextFile;
 import clientSide.entities.*;
 
 /**
- *  General Repository.
+ *  General Repository
  *
  *    It is responsible to keep the visible internal state of the problem and to provide means for it
  *    to be printed in the logging file.

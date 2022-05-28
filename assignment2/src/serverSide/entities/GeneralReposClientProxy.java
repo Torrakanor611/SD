@@ -75,7 +75,7 @@ public class GeneralReposClientProxy extends Thread
 
 	/**
 	 * Set chef state
-	 * @param state state of the chef
+	 * @param chefState state of the chef
 	 */
 	public void setChefState(int chefState) {
 		this.chefState = chefState;
@@ -91,7 +91,7 @@ public class GeneralReposClientProxy extends Thread
 
 	/**
 	 * Set waiter state
-	 * @param state state of the waiter
+	 * @param waiterState state of the waiter
 	 */
 	public void setWaiterState(int waiterState) {
 		this.waiterState = waiterState;
@@ -107,7 +107,7 @@ public class GeneralReposClientProxy extends Thread
 
 	/**
 	 * Set student state
-	 * 	@param state state of the student
+	 * 	@param studentState state of the student
 	 */
 	public void setStudentState(int studentState) {
 		this.studentState = studentState;
@@ -122,8 +122,8 @@ public class GeneralReposClientProxy extends Thread
 	}
 
 	/**
-	 * Set student Id
-	 * 	@param id id of the student
+	 * Set student id
+	 * @param studentId id of the student
 	 */
 	public void setStudentId(int studentId) {
 		this.studentId = studentId;

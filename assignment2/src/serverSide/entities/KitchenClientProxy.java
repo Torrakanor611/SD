@@ -8,7 +8,7 @@ import genclass.GenericIO;
 import serverSide.sharedRegions.KitchenInterface;
 
 /**
- *  Service provider agent for access to the General Repository of Information.
+ *  Service provider agent for access to the Kitchen.
  *
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on a communication channel under the TCP protocol.
@@ -26,7 +26,7 @@ public class KitchenClientProxy extends Thread implements ChefCloning, WaiterClo
 	private ServerCom sconi;
 
 	/**
-	 *  Interface to the Barber Shop.
+	 *  Interface to the Kitchen.
 	 */
 	private KitchenInterface kitInter;
 

@@ -26,7 +26,7 @@ public class BarClientProxy extends Thread implements ChefCloning, WaiterCloning
 	private ServerCom sconi;
 
 	/**
-	 *  Interface to the Barber Shop.
+	 *  Interface to the Bar.
 	 */
 	private BarInterface barInter;
 

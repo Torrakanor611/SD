@@ -9,7 +9,7 @@ import serverSide.entities.KitchenClientProxy;
 /**
  * 	Kitchen
  * 
- * 	It is responsible for keeping track of portions prepared and delivered
+ * 	It is responsible for keeping track of portions prepared and delivered.
  *  Is implemented as an implicit monitor.
  *  All public methods are executed in mutual exclusion.
  *	Synchronisation points include:

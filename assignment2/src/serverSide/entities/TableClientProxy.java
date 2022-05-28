@@ -8,7 +8,7 @@ import genclass.GenericIO;
 import serverSide.sharedRegions.TableInterface;
 
 /**
- *  Service provider agent for access to the General Repository of Information.
+ *  Service provider agent for access to the Table.
  *
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on a communication channel under the TCP protocol.
@@ -26,7 +26,7 @@ public class TableClientProxy extends Thread implements WaiterCloning, StudentCl
 	private ServerCom sconi;
 
 	/**
-	 *  Interface to the Barber Shop.
+	 *  Interface to the Table
 	 */
 	private TableInterface tabInter;
 
@@ -50,6 +50,7 @@ public class TableClientProxy extends Thread implements WaiterCloning, StudentCl
 	 */
 	private int studentBeingAnswered;
 
+	
 	/**
 	 *  Instantiation of a client proxy.
 	 *
@@ -63,12 +64,12 @@ public class TableClientProxy extends Thread implements WaiterCloning, StudentCl
 		this.tabInter = tab;
 	}
 
+	
 	/**
 	 *  Generation of the instantiation identifier.
 	 *
 	 *     @return instantiation identifier
 	 */
-
 	private static int getProxyId ()
 	{
 		Class<?> cl = null;			// representation of the TableClientProxy object in JVM
@@ -89,6 +90,7 @@ public class TableClientProxy extends Thread implements WaiterCloning, StudentCl
 		return proxyId;
 	}
 
+	
 	/**
 	 * Set student Id
 	 * 	@param id id of the student

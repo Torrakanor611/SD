@@ -8,7 +8,7 @@ import genclass.GenericIO;
 import java.net.*;
 
 /**
- *    Server side of the General Repository of Information.
+ *    Server side of the Table.
  *
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on a communication channel under the TCP protocol.

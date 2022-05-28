@@ -8,6 +8,16 @@ import commInfra.MessageException;
 import commInfra.MessageType;
 import serverSide.entities.BarClientProxy;
 
+
+/**
+ *  Interface to the Bar
+ *
+ *    It is responsible to validate and process the incoming message, execute the corresponding method on the
+ *    Bar and generate the outgoing message.
+ *    Implementation of a client-server model of type 2 (server replication).
+ *    Communication is based on a communication channel under the TCP protocol.
+ */
+
 public class BarInterface {
 	/**
 	 * Reference to the Bar
@@ -17,7 +27,7 @@ public class BarInterface {
 
 	/**
 	 * Instantiation of an interface to the Bar.
-	 * 	@param bar reference to the kitchen
+	 * 	@param bar reference to the bar
 	 */
 	public BarInterface(Bar bar)
 	{
