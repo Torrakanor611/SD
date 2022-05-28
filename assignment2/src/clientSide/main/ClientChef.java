@@ -20,20 +20,17 @@ public class ClientChef {
 	 *        args[1] - port number for listening to service requests
      *		  args[2] - name of the platform where is located the Bar server
 	 *        args[3] - port number for listening to service requests
-	 *        args[4] - name of the platform where is located the General Repository server
-	 *        args[5] - port number for listening to service requests
 	 */
 	public static void main(String[] args) {
 		
 		Chef chef;						//Chef thread
 		KitchenStub kitStub;			//remote reference to the kitchen stub
 		BarStub barStub;				//remote reference to the bar stub
-		GeneralReposStub genReposStub;	//remote reference to the general repository
 		
 		//Name of the platforms where kitchen and bar servers are located
-		String kitServerHostName, barServerHostName, genRepoServerHostName;
+		String kitServerHostName, barServerHostName;
 		//Port numbers for listening to service requests
-		int kitServerPortNumb = -1, barServerPortNumb = -1, genRepoServerPortNumb = -1;
+		int kitServerPortNumb = -1, barServerPortNumb = -1;
 		
 		/* Getting problem runtime parameters */
 		if(args.length != 6) {
@@ -66,24 +63,9 @@ public class ClientChef {
 			System.exit(1);			
 		}
 		
-		//Get general repo parameters
-		genRepoServerHostName = args[4];
-		try {
-			genRepoServerPortNumb = Integer.parseInt (args[5]);
-		} catch (NumberFormatException e) {
-			GenericIO.writelnString ("args[5] is not a number!");
-			System.exit(1);
-		}
-		if( (genRepoServerPortNumb < 22110) || (genRepoServerPortNumb > 22119) ) {
-			GenericIO.writelnString ("args[5] is not a valid port number!");
-			System.exit(1);			
-		}
-		
-		
-		/* problem initialisation */
+		/* problem initialization */
 		kitStub = new KitchenStub(kitServerHostName, kitServerPortNumb);
 		barStub = new BarStub(barServerHostName, barServerPortNumb);
-		genReposStub = new GeneralReposStub(genRepoServerHostName, genRepoServerPortNumb);
 		chef = new Chef("chef", kitStub, barStub);
 		
 		/* start simulation */
@@ -97,7 +79,6 @@ public class ClientChef {
 		GenericIO.writelnString ("The chef thread has terminated.");
 		kitStub.shutdown();
 		barStub.shutdown();
-		genReposStub.shutdown();
 		
 	}
 

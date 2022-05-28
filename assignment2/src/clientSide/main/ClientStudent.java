@@ -21,20 +21,17 @@ public class ClientStudent {
 	 *        args[1] - port number for listening to service requests
      *		  args[2] - name of the platform where is located the Kitchen server
 	 *        args[3] - port number for listening to service requests
-	 *        args[4] - name of the platform where is located the General Repository server
-	 *        args[5] - port number for listening to service requests
 	 */
 	public static void main(String[] args) {
 
 		Student[] student = new Student[ExecuteConst.N]; 	//Student threads
 		BarStub barStub;									//remote reference to the bar stub
 		TableStub tabStub;									//remote reference to the table stub
-		GeneralReposStub genReposStub;						//remote reference to the general repository
 		
 		//Name of the platforms where kitchen and bar servers are located
-		String barServerHostName, tabServerHostName, genRepoServerHostName;
+		String barServerHostName, tabServerHostName;
 		//Port numbers for listening to service requests
-		int barServerPortNumb = -1, tabServerPortNumb = -1, genRepoServerPortNumb = -1;
+		int barServerPortNumb = -1, tabServerPortNumb = -1;
 		
 		/* Getting problem runtime parameters */
 		if(args.length != 6) {
@@ -67,24 +64,9 @@ public class ClientStudent {
 			System.exit(1);			
 		}
 		
-		//Get general repo parameters
-		genRepoServerHostName = args[4];
-		try {
-			genRepoServerPortNumb = Integer.parseInt (args[5]);
-		} catch (NumberFormatException e) {
-			GenericIO.writelnString ("args[5] is not a number!");
-			System.exit(1);
-		}
-		if( (genRepoServerPortNumb < 22110) || (genRepoServerPortNumb > 22119) ) {
-			GenericIO.writelnString ("args[5] is not a valid port number!");
-			System.exit(1);			
-		}
-		
-		
-		/* problem initialisation */
+		/* problem initialization */
 		barStub = new BarStub(barServerHostName, barServerPortNumb);
 		tabStub = new TableStub(tabServerHostName, tabServerPortNumb);
-		genReposStub = new GeneralReposStub(genRepoServerHostName, genRepoServerPortNumb);
 		for (int i = 0; i < ExecuteConst.N; i++)
 			student[i] = new Student ("student_" + (i+1), i, barStub, tabStub);
 		
@@ -102,8 +84,8 @@ public class ClientStudent {
 			}catch(InterruptedException e) {}
 			GenericIO.writelnString ("The student"+(i+1)+" thread has terminated.");
 		}
-		genReposStub.shutdown();
-
+		barStub.shutdown();
+		tabStub.shutdown();
 	}
 
 }
