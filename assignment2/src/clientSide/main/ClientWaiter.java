@@ -22,6 +22,8 @@ public class ClientWaiter {
 	 *        args[3] - port number for listening to service requests
 	 *        args[4] - name of the platform where is located the table server
 	 *        args[5] - port number for listening to service requests
+     *		  args[6] - name of the platform where is located the general repository server
+	 *        args[7] - port number for listening to service requests
 	 */
 	public static void main(String[] args) {
 
@@ -29,11 +31,12 @@ public class ClientWaiter {
 		KitchenStub kitStub;			//remote reference to the kitchen stub
 		BarStub barStub;				//remote reference to the bar stub
 		TableStub tabStub;				//remote reference to the table stub
-				
+		GeneralReposStub genReposStub;	//remote reference to the general repository
+		
 		//Name of the platforms where kitchen and bar servers are located
-		String kitServerHostName, barServerHostName, tabServerHostName;
+		String kitServerHostName, barServerHostName, tabServerHostName, genRepoServerHostName;
 		//Port numbers for listening to service requests
-		int kitServerPortNumb = -1, barServerPortNumb = -1, tabServerPortNumb = -1;
+		int kitServerPortNumb = -1, barServerPortNumb = -1, tabServerPortNumb = -1, genRepoServerPortNumb = -1;
 		
 		/* Getting problem runtime parameters */
 		if(args.length != 8) {
@@ -79,10 +82,26 @@ public class ClientWaiter {
 			System.exit(1);			
 		}
 		
-		/* problem initialization */
+		
+		//Get general repo parameters
+		genRepoServerHostName = args[6];
+		try {
+			genRepoServerPortNumb = Integer.parseInt (args[7]);
+		} catch (NumberFormatException e) {
+			GenericIO.writelnString ("args[7] is not a number!");
+			System.exit(1);
+		}
+		if( (genRepoServerPortNumb < 22110) || (genRepoServerPortNumb > 22119) ) {
+			GenericIO.writelnString ("args[7] is not a valid port number!");
+			System.exit(1);			
+		}
+		
+		
+		/* problem initialisation */
 		kitStub = new KitchenStub(kitServerHostName, kitServerPortNumb);
 		barStub = new BarStub(barServerHostName, barServerPortNumb);
 		tabStub = new TableStub(tabServerHostName, tabServerPortNumb);
+		genReposStub = new GeneralReposStub(genRepoServerHostName, genRepoServerPortNumb);
 		waiter = new Waiter("waiter", kitStub, barStub, tabStub);
 		
 		/* start simulation */
@@ -94,9 +113,9 @@ public class ClientWaiter {
 			waiter.join();
 		}catch(InterruptedException e) {}
 		GenericIO.writelnString ("The waiter thread has terminated.");
-		kitStub.shutdown();
 		barStub.shutdown();
 		tabStub.shutdown();
+		genReposStub.shutdown();
 
 	}
 
