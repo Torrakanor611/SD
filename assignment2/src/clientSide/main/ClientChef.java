@@ -96,6 +96,7 @@ public class ClientChef {
 		}catch(InterruptedException e) {}
 		GenericIO.writelnString ("The chef thread has terminated.");
 		kitStub.shutdown();
+		barStub.shutdown();
 		genReposStub.shutdown();
 		
 	}
