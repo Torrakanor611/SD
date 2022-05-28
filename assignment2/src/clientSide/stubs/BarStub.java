@@ -7,7 +7,7 @@ import commInfra.MessageType;
 import genclass.GenericIO;
 
 /**
- *  Stub to the Bar
+ *  Stub to the Bar.
  *
  *    It instantiates a remote reference to the bar.
  *    Implementation of a client-server model of type 2 (server replication).
@@ -15,7 +15,7 @@ import genclass.GenericIO;
  */
 public class BarStub {
 	/**
-	 * Name of the platform where is located the kitchen server
+	 * Name of the platform where is located the bar server
 	 */
 	private String serverHostName;
 	/**
@@ -25,9 +25,9 @@ public class BarStub {
 	
 	
 	/**
-	 * Instantiation of a stub to the kitchen 
+	 * Instantiation of a stub to the Bar.
 	 * 
-	 * @param serverHostName name of the platform where is located the kitchen server
+	 * @param serverHostName name of the platform where is located the bar server
 	 * @param serverPortNumb port number for listening to service requests
 	 */
 	public BarStub(String serverHostName, int serverPortNumb)

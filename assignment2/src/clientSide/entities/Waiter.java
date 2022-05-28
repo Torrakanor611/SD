@@ -17,7 +17,7 @@ public class Waiter extends Thread{
 	private int waiterState;
 	
 	/**
-	 * Reference to the kitchen
+	 * Reference to the stub of the kitchen
 	 */
 	private final KitchenStub kitStub;
 	
@@ -50,7 +50,7 @@ public class Waiter extends Thread{
 	
 	
 	/**
-	 * 
+	 * Set a new waiter state
 	 * @param waiterState new state to be set
 	 */
 	public void setWaiterState(int waiterState) {
@@ -58,6 +58,7 @@ public class Waiter extends Thread{
 	}
 	
 	/**
+	 * 	Get waiter state
 	 * 	@return waiter state
 	 */
 	public int getWaiterState() {
@@ -69,7 +70,6 @@ public class Waiter extends Thread{
 	/**
 	 *	Life cycle of the waiter
 	 */
-
 	@Override
 	public void run ()
 	{

@@ -1,7 +1,7 @@
 package clientSide.entities;
 
 import clientSide.stubs.*;
-import clientSide.main.*;
+import serverSide.main.ExecuteConst;
 
 /**
  *    Student thread.
@@ -13,7 +13,7 @@ import clientSide.main.*;
 public class Student extends Thread{
 	
 	/**
-	 * 	Student identification
+	 * 	Student id
 	 */
 	private int studentId;
 	
@@ -55,7 +55,7 @@ public class Student extends Thread{
 	
 	
 	/**
-	 * 
+	 * Set a new student id
 	 * @param studentId id of the student to be set
 	 */
 	public void setStudentId(int studentId) {
@@ -63,6 +63,7 @@ public class Student extends Thread{
 	}
 	
 	/**
+	 * 	Get the student id
 	 * 	@return student id
 	 */
 	public int getStudentId() {
@@ -70,7 +71,7 @@ public class Student extends Thread{
 	}
 
 	/**
-	 * 
+	 * Set a new student state
 	 * @param studentState new state to be set
 	 */
 	public void setStudentState(int studentState) {
@@ -78,6 +79,7 @@ public class Student extends Thread{
 	}
 	
 	/**
+	 * 	Get the student state
 	 * 	@return student state
 	 */
 	public int getStudentState() {

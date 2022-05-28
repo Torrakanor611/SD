@@ -572,8 +572,19 @@ public class Message implements Serializable
 				"\nWaiter State = " + waiterState +
 				"\nStudentId = " + studentId + " StudentState = " + studentState + 
 				"\nStudentIdBeingAnswered = " + studentIdBeingAnswered +
-				"\nStudentsAtRestaurant = " + studentsAtRestaurant +
+				"\nNumber of studentsAtRestaurant = " + studentsAtRestaurant +
 				"\nAll Portions Been Delivered = " + allPortionsDelivered + 
-				"\nHas the Order been completed = " + orderCompleted);
+				"\nHas the Order been completed = " + orderCompleted + 
+				"\nRequest type = " + requestType + 
+				"\nHave all clients been served = " + allClientsBeenServed +
+				"\nEverybody has chosen = " + everybodyHasChosen +
+				"\nEverybody has eaten = " + everybodyHasEaten + 
+				"\nHave all courses been eaten = " + haveAllCoursesBeenEaten +
+				"\nShould have arrived earlier = " + shouldArrivedEarlier +
+				"\nFirst to arrive = " + firstToArrive + " Lat to arrive = " +lastToArrive +
+				"\nLast to eat = " + lastToEat +
+				"\nnCourses = " + nCourses + " nPortions = "+ nPortions +
+				"\nHold = " + hold + " Seat at the table = " + seatAtTable +
+				"");
 	}
 }

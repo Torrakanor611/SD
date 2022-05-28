@@ -1,13 +1,12 @@
 package clientSide.stubs;
 
-import clientSide.entities.StudentStates;
 import commInfra.ClientCom;
 import commInfra.Message;
 import commInfra.MessageType;
 import genclass.GenericIO;
 
 /**
- *  Stub to the general repository.
+ *  Stub to the General Repository.
  *
  *    It instantiates a remote reference to the general repository.
  *    Implementation of a client-server model of type 2 (server replication).
@@ -15,7 +14,7 @@ import genclass.GenericIO;
  */
 public class GeneralReposStub {
 	/**
-	 * Name of the platform where is located the kitchen server
+	 * Name of the platform where is located the general repository server
 	 */
 	private String serverHostName;
 	/**
@@ -25,9 +24,9 @@ public class GeneralReposStub {
 	
 	
 	/**
-	 * Instantiation of a stub to the kitchen 
+	 * Instantiation of a stub to the General Repository. 
 	 * 
-	 * @param serverHostName name of the platform where is located the kitchen server
+	 * @param serverHostName name of the platform where is located the general repository server
 	 * @param serverPortNumb port number for listening to service requests
 	 */
 	public GeneralReposStub(String serverHostName, int serverPortNumb)
@@ -111,7 +110,7 @@ public class GeneralReposStub {
 	/**
 	 * Write in the logging file the updated student state
 	 * @param id student id
-	 * @param value student state to be set
+	 * @param state student state to be set
 	 */
 	public void updateStudentState(int id, int state)
 	{
@@ -146,7 +145,7 @@ public class GeneralReposStub {
 	/**
 	 * Write in the logging file the updated student state
 	 * @param id student id
-	 * @param value student state to be set
+	 * @param state student state to be set
 	 * @param hold specifies if prints line of report status
 	 */
 	public void updateStudentState(int id, int state, boolean hold)

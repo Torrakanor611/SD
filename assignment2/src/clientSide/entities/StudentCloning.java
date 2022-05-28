@@ -23,7 +23,7 @@ public interface StudentCloning {
 	
 	/**
 	 * Set student state
-	 * 	@param new state of the student
+	 * 	@param state new state of the student
 	 */
 	public void setStudentState(int state);
 	

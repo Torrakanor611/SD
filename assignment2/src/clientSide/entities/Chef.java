@@ -17,19 +17,20 @@ public class Chef extends Thread{
 	private int chefState;
 	
 	/**
-	 * Reference to the kitchen
+	 * Reference to the stub of the kitchen
 	 */
 	private final KitchenStub kitStub;
 	
 	/**
-	 * Reference to the bar
+	 * Reference to the stub of the bar
 	 */
 	private final BarStub barStub;
 	
 	
 	
 	/**
-	 * @param chefState new state of chef to be set
+	 * Set a new chef state
+	 * @param chefState new state to be set
 	 */
 	public void setChefState(int chefState)
 	{
@@ -38,7 +39,8 @@ public class Chef extends Thread{
 	
 	
 	/**
-	 * 	@return chef state
+	 * Get the chef's state
+	 * @return chef state
 	 */
 	public int getChefState()
 	{

@@ -7,7 +7,7 @@ import commInfra.MessageType;
 import genclass.GenericIO;
 
 /**
-*  Stub to the Table
+*  Stub to the Table.
  *
  *    It instantiates a remote reference to the barber shop.
  *    Implementation of a client-server model of type 2 (server replication).
@@ -15,7 +15,7 @@ import genclass.GenericIO;
  */
 public class TableStub {
 	/**
-	 * Name of the platform where is located the kitchen server
+	 * Name of the platform where is located the table server
 	 */
 	private String serverHostName;
 	/**
@@ -25,7 +25,7 @@ public class TableStub {
 	
 	
 	/**
-	 * Instantiation of a stub to the kitchen 
+	 * Instantiation of a stub to the Table. 
 	 * 
 	 * @param serverHostName name of the platform where is located the kitchen server
 	 * @param serverPortNumb port number for listening to service requests

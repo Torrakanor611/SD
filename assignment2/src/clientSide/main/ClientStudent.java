@@ -2,7 +2,7 @@ package clientSide.main;
 
 import clientSide.entities.Student;
 import clientSide.stubs.*;
-import clientSide.main.ExecuteConst;
+import serverSide.main.ExecuteConst;
 import genclass.GenericIO;
 
 /**
