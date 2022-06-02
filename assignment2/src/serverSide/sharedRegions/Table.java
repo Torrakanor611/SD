@@ -565,12 +565,15 @@ public class Table {
      */    
     public void startEating()
     {
-    	int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
-    	//Update student state
-    	students[studentId].setStudentState(StudentStates.ENJOYING_THE_MEAL);
-		((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.ENJOYING_THE_MEAL);
-    	reposStub.updateStudentState(studentId, students[studentId].getStudentState());
-    	
+    	synchronized(this)
+    	{
+	    	int studentId = ((TableClientProxy) Thread.currentThread()).getStudentId();
+	    	//Update student state
+	    	students[studentId].setStudentState(StudentStates.ENJOYING_THE_MEAL);
+			((TableClientProxy) Thread.currentThread()).setStudentState(StudentStates.ENJOYING_THE_MEAL);
+	    	reposStub.updateStudentState(studentId, students[studentId].getStudentState());
+    	}
+	    	
     	//Enjoy meal during random time
         try
         { Thread.sleep ((long) (1 + 100 * Math.random ()));
