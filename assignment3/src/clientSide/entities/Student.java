@@ -6,9 +6,9 @@ import interfaces.*;
 import serverSide.main.ExecuteConst;
 
 /**
- *    Barber thread.
+ *    Student thread.
  *
- *      It simulates the barber life cycle.
+ *      It simulates the student life cycle.
  *      Implementation of a client-server model of type 2 (server replication).
  *      Communication is based on remote calls under Java RMI.
  */
@@ -137,7 +137,7 @@ public class Student extends Thread{
 	private void enter()
 	{
 		try 
-		{ setStudentState(barStub.enter(studentId));			
+		{ studentState = barStub.enter(studentId);			
 		}
 		catch (RemoteException e)
 		{
@@ -155,7 +155,7 @@ public class Student extends Thread{
 	private void readMenu()
 	{
 		try 
-		{ setStudentState(tabStub.readMenu(studentId));			
+		{ studentState = tabStub.readMenu(studentId);			
 		}
 		catch (RemoteException e)
 		{
@@ -221,7 +221,7 @@ public class Student extends Thread{
 	private void prepareOrder()
 	{
 		try
-		{ setStudentState(tabStub.prepareOrder());			
+		{ studentState = tabStub.prepareOrder();			
 		}
 		catch (RemoteException e)
 		{
@@ -306,7 +306,7 @@ public class Student extends Thread{
     private void joinTalk()
     {
 		try
-		{ setStudentState(tabStub.joinTalk());			
+		{ studentState = tabStub.joinTalk();			
 		}
 		catch (RemoteException e)
 		{
@@ -324,7 +324,7 @@ public class Student extends Thread{
     private void informCompanion() 
     {
 		try
-		{ setStudentState(tabStub.informCompanion(studentId));			
+		{ studentState = tabStub.informCompanion(studentId);			
 		}
 		catch (RemoteException e)
 		{
@@ -367,7 +367,7 @@ public class Student extends Thread{
     private void startEating()
     {
 		try
-		{ setStudentState(tabStub.startEating(studentId));			
+		{ studentState = tabStub.startEating(studentId);			
 		}
 		catch (RemoteException e)
 		{
@@ -385,7 +385,7 @@ public class Student extends Thread{
     private void endEating()
     {
 		try
-		{ setStudentState(tabStub.endEating(studentId));			
+		{ studentState = tabStub.endEating(studentId);			
 		}
 		catch (RemoteException e)
 		{
@@ -479,7 +479,7 @@ public class Student extends Thread{
 			System.exit(1);			
 		}
 		
-		setStudentState(res.getIntStateVal());
+		studentState = res.getIntStateVal();
 		return res.getBoolVal();
     }
 
@@ -512,7 +512,7 @@ public class Student extends Thread{
     private void exit()
     {
 		try
-		{ setStudentState(barStub.exit(studentId));			
+		{ studentState = barStub.exit(studentId);			
 		}
 		catch (RemoteException e)
 		{

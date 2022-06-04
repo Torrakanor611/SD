@@ -49,9 +49,10 @@ public interface BarInterface extends Remote {
 	 * Operation prepare the Bill
 	 * 
 	 * It is called the waiter to prepare the bill of the meal eaten by the students
+	 * @return waiter state
 	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void prepareBill() throws RemoteException;
+	public int prepareBill() throws RemoteException;
 	
 	
 		

@@ -193,6 +193,7 @@ public class Table {
      * It is called by the waiter when a student enters the restaurant and needs to be saluted
      * Waiter waits for the student to take a seat (if he hasn't done it yet)
      * Waiter waits for student to finish reading the menu
+     * @param studentIdBeingAnswered id of the student being answered
      */
     public synchronized void saluteClient(int studentIdBeingAnswered)
     {

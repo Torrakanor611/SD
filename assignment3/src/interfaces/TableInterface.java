@@ -45,9 +45,11 @@ public interface TableInterface extends Remote{
      * It is called by the waiter when a student enters the restaurant and needs to be saluted
      * Waiter waits for the student to take a seat (if he hasn't done it yet)
      * Waiter waits for student to finish reading the menu
+     * @param studentIdBeingAnswered id of the student being answered
+     * @return state of the waiter
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void saluteClient(int studentIdBeingAnswered) throws RemoteException;
+    public int saluteClient(int studentIdBeingAnswered) throws RemoteException;
     
     
     
@@ -55,9 +57,10 @@ public interface TableInterface extends Remote{
      * Operation return to the bar
      * 
      * It is called by the waiter to return to the bar to the appraising situation state
+     * @return state of the waiter
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void returnBar() throws RemoteException;
+    public int returnBar() throws RemoteException;
     
     
     
@@ -66,9 +69,10 @@ public interface TableInterface extends Remote{
      * 
      * It is called by the waiter when an order is going to be described by the first student to arrive
      * Waiter Blocks waiting for student to describe him the order
+     * @return state of the waiter
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void getThePad() throws RemoteException;
+    public int getThePad() throws RemoteException;
     
     
     
@@ -97,9 +101,10 @@ public interface TableInterface extends Remote{
      * Operation present the bill
      * 
      * Called by the waiter to present the bill to the last student to arrive
+     * @return waiter state
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void presentBill() throws RemoteException;
+    public int presentBill() throws RemoteException;
     
     
     /**
