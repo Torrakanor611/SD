@@ -133,4 +133,11 @@ public interface KitchenInterface extends Remote{
 	 */
 	public int collectPortion() throws RemoteException;
 
+
+	/**
+	 * Operation kitchen server shutdown
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
+	public void shutdown() throws RemoteException;
+
 }
