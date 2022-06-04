@@ -13,9 +13,10 @@ public interface KitchenInterface extends Remote{
 	 * 	Operation watch the news
 	 * 
 	 * 	It is called by the chef, he waits for waiter to notify him of the order
+	 *  @return chef state
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void watchTheNews() throws RemoteException;
+	public int watchTheNews() throws RemoteException;
 	
 	
 
@@ -24,9 +25,10 @@ public interface KitchenInterface extends Remote{
 	 * 
 	 * 	It is called by the chef after waiter has notified him of the order to be prepared 
 	 * 	to signal that preparation of the course has started
+	 *  @return chef state
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void startPreparation()	throws RemoteException;
+	public int startPreparation()	throws RemoteException;
 
 
 	
@@ -35,9 +37,10 @@ public interface KitchenInterface extends Remote{
 	 * 	Operation proceed presentation
 	 * 
 	 * 	It is called by the chef when a portion needs to be prepared
+	 *  @return chef state
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void proceedPreparation() throws RemoteException;
+	public int proceedPreparation() throws RemoteException;
 
 	
 	
@@ -68,9 +71,10 @@ public interface KitchenInterface extends Remote{
 	 * 	Operation continue preparation
 	 * 
 	 * 	It is called by the chef when all portions have been delivered, but the course has not been completed yet
+	 *  @return chef state
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void continuePreparation() throws RemoteException;
+	public int continuePreparation() throws RemoteException;
 	
 	
 	
@@ -78,9 +82,10 @@ public interface KitchenInterface extends Remote{
 	 * Operation have next portion ready
 	 * 
 	 * It is called by the chef after a portion has been delivered and another one needs to be prepared
+	 *  @return chef state
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void haveNextPortionReady() throws RemoteException;
+	public int haveNextPortionReady() throws RemoteException;
 	
 	
 	
@@ -89,9 +94,10 @@ public interface KitchenInterface extends Remote{
 	 * Operation clean up
 	 * 
 	 * It is called by the chef when he finishes the order, to close service
+	 *  @return chef state
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void cleanUp() throws RemoteException;
+	public int cleanUp() throws RemoteException;
 	
 	
 	
@@ -100,7 +106,7 @@ public interface KitchenInterface extends Remote{
 	 * Operation hand note to chef
 	 * 
 	 * Called by the waiter to wake chef up chef to give him the description of the order
-	 *  @returns waiterState
+	 *  @returns waiter state
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */	
 	public int handNoteToChef() throws RemoteException;	

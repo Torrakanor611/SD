@@ -23,9 +23,10 @@ public interface BarInterface extends Remote {
 	 * 
 	 * It is called by the chef to alert the waiter that a portion was dished
 	 * 	A request is putted in the queue (chef id will be N+1)
+	 * @return chef state
 	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void alertWaiter() throws RemoteException;	
+	public int alertWaiter() throws RemoteException;	
 	
 	
 	
