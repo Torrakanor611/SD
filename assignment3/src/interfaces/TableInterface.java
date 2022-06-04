@@ -117,9 +117,10 @@ public interface TableInterface extends Remote{
      * Operation read the menu
      * 
      * Called by the student to read a menu, wakes up waiter to signal that he already read the menu
-     * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+     * 	@param studentId id of the student
+     * 	@throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void readMenu() throws RemoteException;
+    public int readMenu(int studentId) throws RemoteException;
     
     
     
@@ -129,7 +130,7 @@ public interface TableInterface extends Remote{
      * Called by the student to begin the preparation of the order (options of his companions) 
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void prepareOrder() throws RemoteException;   
+    public int prepareOrder() throws RemoteException;   
 
     
     
@@ -155,7 +156,6 @@ public interface TableInterface extends Remote{
     
     
     
-    
     /**
      * Operation describe the order
      * 
@@ -173,9 +173,10 @@ public interface TableInterface extends Remote{
      * 
      * Called by the first student to arrive so he can join his companions 
      * while waiting for the courses to be delivered
+     * @return student state
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void joinTalk() throws RemoteException;    
+    public int joinTalk() throws RemoteException;    
     
     
     
@@ -184,9 +185,11 @@ public interface TableInterface extends Remote{
      * 
      * Called by a student to inform the first student to arrive about their preferences 
      * Blocks if someone else is informing at the same time
+     * @param studentId id of the student
+     * @return state of the student
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void informCompanion() throws RemoteException;
+    public int informCompanion(int studentId) throws RemoteException;
     
     
     
@@ -194,9 +197,11 @@ public interface TableInterface extends Remote{
      * Operation start eating
      * 
      * Called by the student to start eating the meal (During random time)
+     * @param studentId id of the student
+     * @return state of the student
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */    
-    public void startEating() throws RemoteException;
+    public int startEating(int studentId) throws RemoteException;
 
 
 
@@ -204,9 +209,11 @@ public interface TableInterface extends Remote{
      * Operation end eating
      * 
      * Called by the student to signal that he has finished eating his meal
+     * @param studentId id of the student
+     * @return state of the student
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void endEating() throws RemoteException;    
+    public int endEating(int studentId) throws RemoteException;    
     
     
     
@@ -214,9 +221,10 @@ public interface TableInterface extends Remote{
      * Operation has everybody finished eating
      * 
      * Called by the student to wait for his companions to finish eating
+     * @param studenId id of the student
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public boolean hasEverybodyFinishedEating() throws RemoteException;   
+    public boolean hasEverybodyFinishedEating(int studentId) throws RemoteException;   
     
     
     
@@ -247,10 +255,11 @@ public interface TableInterface extends Remote{
      * Operation should have arrived earlier
      * 
      * Called by the student to check which one was last to arrive
-     * @return True if current student was the last to arrive, false otherwise
+     * @param studentId id of the student
+     * @return True if current student was the last to arrive, false otherwise and student state
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public boolean shouldHaveArrivedEarlier() throws RemoteException;
+    public ReturnBoolean shouldHaveArrivedEarlier(int studentId) throws RemoteException;
     
     
     

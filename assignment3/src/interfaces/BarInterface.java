@@ -68,11 +68,12 @@ public interface BarInterface extends Remote {
 	
 	/**
 	 * Operation enter the restaurant
-	 * 
 	 * It is called by the student to signal that he is entering the restaurant
-	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 * 	@param studentId id of the student
+	 * 	@return state of the student
+	 * 	@throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void enter() throws RemoteException;
+	public int enter(int studentId) throws RemoteException;
 	
 	
 	
@@ -80,9 +81,10 @@ public interface BarInterface extends Remote {
 	 * Operation call the waiter
 	 * 
 	 * It is called by the first student to arrive the restaurant to call the waiter to describe the order
+	 * @param studentId id of the student
 	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void callWaiter() throws RemoteException;
+	public void callWaiter(int studentId) throws RemoteException;
 	
 	
 	
@@ -93,9 +95,10 @@ public interface BarInterface extends Remote {
 	 * It is called by the last student to finish eating that next course can be brought 
 	 * signal chef that he can put request in the queue and waiter that he proceed his execution to collect portions
 	 * It is also used by last student to arrive to signal that he wishes to pay the bill
+	 * @param studentId id of the student
 	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void signalWaiter() throws RemoteException;
+	public void signalWaiter(int studentId) throws RemoteException;
 	
 	
 		
@@ -103,9 +106,11 @@ public interface BarInterface extends Remote {
 	 * Operation exit the restaurant
 	 * 
 	 * It is called by a student when he leaves the restaurant
+	 * @param studentId id of the student
+	 * @return state of the student
 	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void exit() throws RemoteException;
+	public int exit(int studentId) throws RemoteException;
 	
 	
 	
