@@ -449,7 +449,7 @@ public class Student extends Thread{
 	private void signalWaiter()
 	{
 		try
-		{ barStub.signalWaiter(studentId);			
+		{ barStub.signalWaiter(studentId, studentState);			
 		}
 		catch (RemoteException e)
 		{

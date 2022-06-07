@@ -100,7 +100,7 @@ public interface BarInterface extends Remote {
 	 * @param studentId id of the student
 	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void signalWaiter(int studentId) throws RemoteException;
+	public void signalWaiter(int studentId, int studentState) throws RemoteException;
 	
 	
 		
