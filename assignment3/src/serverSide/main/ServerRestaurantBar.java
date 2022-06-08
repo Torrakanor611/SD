@@ -28,15 +28,19 @@ public class ServerRestaurantBar
 	 *        args[0] - port number for listening to service requests
 	 *        args[1] - name of the platform where is located the RMI registering service
 	 *        args[2] - port number where the registering service is listening to service requests
+	 *        args[3] - name of the platform where is located the RMI table service
+	 *        args[4] - port number where the registering service is listening to service requests
 	 */
 
 	public static void main (String[] args)
 	{
-		int portNumb = -1;                                             // port number for listening to service requests
-		String rmiRegHostName;                                         // name of the platform where is located the RMI registering service
-		int rmiRegPortNumb = -1;                                       // port number where the registering service is listening to service requests
+		int portNumb = -1;                          // port number for listening to service requests
+		String rmiRegHostName;                      // name of the platform where is located the RMI registering service
+		int rmiRegPortNumb = -1;                    // port number where the registering service is listening to service requests
+		String rmiTableHostName;                    // name of the platform where is located the RMI table service
+		int rmiTablePortNumb = -1;                  // port number where the registering service is listening to service requests
 
-		if (args.length != 3)
+		if (args.length != 5)
 		{ GenericIO.writelnString ("Wrong number of parameters!");
 		System.exit (1);
 		}
@@ -61,6 +65,18 @@ public class ServerRestaurantBar
 		}
 		if ((rmiRegPortNumb < 4000) || (rmiRegPortNumb >= 65536))
 		{ GenericIO.writelnString ("args[2] is not a valid port number!");
+		System.exit (1);
+		}
+		rmiTableHostName = args[3];
+		try
+		{ portNumb = Integer.parseInt (args[4]);
+		}
+		catch (NumberFormatException e)
+		{ GenericIO.writelnString ("args[0] is not a number!");
+		System.exit (1);
+		}
+		if ((portNumb < 4000) || (portNumb >= 65536))
+		{ GenericIO.writelnString ("args[0] is not a valid port number!");
 		System.exit (1);
 		}
 
@@ -99,10 +115,40 @@ public class ServerRestaurantBar
 		e.printStackTrace ();
 		System.exit (1);
 		}
+		
+		/* get a remote reference to the table object */
+
+		String nameEntryTable = "Table";            // public name of the general repository object
+		TableInterface tableStub = null;            // remote reference to the table object
+		registry = null;                            // remote reference for registration in the RMI registry service
+
+		try
+		{ registry = LocateRegistry.getRegistry (rmiTableHostName, rmiTablePortNumb);
+		}
+		catch (RemoteException e)
+		{ GenericIO.writelnString ("RMI table creation exception: " + e.getMessage ());
+		e.printStackTrace ();
+		System.exit (1);
+		}
+		GenericIO.writelnString ("RMI table was created!");
+
+		try
+		{ tableStub = (TableInterface) registry.lookup (nameEntryTable);
+		}
+		catch (RemoteException e)
+		{ GenericIO.writelnString ("Table lookup exception: " + e.getMessage ());
+		e.printStackTrace ();
+		System.exit (1);
+		}
+		catch (NotBoundException e)
+		{ GenericIO.writelnString ("Table not bound exception: " + e.getMessage ());
+		e.printStackTrace ();
+		System.exit (1);
+		}
 
 		/* instantiate a bar object */
 
-		Bar bar = new Bar (reposStub);                 // bar object
+		Bar bar = new Bar (reposStub, tableStub);      // bar object
 		BarInterface barStub = null;                   // remote reference to the bar object
 
 		try
