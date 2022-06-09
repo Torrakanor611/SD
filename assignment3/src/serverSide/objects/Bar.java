@@ -349,7 +349,7 @@ public class Bar implements BarInterface
 	public synchronized void shutdown() throws RemoteException
 	{
 		nEntities += 1;
-		if (nEntities >= ExecuteConst.N)
+		if (nEntities >= ExecuteConst.S)
 			ServerRestaurantBar.shutdown ();
 		notifyAll(); // ?
 	}
