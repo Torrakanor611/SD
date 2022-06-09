@@ -151,7 +151,8 @@ public class Bar implements BarInterface
 
 
 	@Override
-	public synchronized int prepareBill() throws RemoteException {
+	public synchronized int prepareBill() throws RemoteException
+	{
 		//Update Waiter state
 		reposStub.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
 		
@@ -160,7 +161,8 @@ public class Bar implements BarInterface
 
 
 	@Override
-	public synchronized int enter(int studentId) throws RemoteException {
+	public synchronized int enter(int studentId) throws RemoteException
+	{
 		synchronized(this)
 		{
 			//Update student state
@@ -195,7 +197,7 @@ public class Bar implements BarInterface
 		}
 		
 		//Seat student at table and block it
-		tabStub.seatAtTable();
+		tabStub.seatAtTable(studentId);
 		
 		return studentState[studentId];
 	}
@@ -289,7 +291,8 @@ public class Bar implements BarInterface
 
 
 	@Override
-	public synchronized char lookAround() throws RemoteException {
+	public synchronized char lookAround() throws RemoteException
+	{
 		Request r;
 		
 		//While there are no pending request, waiter blocks
@@ -321,7 +324,8 @@ public class Bar implements BarInterface
 
 
 	@Override
-	public synchronized boolean sayGoodbye() throws RemoteException {
+	public synchronized boolean sayGoodbye() throws RemoteException
+	{
 		//Student was greeted
 		studentsGreeted[studentBeingAnswered] = true;
 		//Wake up student that is waiting to be greeted by waiter
@@ -342,7 +346,8 @@ public class Bar implements BarInterface
 
 
 	@Override
-	public synchronized void shutdown() throws RemoteException {
+	public synchronized void shutdown() throws RemoteException
+	{
        nEntities += 1;
        if (nEntities >= ExecuteConst.N)
           ServerRestaurantBar.shutdown ();

@@ -114,7 +114,7 @@ public interface TableInterface extends Remote{
      * Called by the student (inside enter method in the bar)
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
-    public void seatAtTable() throws RemoteException;
+    public void seatAtTable(int studentId) throws RemoteException;
     
     
     
