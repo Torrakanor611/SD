@@ -28,53 +28,53 @@ public class Bar implements BarInterface
 	 *	Used to control number of students present in the restaurant
 	 */	
 	private int numberOfStudentsAtRestaurant;
-	
+
 	/**
 	 *  Used to control number of pending requests to be answered by the waiter
 	 */
 	private int numberOfPendingRequests;
-	
+
 	/**
 	 * Boolean variable used to store if a course was finished or not
 	 */
 	private boolean courseFinished;
-	
+
 	/**
 	 * Queue of pending Requests
 	 */
 	private MemFIFO<Request> pendingServiceRequestQueue;
-	
-    /**
-    *  State of the students.
-    */
-    private final int [] studentState;
-	
+
+	/**
+	 *  State of the students.
+	 */
+	private final int [] studentState;
+
 	/**
 	 * Reference to the stub of the general repository
 	 */
 	private final GeneralReposInterface reposStub;
-	
+
 	/**
 	 * Auxiliary variable to keep track of the id of the student whose request is being answered by waiter
 	 */
 	private int studentBeingAnswered;
-	
+
 	/**
 	 * Array of booleans to keep track of the students which the waiter has already said goodbye
 	 */
 	private boolean[] studentsGreeted;
-	
+
 	/**
 	 * Reference to the stub of the table
 	 */
 	private final TableInterface tabStub;
-	
+
 	/**
 	 * Number of entity groups requesting the shutdown
 	 */
 	private int nEntities;
-	
-	
+
+
 	/**
 	 * Bar instantiation
 	 *  
@@ -88,24 +88,24 @@ public class Bar implements BarInterface
 			pendingServiceRequestQueue = new MemFIFO<> (new Request [ExecuteConst.N * ExecuteConst.M]);
 		} catch (MemException e) {
 			pendingServiceRequestQueue = null;
-		    System.exit (1);
+			System.exit (1);
 		}
-		
+
 		this.courseFinished = true;
 		this.studentBeingAnswered = -1;
 		this.studentState = null;
 		this.reposStub = reposStub;
 		this.tabStub = tabStub;
 		this.nEntities = 0;
-		
+
 		this.studentsGreeted = new boolean[ExecuteConst.N];
 		for(int i = 0 ;i < ExecuteConst.N; i++) {
 			studentsGreeted[i] = false;
 			studentState[i] = StudentStates.GOING_TO_THE_RESTAURANT;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Return id of the student whose request is being answered
 	 * @return Id of the student whose request is being answered
@@ -125,9 +125,9 @@ public class Bar implements BarInterface
 				e1.printStackTrace();
 			}
 		}
-		
+
 		Request r = new Request(ExecuteConst.N+1,'p');
-		
+
 		//Add a new service request to queue of pending requests (portion to be collected)
 		try {
 			pendingServiceRequestQueue.write(r);
@@ -135,17 +135,17 @@ public class Bar implements BarInterface
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//Update number of pending requests and set courseFinished to false
 		numberOfPendingRequests++;
 		courseFinished = false;
-		
+
 		//Update chefs state
 		reposStub.setChefState(ChefStates.DELIVERING_THE_PORTIONS);
-		
+
 		//Signal waiter that there is a pending request
 		notifyAll();
-		
+
 		return ChefStates.DELIVERING_THE_PORTIONS;
 	}
 
@@ -155,7 +155,7 @@ public class Bar implements BarInterface
 	{
 		//Update Waiter state
 		reposStub.setWaiterState(WaiterStates.PROCESSING_THE_BILL);
-		
+
 		return WaiterStates.PROCESSING_THE_BILL;
 	}
 
@@ -167,7 +167,7 @@ public class Bar implements BarInterface
 		{
 			//Update student state
 			studentState[studentId] = StudentStates.GOING_TO_THE_RESTAURANT;
-			
+
 			numberOfStudentsAtRestaurant++;
 
 			//Register first and last to arrive
@@ -175,7 +175,7 @@ public class Bar implements BarInterface
 				tabStub.setFirstToArrive(studentId);
 			else if (numberOfStudentsAtRestaurant == ExecuteConst.N)
 				tabStub.setLastToArrive(studentId);
-			
+
 			//Add a new pending requests to the queue
 			try {
 				pendingServiceRequestQueue.write(new Request(studentId, 'c'));
@@ -185,20 +185,20 @@ public class Bar implements BarInterface
 			}
 			//Update number of pending requests
 			numberOfPendingRequests++;
-			
+
 			//Update student state
 			studentState[studentId] = StudentStates.TAKING_A_SEAT_AT_THE_TABLE;
 			reposStub.updateStudentState(studentId, studentState[studentId], true);
 			//register seat at the general repos
 			reposStub.updateSeatsAtTable(numberOfStudentsAtRestaurant-1, studentId);
-			
+
 			//Signal waiter that there is a pending request
 			notifyAll();
 		}
-		
+
 		//Seat student at table and block it
 		tabStub.seatAtTable(studentId);
-		
+
 		return studentState[studentId];
 	}
 
@@ -207,7 +207,7 @@ public class Bar implements BarInterface
 	public synchronized void callWaiter(int studentId) throws RemoteException
 	{
 		Request r = new Request(studentId,'o');
-		
+
 		//Add a new service request to queue of pending requests (portion to be collected)
 		try {
 			pendingServiceRequestQueue.write(r);
@@ -215,10 +215,10 @@ public class Bar implements BarInterface
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//Update number of pending requests
 		numberOfPendingRequests++;	
-		
+
 		//Signal waiter that there is a pending request
 		notifyAll();
 	}
@@ -228,7 +228,7 @@ public class Bar implements BarInterface
 	public synchronized void signalWaiter(int studentId, int stuState) throws RemoteException
 	{
 		studentState[studentId] = stuState;
-		
+
 		if(studentState[studentId] == StudentStates.PAYING_THE_BILL)
 		{		
 			//Add a new pending requests to the queue (Bill needs to be prepared so it can be payed by the student)
@@ -240,7 +240,7 @@ public class Bar implements BarInterface
 			}
 			//Update number of pending requests
 			numberOfPendingRequests++;	
-			
+
 			//Signal waiter that there is a pending request
 			notifyAll();
 		}
@@ -251,7 +251,7 @@ public class Bar implements BarInterface
 			// and waiter so he can collect a new portion
 			notifyAll();
 		}
-		
+
 	}
 
 
@@ -259,7 +259,7 @@ public class Bar implements BarInterface
 	public synchronized int exit(int studentId) throws RemoteException
 	{
 		Request r = new Request(studentId,'g');
-		
+
 		//Add a new service request to queue of pending requests (Goodbye needs to be said to a student)
 		try {
 			pendingServiceRequestQueue.write(r);
@@ -267,16 +267,16 @@ public class Bar implements BarInterface
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//Update number of pending requests
 		numberOfPendingRequests++;
 		//Update student state
 		studentState[studentId] = StudentStates.GOING_HOME;
 		reposStub.updateStudentState(studentId, studentState[studentId]);
-		
+
 		//notify waiter that there is a pending request
 		notifyAll();
-	
+
 		//Block until waiter greets the student goodbye
 		while(studentsGreeted[studentId] == false) {
 			try {
@@ -294,7 +294,7 @@ public class Bar implements BarInterface
 	public synchronized char lookAround() throws RemoteException
 	{
 		Request r;
-		
+
 		//While there are no pending request, waiter blocks
 		while(numberOfPendingRequests == 0)
 		{
@@ -305,7 +305,7 @@ public class Bar implements BarInterface
 				e.printStackTrace();
 			}
 		}
-		
+
 		try 
 		{
 			//If there is a pending request take it of the queue of pending requests
@@ -318,7 +318,7 @@ public class Bar implements BarInterface
 		}		
 		//Register student id in studentBeingAnswered
 		studentBeingAnswered = r.id;
-		
+
 		return r.type;
 	}
 
@@ -330,15 +330,15 @@ public class Bar implements BarInterface
 		studentsGreeted[studentBeingAnswered] = true;
 		//Wake up student that is waiting to be greeted by waiter
 		notifyAll();
-		
+
 		//Update number of students at the restaurant
 		numberOfStudentsAtRestaurant--;
 		// seat at table becomes empty after waiter greets the student
 		reposStub.updateSeatsAtLeaving(studentBeingAnswered);
 		studentBeingAnswered = -1;
-		
+
 		reposStub.setWaiterState(WaiterStates.APRAISING_SITUATION);
-		
+
 		if(numberOfStudentsAtRestaurant == 0)
 			return true;
 		return false;
@@ -348,10 +348,10 @@ public class Bar implements BarInterface
 	@Override
 	public synchronized void shutdown() throws RemoteException
 	{
-       nEntities += 1;
-       if (nEntities >= ExecuteConst.N)
-          ServerRestaurantBar.shutdown ();
-       notifyAll(); // ?
+		nEntities += 1;
+		if (nEntities >= ExecuteConst.N)
+			ServerRestaurantBar.shutdown ();
+		notifyAll(); // ?
 	}
 }
 
