@@ -4,6 +4,12 @@ javac -source 8 -target 8 -cp ../../../SD/genclass.jar */*.java */*/*.java
 echo "Distributing intermediate code to the different execution environments."
 
 
+echo "  RMI registry"
+rm -rf dirRMIRegistry/interfaces
+mkdir -p dirRMIRegistry/interfaces
+cp interfaces/*.class dirRMIRegistry/interfaces
+
+
 echo "  Register Remote Objects"
 rm -rf dirRegistry/serverSide dirRegistry/interfaces
 mkdir -p dirRegistry/serverSide dirRegistry/serverSide/main dirRegistry/serverSide/objects dirRegistry/interfaces
@@ -86,6 +92,9 @@ cp interfaces/BarInterface.class interfaces/TableInterface.class interfaces/Retu
 
 
 echo "Compressing execution environments."
+echo "  RMI registry"
+rm -f  dirRMIRegistry.zip
+zip -rq dirRMIRegistry.zip dirRMIRegistry
 echo "  Register Remote Objects"
 rm -f  dirRegistry.zip
 zip -rq dirRegistry.zip dirRegistry set_rmiregistry_alt.sh
