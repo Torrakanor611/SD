@@ -17,7 +17,7 @@ import interfaces.TableInterface;
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on Java RMI.
  */
-public class clientRestaurantWaiter {
+public class ClientRestaurantWaiter {
 
 	/**
 	 *	Main method. 
