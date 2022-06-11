@@ -200,8 +200,7 @@ public class Kitchen implements KitchenInterface
 		reposStub.setnCourses(numberOfCoursesDelivered+1);
 		numberOfPortionsPrepared = 0;
 		reposStub.setnPortions(numberOfPortionsPrepared);
-
-		((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
+		
 		reposStub.setChefState(ChefStates.PREPARING_THE_COURSE);
 
 		return ChefStates.PREPARING_THE_COURSE;

@@ -145,21 +145,21 @@ public class ClientRestaurantWaiter {
 		try {
 			tabStub.shutdown();
 		} catch(RemoteException e) {
-			GenericIO.writelnString ("Chef generator remote exception on Table shutdown: " + e.getMessage ());
+			GenericIO.writelnString ("Waiter generator remote exception on Table shutdown: " + e.getMessage ());
 	        System.exit (1);			
 		}
 		//Bar shutdown
 		try {
 			barStub.shutdown();
 		} catch(RemoteException e) {
-			GenericIO.writelnString ("Chef generator remote exception on Kitchen shutdown: " + e.getMessage ());
+			GenericIO.writelnString ("Waiter generator remote exception on Kitchen shutdown: " + e.getMessage ());
 	        System.exit (1);			
 		}
 		//GeneralRepos shutdown
 		try {
 			reposStub.shutdown();
 		} catch(RemoteException e) {
-			GenericIO.writelnString ("Chef generator remote exception on GeneralRepos shutdown: " + e.getMessage ());
+			GenericIO.writelnString ("Waiter generator remote exception on GeneralRepos shutdown: " + e.getMessage ());
 	        System.exit (1);			
 		}
 	}

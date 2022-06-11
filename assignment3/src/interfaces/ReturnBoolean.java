@@ -1,11 +1,13 @@
 package interfaces;
 
+import java.io.*;
+
 /**
  *  Data type to return both a boolean value and an integer state value.
  *
  *  Used in calls on remote objects.
  */
-public class ReturnBoolean {
+public class ReturnBoolean implements Serializable {
 	/**
 	 *  Serialization key.
 	 */

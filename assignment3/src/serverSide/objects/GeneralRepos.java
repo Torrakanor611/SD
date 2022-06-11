@@ -7,7 +7,7 @@ import genclass.GenericIO;
 import genclass.TextFile;
 import interfaces.GeneralReposInterface;
 import serverSide.main.ExecuteConst;
-import serverSide.main.ServerRestaurantBar;
+import serverSide.main.ServerRestaurantGeneralRepos;
 
 public class GeneralRepos implements GeneralReposInterface{
 
@@ -189,7 +189,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * Write in the logging file the legend
 	 */
 	@Override
-	public void reportLegend() throws RemoteException {
+	public synchronized void reportLegend() throws RemoteException {
 		TextFile log = new TextFile ();                  	// instantiation of a text file handler
 		String line = "";                              		// state line to be printed
 		if (!log.openForAppending (".", logFileName))
@@ -223,7 +223,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public void setChefState(int value) throws RemoteException {
+	public synchronized void setChefState(int value) throws RemoteException {
 		this.chefState = value;
 		reportStatus();
 	}
@@ -237,7 +237,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public void setWaiterState(int value) throws RemoteException {
+	public synchronized void setWaiterState(int value) throws RemoteException {
 		this.waiterState = value;
 		reportStatus();
 	}
@@ -251,7 +251,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public void updateStudentState(int id, int value) throws RemoteException {
+	public synchronized void updateStudentState(int id, int value) throws RemoteException {
 		this.studentState[id] = value;
 		reportStatus();		
 	}
@@ -266,7 +266,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public void updateStudentState(int id, int value, boolean hold) throws RemoteException {
+	public synchronized void updateStudentState(int id, int value, boolean hold) throws RemoteException {
 		this.studentState[id] = value;		
 	}
 
@@ -278,7 +278,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public void setnCourses(int value) throws RemoteException {
+	public synchronized void setnCourses(int value) throws RemoteException {
 		this.nCourses = value;		
 	}
 
@@ -290,7 +290,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */	
 	@Override
-	public void setnPortions(int value) throws RemoteException {
+	public synchronized void setnPortions(int value) throws RemoteException {
 		this.nPortions = value;		
 	}
 
@@ -304,7 +304,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */	
 	@Override
-	public void updateSeatsAtTable(int seat, int id) throws RemoteException {
+	public synchronized void updateSeatsAtTable(int seat, int id) throws RemoteException {
 		this.seatsAtTable[seat] = id;
 		reportStatus();
 	}
@@ -317,7 +317,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public void updateSeatsAtLeaving(int id) throws RemoteException {
+	public synchronized void updateSeatsAtLeaving(int id) throws RemoteException {
 		int seat = 0;
 		
 		for(int i=0; i < this.seatsAtTable.length; i++) {
@@ -338,7 +338,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	public synchronized void shutdown() throws RemoteException {
 		nEntities += 1;
 		if (nEntities >= ExecuteConst.S)
-			ServerRestaurantBar.shutdown ();
+			ServerRestaurantGeneralRepos.shutdown ();
 		notifyAll(); // ?
 	}
 

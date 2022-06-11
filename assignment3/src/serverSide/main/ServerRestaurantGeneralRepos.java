@@ -193,12 +193,12 @@ public class ServerRestaurantGeneralRepos
 	{
 		end = true;
 		try
-		{ synchronized (Class.forName ("serverSide.main.ServerSleepingBarbersGeneralRepos"))
-			{ (Class.forName ("serverSide.main.ServerSleepingBarbersGeneralRepos")).notify ();
+		{ synchronized (Class.forName ("serverSide.main.ServerRestaurantGeneralRepos"))
+			{ (Class.forName ("serverSide.main.ServerRestaurantGeneralRepos")).notify ();
 			}
 		}
 		catch (ClassNotFoundException e)
-		{ GenericIO.writelnString ("The data type ServerSleepingBarbersGeneralRepos was not found (waking up)!");
+		{ GenericIO.writelnString ("The data type ServerRestaurantGeneralRepos was not found (waking up)!");
 		e.printStackTrace ();
 		System.exit (1);
 		}
