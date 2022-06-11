@@ -120,11 +120,11 @@ public class ServerRestaurantTable
 		String nameEntryBase = "RegisterHandler";                      // public name of the object that enables the registration
 		// of other remote objects
 		String nameEntryObject = "Table";                              // public name of the table object
-		Registry reg = null;                                           // remote reference to the object that enables the registration
+		Register reg = null;                                           // remote reference to the object that enables the registration
 		// of other remote objects
 
 		try
-		{ reg = (Registry) registry.lookup (nameEntryBase);
+		{ reg = (Register) registry.lookup (nameEntryBase);
 		}
 		catch (RemoteException e)
 		{ GenericIO.writelnString ("RegisterRemoteObject lookup exception: " + e.getMessage ());

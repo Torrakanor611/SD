@@ -7,7 +7,7 @@ sleep 2
 xterm  -T "Kitchen" -hold -e "./KitchenDeployAndRun.sh" &
 sleep 2
 xterm  -T "Table" -hold -e "./TableDeployAndRun.sh" &
-sleep 4
+sleep 8
 xterm  -T "Bar" -hold -e "./BarDeployAndRun.sh" &
 sleep 1
 xterm  -T "Chef" -hold -e "./ChefDeployAndRun.sh" &
