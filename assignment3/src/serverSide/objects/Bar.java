@@ -159,7 +159,7 @@ public class Bar implements BarInterface
 
 
 	@Override
-	public synchronized int enter(int studentId) throws RemoteException
+	public int enter(int studentId) throws RemoteException
 	{
 		synchronized(this)
 		{

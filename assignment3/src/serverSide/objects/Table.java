@@ -170,17 +170,19 @@ public class Table implements TableInterface
      * @param firstToArrive id of the first student to arrive
      */
 	@Override
-    public void setFirstToArrive(int firstToArrive) throws RemoteException { this.firstToArrive = firstToArrive; }
+    public synchronized void setFirstToArrive(int firstToArrive) throws RemoteException { this.firstToArrive = firstToArrive; }
     
     /**
      * Set id of the last student to arrive
      * @param lastToArrive if of the last student to arrive to the restaurant
      */
 	@Override
-    public void setLastToArrive(int lastToArrive) throws RemoteException { this.lastToArrive = lastToArrive; }
+    public synchronized void setLastToArrive(int lastToArrive) throws RemoteException { this.lastToArrive = lastToArrive; }
+
+
 
 	@Override
-	public int saluteClient(int studentIdBeingAnswered) throws RemoteException
+	public synchronized int saluteClient(int studentIdBeingAnswered) throws RemoteException
 	{
 		studentBeingAnswered = studentIdBeingAnswered;
 		
@@ -221,8 +223,11 @@ public class Table implements TableInterface
     	return WaiterStates.PRESENTING_THE_MENU;
 	}
 
+
+
+
 	@Override
-	public int returnBar() throws RemoteException
+	public synchronized int returnBar() throws RemoteException
 	{
 		//Update Waiter state
     	reposStub.setWaiterState(WaiterStates.APRAISING_SITUATION);
@@ -230,8 +235,10 @@ public class Table implements TableInterface
     	return WaiterStates.APRAISING_SITUATION;
 	}
 
+
+
 	@Override
-	public int getThePad() throws RemoteException
+	public synchronized int getThePad() throws RemoteException
 	{
 		//Update Waiter state
     	reposStub.setWaiterState(WaiterStates.TAKING_THE_ORDER);
@@ -255,8 +262,11 @@ public class Table implements TableInterface
     	return WaiterStates.TAKING_THE_ORDER;
 	}
 
+
+
+
 	@Override
-	public boolean haveAllClientsBeenServed() throws RemoteException
+	public synchronized boolean haveAllClientsBeenServed() throws RemoteException
 	{
 		//If all clients have been served they must be notified
     	if(numStudentsServed == ExecuteConst.N) {
@@ -269,15 +279,21 @@ public class Table implements TableInterface
     	return false;
 	}
 
+
+
+
 	@Override
-	public void deliverPortion() throws RemoteException
+	public synchronized void deliverPortion() throws RemoteException
 	{
 		//Update number of Students server after portion delivery
     	numStudentsServed++; 
 	}
 
+
+
+
 	@Override
-	public int presentBill() throws RemoteException
+	public synchronized int presentBill() throws RemoteException
 	{
     	processingBill = true;
     	
@@ -297,8 +313,11 @@ public class Table implements TableInterface
     	return WaiterStates.RECEIVING_PAYMENT;
 	}
 
+
+
+
 	@Override
-	public void seatAtTable(int studentId) throws RemoteException
+	public synchronized void seatAtTable(int studentId) throws RemoteException
 	{
 		studentsState[studentId] = StudentStates.TAKING_A_SEAT_AT_THE_TABLE;
     	
@@ -321,8 +340,11 @@ public class Table implements TableInterface
     	while(studentId != studentBeingAnswered && presentingTheMenu == false);
 	}
 
+
+
+
 	@Override
-	public int readMenu(int studentId) throws RemoteException
+	public synchronized int readMenu(int studentId) throws RemoteException
 	{
     	//Update student state
     	studentsState[studentId] = StudentStates.SELECTING_THE_COURSES;
@@ -335,8 +357,11 @@ public class Table implements TableInterface
     	return studentsState[studentId];
 	}
 
+
+
+
 	@Override
-	public int prepareOrder() throws RemoteException
+	public synchronized int prepareOrder() throws RemoteException
 	{
     	//Register that first student to arrive already choose his own option
     	numOrders++;
@@ -349,7 +374,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public boolean everybodyHasChosen() throws RemoteException
+	public synchronized boolean everybodyHasChosen() throws RemoteException
 	{
     	if(numOrders == ExecuteConst.N)
     		return true;
@@ -369,7 +394,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public void addUpOnesChoices() throws RemoteException
+	public synchronized void addUpOnesChoices() throws RemoteException
 	{
     	numOrders++;
     	informingCompanion = false;
@@ -377,8 +402,10 @@ public class Table implements TableInterface
     	notifyAll();
 	}
 
+
+
 	@Override
-	public void describeOrder() throws RemoteException
+	public synchronized void describeOrder() throws RemoteException
 	{
     	//After student just placed a request in the queue in the bar
     	// now it must block waiting for waiter to come with the pad
@@ -398,7 +425,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public int joinTalk() throws RemoteException
+	public synchronized int joinTalk() throws RemoteException
 	{
 		//Update student state
     	studentsState[firstToArrive] = StudentStates.CHATING_WITH_COMPANIONS;
@@ -408,7 +435,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public int informCompanion(int studentId) throws RemoteException
+	public synchronized int informCompanion(int studentId) throws RemoteException
 	{
     	//If some other student is informing about his order then wait must be done
     	while(informingCompanion)
@@ -433,7 +460,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public int startEating(int studentId) throws RemoteException
+	public synchronized int startEating(int studentId) throws RemoteException
 	{
 		synchronized(this)
 		{
@@ -452,7 +479,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public int endEating(int studentId) throws RemoteException
+	public synchronized int endEating(int studentId) throws RemoteException
 	{
     	//Update number of students that finished course
     	numStudentsFinishedCourse++;
@@ -473,7 +500,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public boolean hasEverybodyFinishedEating(int studentId) throws RemoteException
+	public synchronized boolean hasEverybodyFinishedEating(int studentId) throws RemoteException
 	{
     	//Notify all students that the last one to eat has already finished
     	if(studentId == lastToEat)
@@ -519,7 +546,7 @@ public class Table implements TableInterface
 	
 
 	@Override
-	public void honourBill() throws RemoteException
+	public synchronized void honourBill() throws RemoteException
 	{
 		//Block waiting for waiter to present the bill
     	while(!processingBill)
@@ -537,7 +564,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public boolean haveAllCoursesBeenEaten() throws RemoteException
+	public synchronized boolean haveAllCoursesBeenEaten() throws RemoteException
 	{
 		if(numOfCoursesEaten == ExecuteConst.M)
     		return true;
@@ -557,7 +584,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public ReturnBoolean shouldHaveArrivedEarlier(int studentId) throws RemoteException
+	public synchronized ReturnBoolean shouldHaveArrivedEarlier(int studentId) throws RemoteException
 	{	
     	if(studentId == lastToArrive) {
 	    	//Update student state
@@ -570,7 +597,7 @@ public class Table implements TableInterface
 	}
 
 	@Override
-	public void shutdown() throws RemoteException
+	public synchronized void shutdown() throws RemoteException
 	{
 		nEntities += 1;
 		if(nEntities >= ExecuteConst.E)

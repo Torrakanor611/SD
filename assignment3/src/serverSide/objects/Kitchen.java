@@ -76,7 +76,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public int watchTheNews() throws RemoteException
+	public synchronized int watchTheNews() throws RemoteException
 	{
 		//Set chef state
 		reposStub.setChefState(ChefStates.WAITING_FOR_AN_ORDER);
@@ -101,7 +101,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public int startPreparation() throws RemoteException
+	public synchronized int startPreparation() throws RemoteException
 	{
 		//Update new Chef State
 		reposStub.setnCourses(numberOfCoursesDelivered+1);
@@ -123,7 +123,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */	
 	@Override
-	public int proceedPreparation() throws RemoteException
+	public synchronized int proceedPreparation() throws RemoteException
 	{
 		//Update new Chef state
 		numberOfPortionsPrepared++;
@@ -146,7 +146,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public boolean haveAllPortionsBeenDelivered() throws RemoteException
+	public synchronized boolean haveAllPortionsBeenDelivered() throws RemoteException
 	{
 		//Wait for waiter to collect the portion
 		while( numberOfPortionsReady != 0) {
@@ -177,7 +177,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public boolean hasOrderBeenCompleted() throws RemoteException
+	public synchronized boolean hasOrderBeenCompleted() throws RemoteException
 	{
 		//Check if all courses have been delivered
 		if (numberOfCoursesDelivered == ExecuteConst.M)
@@ -194,7 +194,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public int continuePreparation() throws RemoteException
+	public synchronized int continuePreparation() throws RemoteException
 	{
 		//Update chefs state
 		reposStub.setnCourses(numberOfCoursesDelivered+1);
@@ -216,7 +216,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public int haveNextPortionReady() throws RemoteException
+	public synchronized int haveNextPortionReady() throws RemoteException
 	{
 		//Update chefs state
 		numberOfPortionsPrepared++;		
@@ -243,7 +243,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public int cleanUp() throws RemoteException
+	public synchronized int cleanUp() throws RemoteException
 	{
 		//Update chefs state to terminate life cycle
 		reposStub.setChefState(ChefStates.CLOSING_SERVICE);
@@ -259,7 +259,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */	
 	@Override
-	public int handNoteToChef() throws RemoteException
+	public synchronized int handNoteToChef() throws RemoteException
 	{
 		//Update waiter state
 		reposStub.setWaiterState(WaiterStates.PLACING_ODER);
@@ -287,7 +287,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public int returnToBar() throws RemoteException
+	public synchronized int returnToBar() throws RemoteException
 	{
 		//Update waiter state
 		reposStub.setWaiterState(WaiterStates.APRAISING_SITUATION);
@@ -303,7 +303,7 @@ public class Kitchen implements KitchenInterface
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public int collectPortion() throws RemoteException
+	public synchronized int collectPortion() throws RemoteException
 	{
 		reposStub.setWaiterState(WaiterStates.WAITING_FOR_PORTION);
 
@@ -338,7 +338,7 @@ public class Kitchen implements KitchenInterface
 	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public void shutdown() throws RemoteException
+	public synchronized void shutdown() throws RemoteException
 	{
 		nEntities += 1;
 		if(nEntities >= ExecuteConst.E)
