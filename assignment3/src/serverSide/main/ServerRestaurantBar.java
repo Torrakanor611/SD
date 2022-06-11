@@ -28,8 +28,8 @@ public class ServerRestaurantBar
 	 *        args[0] - port number for listening to service requests
 	 *        args[1] - name of the platform where is located the RMI registering service
 	 *        args[2] - port number where the registering service is listening to service requests
-	 *        args[3] - name of the platform where is located the RMI table service
-	 *        args[4] - port number where the registering service is listening to service requests
+	 *        args[3] - name of the platform where is located the table service
+	 *        args[4] - port number where the table service is listening to service requests
 	 */
 
 	public static void main (String[] args)

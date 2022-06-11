@@ -97,7 +97,7 @@ rm -f  dirRMIRegistry.zip
 zip -rq dirRMIRegistry.zip dirRMIRegistry
 echo "  Register Remote Objects"
 rm -f  dirRegistry.zip
-zip -rq dirRegistry.zip dirRegistry set_rmiregistry_alt.sh
+zip -rq dirRegistry.zip dirRegistry
 echo "  General Repository of Information"
 rm -f dirGeneralRepos.zip
 zip -rq dirGeneralRepos.zip dirGeneralRepos
