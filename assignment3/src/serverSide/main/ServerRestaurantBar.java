@@ -128,10 +128,6 @@ public class ServerRestaurantBar
 		System.exit (1);
 		}
 
-		
-		
-		
-		
 		/* instantiate a bar object */
 
 		Bar bar = new Bar (reposStub, tableStub);      // bar object

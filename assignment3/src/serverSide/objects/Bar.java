@@ -90,15 +90,13 @@ public class Bar implements BarInterface
 			pendingServiceRequestQueue = null;
 			System.exit (1);
 		}
-
 		this.courseFinished = true;
 		this.studentBeingAnswered = -1;
-		this.studentState = null;
 		this.reposStub = reposStub;
 		this.tabStub = tabStub;
 		this.nEntities = 0;
-
 		this.studentsGreeted = new boolean[ExecuteConst.N];
+		this.studentState = new int[ExecuteConst.N];
 		for(int i = 0 ;i < ExecuteConst.N; i++) {
 			studentsGreeted[i] = false;
 			studentState[i] = StudentStates.GOING_TO_THE_RESTAURANT;
