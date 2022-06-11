@@ -68,7 +68,7 @@ mkdir -p dirChef/serverSide dirChef/serverSide/main dirChef/clientSide dirChef/c
 cp serverSide/main/ExecuteConst.class dirChef/serverSide/main
 cp clientSide/main/ClientRestaurantChef.class dirChef/clientSide/main
 cp clientSide/entities/Chef.class clientSide/entities/ChefStates.class dirChef/clientSide/entities
-cp interfaces/KitchenInterface.class interfaces/BarInterface.class dirChef/interfaces
+cp interfaces/KitchenInterface.class interfaces/BarInterface.class interfaces/GeneralReposInterface.class dirChef/interfaces
 
 
 echo "  Waiter"
@@ -78,7 +78,7 @@ mkdir -p dirWaiter/serverSide dirWaiter/serverSide/main dirWaiter/clientSide dir
 cp serverSide/main/ExecuteConst.class dirWaiter/serverSide/main
 cp clientSide/main/ClientRestaurantWaiter.class dirWaiter/clientSide/main
 cp clientSide/entities/Waiter.class clientSide/entities/WaiterStates.class dirWaiter/clientSide/entities
-cp interfaces/KitchenInterface.class interfaces/BarInterface.class interfaces/TableInterface.class dirWaiter/interfaces
+cp interfaces/KitchenInterface.class interfaces/BarInterface.class interfaces/TableInterface.class interfaces/GeneralReposInterface.class interfaces/ReturnBoolean.class dirWaiter/interfaces
 
 
 echo "  Student"
@@ -88,7 +88,7 @@ mkdir -p dirStudent/serverSide dirStudent/serverSide/main dirStudent/clientSide 
 cp serverSide/main/ExecuteConst.class dirStudent/serverSide/main
 cp clientSide/main/ClientRestaurantStudent.class dirStudent/clientSide/main
 cp clientSide/entities/Student.class clientSide/entities/StudentStates.class dirStudent/clientSide/entities
-cp interfaces/BarInterface.class interfaces/TableInterface.class interfaces/ReturnBoolean.class dirStudent/interfaces
+cp interfaces/BarInterface.class interfaces/TableInterface.class interfaces/GeneralReposInterface.class interfaces/ReturnBoolean.class dirStudent/interfaces
 
 
 echo "Compressing execution environments."
