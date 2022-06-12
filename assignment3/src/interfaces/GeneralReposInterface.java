@@ -9,12 +9,6 @@ import java.rmi.*;
  */
 public interface GeneralReposInterface extends Remote
 {
-	
-	/**
-	 * Write in the logging file the legend
-	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
-	 */
-	public void reportLegend() throws RemoteException;
 
 	/**
 	 * Write in the logging file the new chef state

@@ -188,8 +188,7 @@ public class GeneralRepos implements GeneralReposInterface{
 	/**
 	 * Write in the logging file the legend
 	 */
-	@Override
-	public synchronized void reportLegend() throws RemoteException {
+	private void reportLegend() {
 		TextFile log = new TextFile ();                  	// instantiation of a text file handler
 		String line = "";                              		// state line to be printed
 		if (!log.openForAppending (".", logFileName))
@@ -337,8 +336,10 @@ public class GeneralRepos implements GeneralReposInterface{
 	@Override
 	public synchronized void shutdown() throws RemoteException {
 		nEntities += 1;
-		if (nEntities >= ExecuteConst.S)
+		if (nEntities >= ExecuteConst.S) {
+			reportLegend();
 			ServerRestaurantGeneralRepos.shutdown ();
+		}
 		notifyAll(); // ?
 	}
 
