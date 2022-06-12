@@ -266,7 +266,7 @@ public class Bar
 			students[studentId] = ((BarClientProxy) Thread.currentThread());
 			students[studentId].setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
 			((BarClientProxy) Thread.currentThread()).setStudentState(StudentStates.GOING_TO_THE_RESTAURANT);
-
+			reposStub.updateStudentState(studentId, students[studentId].getStudentState(), true);
 			numberOfStudentsAtRestaurant++;
 
 			//Register first and last to arrive

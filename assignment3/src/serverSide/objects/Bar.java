@@ -165,7 +165,8 @@ public class Bar implements BarInterface
 		{
 			//Update student state
 			studentState[studentId] = StudentStates.GOING_TO_THE_RESTAURANT;
-
+			reposStub.updateStudentState(studentId, studentState[studentId], true);
+			
 			numberOfStudentsAtRestaurant++;
 
 			//Register first and last to arrive
