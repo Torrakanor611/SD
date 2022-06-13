@@ -104,9 +104,9 @@ public class Kitchen implements KitchenInterface
 	public synchronized int startPreparation() throws RemoteException
 	{
 		//Update new Chef State
-		reposStub.setnCourses(numberOfCoursesDelivered+1);
+		reposStub.setnCourses(numberOfCoursesDelivered+1, ChefStates.PREPARING_THE_COURSE);
 		//((Chef) Thread.currentThread()).setChefState(ChefStates.PREPARING_THE_COURSE);
-		reposStub.setChefState(ChefStates.PREPARING_THE_COURSE);
+		//reposStub.setChefState(ChefStates.PREPARING_THE_COURSE);
 
 		//Notify Waiter that the preparation of the order has started
 		notifyAll();
@@ -127,8 +127,8 @@ public class Kitchen implements KitchenInterface
 	{
 		//Update new Chef state
 		numberOfPortionsPrepared++;
-		reposStub.setnPortions(numberOfPortionsPrepared);
-		reposStub.setChefState(ChefStates.DISHING_THE_PORTIONS);
+		reposStub.setnPortions(numberOfPortionsPrepared, ChefStates.DISHING_THE_PORTIONS);
+		//reposStub.setChefState(ChefStates.DISHING_THE_PORTIONS);
 
 		//Update numberOfPortionsReady
 		numberOfPortionsReady++;
@@ -197,11 +197,11 @@ public class Kitchen implements KitchenInterface
 	public synchronized int continuePreparation() throws RemoteException
 	{
 		//Update chefs state
-		reposStub.setnCourses(numberOfCoursesDelivered+1);
+		//reposStub.setnCourses(numberOfCoursesDelivered+1);
 		numberOfPortionsPrepared = 0;
-		reposStub.setnPortions(numberOfPortionsPrepared);
+		reposStub.setnPortionsAndCourses(numberOfPortionsPrepared, numberOfCoursesDelivered+1,ChefStates.PREPARING_THE_COURSE);
 		
-		reposStub.setChefState(ChefStates.PREPARING_THE_COURSE);
+		//reposStub.setChefState(ChefStates.PREPARING_THE_COURSE);
 
 		return ChefStates.PREPARING_THE_COURSE;
 	}
@@ -219,8 +219,8 @@ public class Kitchen implements KitchenInterface
 	{
 		//Update chefs state
 		numberOfPortionsPrepared++;		
-		reposStub.setnPortions(numberOfPortionsPrepared);
-		reposStub.setChefState(ChefStates.DISHING_THE_PORTIONS);
+		reposStub.setnPortions(numberOfPortionsPrepared, ChefStates.DISHING_THE_PORTIONS);
+		//reposStub.setChefState(ChefStates.DISHING_THE_PORTIONS);
 
 		//Update numberOfPortionsReady
 		numberOfPortionsReady++;

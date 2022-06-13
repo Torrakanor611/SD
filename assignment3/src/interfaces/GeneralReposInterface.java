@@ -46,14 +46,23 @@ public interface GeneralReposInterface extends Remote
 	 * @param value nCourses value to set
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void setnCourses(int value) throws RemoteException;
+	public void setnCourses(int value, int chefState) throws RemoteException;
 
 	/**
 	 * Write the portion value in the logging file
 	 * @param value nPortions value to set
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public void setnPortions(int value) throws RemoteException;
+	public void setnPortions(int value, int chefState) throws RemoteException;
+	
+	/**
+	 * 
+	 * @param nPortion
+	 * @param nCourse
+	 * @param chefState
+	 * @throws RemoteException
+	 */
+	public void setnPortionsAndCourses(int nPortion, int nCourse, int chefState) throws RemoteException;
 
 	/**
 	 * Write to the logging file the updated seats values at the table 

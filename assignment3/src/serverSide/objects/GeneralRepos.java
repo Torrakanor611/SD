@@ -277,8 +277,10 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	@Override
-	public synchronized void setnCourses(int value) throws RemoteException {
-		this.nCourses = value;		
+	public synchronized void setnCourses(int value, int chefState) throws RemoteException {
+		this.nCourses = value;
+		this.chefState = chefState;
+		reportStatus();
 	}
 
 	
@@ -289,10 +291,21 @@ public class GeneralRepos implements GeneralReposInterface{
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */	
 	@Override
-	public synchronized void setnPortions(int value) throws RemoteException {
+	public synchronized void setnPortions(int value, int chefState) throws RemoteException {
 		this.nPortions = value;		
+		this.chefState = chefState;
+		reportStatus();
 	}
 
+	
+	@Override
+	public void setnPortionsAndCourses(int nPortion, int nCourse, int chefState) throws RemoteException {
+		this.nPortions = nPortion;
+		this.nCourses = nCourse;
+		this.chefState = chefState;
+		reportStatus();		
+	}
+	
 	
 	
 	/**
