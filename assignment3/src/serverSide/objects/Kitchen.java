@@ -342,6 +342,6 @@ public class Kitchen implements KitchenInterface
 		nEntities += 1;
 		if(nEntities >= ExecuteConst.E)
 			ServerRestaurantKitchen.shutdown();
-		notifyAll(); // ?
+		notifyAll();
 	}
 }

@@ -9,6 +9,17 @@ import interfaces.GeneralReposInterface;
 import serverSide.main.ExecuteConst;
 import serverSide.main.ServerRestaurantGeneralRepos;
 
+/**
+ *  General Repository of information.
+ *
+ *    It is responsible to keep the visible internal state of the problem and to provide means for it
+ *    to be printed in the logging file.
+ *    It is implemented as an implicit monitor.
+ *    All public methods are executed in mutual exclusion.
+ *    There are no internal synchronization points.
+ *    Implementation of a client-server model of type 2 (server replication).
+ *    Communication is based on Java RMI.
+ */
 public class GeneralRepos implements GeneralReposInterface{
 
 	/**
@@ -298,6 +309,14 @@ public class GeneralRepos implements GeneralReposInterface{
 	}
 
 	
+	/**
+	 * Update the chef state, the nPortion and nCourse values
+	 * 
+	 * @param nPortion number of the portion to be set
+	 * @param nCourse number of the course to be set
+	 * @param chefState chef state
+	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public void setnPortionsAndCourses(int nPortion, int nCourse, int chefState) throws RemoteException {
 		this.nPortions = nPortion;
@@ -353,7 +372,7 @@ public class GeneralRepos implements GeneralReposInterface{
 			reportLegend();
 			ServerRestaurantGeneralRepos.shutdown ();
 		}
-		notifyAll(); // ?
+		notifyAll();
 	}
 
 }

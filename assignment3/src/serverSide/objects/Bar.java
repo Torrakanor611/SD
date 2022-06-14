@@ -20,6 +20,8 @@ import serverSide.main.*;
  *		Waiter waits for pending requests if there are none
  *		When a student has to wait for the waiter to say goodbye to him so he can leave the restaurant
  *		Chef must wait for everybody to eat before alerting the waiter
+ *    Implementation of a client-server model of type 2 (server replication).
+ *    Communication is based on Java RMI.
  */
 
 public class Bar implements BarInterface
@@ -111,6 +113,15 @@ public class Bar implements BarInterface
 	public int getStudentBeingAnswered() { return studentBeingAnswered; }
 
 
+	
+	/**
+	 * Operation alert the waiter
+	 * 
+	 * It is called by the chef to alert the waiter that a portion was dished
+	 * 	A request is putted in the queue (chef id will be N+1)
+	 * @return chef state
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public synchronized int alertWaiter() throws RemoteException
 	{
@@ -148,6 +159,14 @@ public class Bar implements BarInterface
 	}
 
 
+
+	/**
+	 * Operation prepare the Bill
+	 * 
+	 * It is called the waiter to prepare the bill of the meal eaten by the students
+	 * @return waiter state
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public synchronized int prepareBill() throws RemoteException
 	{
@@ -158,6 +177,14 @@ public class Bar implements BarInterface
 	}
 
 
+	
+	/**
+	 * Operation enter the restaurant
+	 * It is called by the student to signal that he is entering the restaurant
+	 * 	@param studentId id of the student
+	 * 	@return state of the student
+	 * 	@throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public int enter(int studentId) throws RemoteException
 	{
@@ -202,6 +229,14 @@ public class Bar implements BarInterface
 	}
 
 
+	
+	/**
+	 * Operation call the waiter
+	 * 
+	 * It is called by the first student to arrive the restaurant to call the waiter to describe the order
+	 * @param studentId id of the student
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public synchronized void callWaiter(int studentId) throws RemoteException
 	{
@@ -223,6 +258,17 @@ public class Bar implements BarInterface
 	}
 
 
+	
+	
+	/**
+	 * Operation signal the waiter
+	 * 
+	 * It is called by the last student to finish eating that next course can be brought 
+	 * signal chef that he can put request in the queue and waiter that he proceed his execution to collect portions
+	 * It is also used by last student to arrive to signal that he wishes to pay the bill
+	 * @param studentId id of the student
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public synchronized void signalWaiter(int studentId, int stuState) throws RemoteException
 	{
@@ -254,6 +300,15 @@ public class Bar implements BarInterface
 	}
 
 
+	
+	/**
+	 * Operation exit the restaurant
+	 * 
+	 * It is called by a student when he leaves the restaurant
+	 * @param studentId id of the student
+	 * @return state of the student
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public synchronized int exit(int studentId) throws RemoteException
 	{
@@ -288,7 +343,20 @@ public class Bar implements BarInterface
 		return studentState[studentId];
 	}
 
-
+	
+	
+	/**
+	 * Operation look Around
+	 * 
+	 * It is called by the waiter, he checks for pending service requests and if not waits for them
+	 * 	@return Character that represents the service to be executed
+	 * 		'c' : means a client has arrived therefore needs to be presented with the menu by the waiter
+	 * 		'o' : means that the waiter will hear the order and deliver it to the chef
+	 * 		'p' : means that a portion needs to be delivered by the waiter
+	 * 		'b' : means that the bill needs to be prepared and presented by the waiter
+	 * 		'g' : means that some student wants to leave and waiter needs to say goodbye 
+	 *	@throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public synchronized char lookAround() throws RemoteException
 	{
@@ -322,6 +390,14 @@ public class Bar implements BarInterface
 	}
 
 
+	
+	/**
+	 * Operation say Goodbye
+	 * 
+	 * It is called by the waiter to say goodbye to a student that's leaving the restaurant
+	 * @return true if there are no more students at the restaurant, false otherwise
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public synchronized boolean sayGoodbye() throws RemoteException
 	{
@@ -343,14 +419,20 @@ public class Bar implements BarInterface
 		return false;
 	}
 
-
+	
+	
+	
+	/**
+	 * Operation bar server shutdown
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
+	 */
 	@Override
 	public synchronized void shutdown() throws RemoteException
 	{
 		nEntities += 1;
 		if (nEntities >= ExecuteConst.S)
 			ServerRestaurantBar.shutdown ();
-		notifyAll(); // ?
+		notifyAll();
 	}
 }
 
