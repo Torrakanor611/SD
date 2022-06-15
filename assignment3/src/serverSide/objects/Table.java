@@ -199,7 +199,6 @@ public class Table implements TableInterface
 		
     	//Update Waiter state
     	reposStub.setWaiterState(WaiterStates.PRESENTING_THE_MENU);
-    	
     	presentingTheMenu = true;
     	
     	//Waiter must wait while student hasn't taken a seat
@@ -384,8 +383,10 @@ public class Table implements TableInterface
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			if(studentBeingAnswered == studentId && presentingTheMenu == true)
+				break;
 	    }
-    	while(studentId != studentBeingAnswered && presentingTheMenu == false);
+    	while(true);
 	}
 
 
