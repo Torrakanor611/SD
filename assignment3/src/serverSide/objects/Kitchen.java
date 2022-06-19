@@ -18,7 +18,8 @@ import serverSide.main.ServerRestaurantKitchen;
  *		Chef has to wait for waiter to collect portions
  *		Waiter has to wait for chef to start preparing the order
  *		Waiter has to wait for portions from the chef
- *
+ *	Implementation of a client-server model of type 2 (server replication).
+ *  Communication is based on Java RMI.	
  */
 public class Kitchen implements KitchenInterface
 {

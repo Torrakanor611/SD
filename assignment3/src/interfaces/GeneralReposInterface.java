@@ -42,15 +42,17 @@ public interface GeneralReposInterface extends Remote
 	public void updateStudentState(int id, int value, boolean hold) throws RemoteException;
 
 	/**
-	 * Set variable nCourses and report status in the logging file
+	 * Set variable nCourses and chefState to report status in the logging file
 	 * @param value nCourses value to set
+	 * @param chefState state of the chef to be set
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	public void setnCourses(int value, int chefState) throws RemoteException;
 
 	/**
-	 * Write the portion value in the logging file
+	 * Write the portion value and chefState in the logging file
 	 * @param value nPortions value to set
+	 * @param chefState state of the chef
 	 * @throws RemoteException if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	public void setnPortions(int value, int chefState) throws RemoteException;

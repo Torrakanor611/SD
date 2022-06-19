@@ -122,6 +122,12 @@ public class Table implements TableInterface
      */
     private int nEntities;  
 	
+    
+	/**
+	 * Table Instantiation.
+	 * 
+	 * @param reposStub Reference to the stub of the general repository
+	 */
 	public Table(GeneralReposInterface reposStub) {
 		//Initialization of attributes
     	this.firstToArrive = -1;
@@ -418,6 +424,7 @@ public class Table implements TableInterface
      * Operation prepare the order
      * 
      * Called by the student to begin the preparation of the order (options of his companions) 
+     * @return state of the student
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
 	@Override
@@ -634,7 +641,7 @@ public class Table implements TableInterface
      * Operation has everybody finished eating
      * 
      * Called by the student to wait for his companions to finish eating
-     * @param studenId id of the student
+     * @param studentId id of the student
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
 	@Override

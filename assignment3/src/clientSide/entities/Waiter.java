@@ -155,6 +155,7 @@ public class Waiter extends Thread{
      * It is called by the waiter when a student enters the restaurant and needs to be saluted
      * Waiter waits for the student to take a seat (if he hasn't done it yet)
      * Waiter waits for student to finish reading the menu
+     * 	@param studentIdBeingAnswered id of the student whose request is being answered
      */
     private void saluteClient(int studentIdBeingAnswered)
     {

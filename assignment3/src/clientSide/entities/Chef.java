@@ -4,6 +4,13 @@ import interfaces.*;
 import java.rmi.RemoteException;
 import genclass.GenericIO;
 
+/**
+ *    Chef thread.
+ *
+ *      It simulates the chef life cycle.
+ *      Implementation of a client-server model of type 2 (server replication).
+ *      Communication is based on remote calls under Java RMI.
+ */
 public class Chef extends Thread{
 
 	/**

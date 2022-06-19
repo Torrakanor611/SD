@@ -106,7 +106,7 @@ public interface KitchenInterface extends Remote{
 	 * Operation hand note to chef
 	 * 
 	 * Called by the waiter to wake chef up chef to give him the description of the order
-	 *  @returns waiter state
+	 *  @return waiter state
 	 *  @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */	
 	public int handNoteToChef() throws RemoteException;	

@@ -112,6 +112,7 @@ public interface TableInterface extends Remote{
      * 
      * Student comes in the table and sits (blocks) waiting for waiter to bring him the menu
      * Called by the student (inside enter method in the bar)
+     * @param studentId id of the student
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
     public void seatAtTable(int studentId) throws RemoteException;
@@ -123,6 +124,7 @@ public interface TableInterface extends Remote{
      * 
      * Called by the student to read a menu, wakes up waiter to signal that he already read the menu
      * 	@param studentId id of the student
+     * 	@return student state
      * 	@throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
     public int readMenu(int studentId) throws RemoteException;
@@ -133,6 +135,7 @@ public interface TableInterface extends Remote{
      * Operation prepare the order
      * 
      * Called by the student to begin the preparation of the order (options of his companions) 
+     * @return student state
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
     public int prepareOrder() throws RemoteException;   
@@ -226,7 +229,8 @@ public interface TableInterface extends Remote{
      * Operation has everybody finished eating
      * 
      * Called by the student to wait for his companions to finish eating
-     * @param studenId id of the student
+     * @param studentId id of the student
+     * @return true if everybody has finished false otherwise
      * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
      */
     public boolean hasEverybodyFinishedEating(int studentId) throws RemoteException;   

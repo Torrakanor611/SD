@@ -58,7 +58,7 @@ public class ClientRestaurantStudent {
 		BarInterface barStub = null;						//Remote reference for the Bar object
 		TableInterface tabStub = null;						//Remote reference for the Table object
 		Registry registry = null;							//Remote reference for registration in the RMI Registry service
-		Student[] students = new Student[ExecuteConst.N];	//Array of student Threads
+		Student[] student = new Student[ExecuteConst.N];	//Array of student Threads
 	
 		
 		//Locate RMI Registry server
@@ -111,17 +111,17 @@ public class ClientRestaurantStudent {
 		}
 		
 		for(int i=0; i < ExecuteConst.N; i++)
-			students[i] = new Student("student_"+(i+1), i, barStub, tabStub);
+			student[i] = new Student("student_"+(i+1), i, barStub, tabStub);
 		
 		/* start of the simulation */
 		for(int i=0; i < ExecuteConst.N; i++)
-			students[i].start();
+			student[i].start();
 		
 		/* waiting for the end of the simulation */
 		for(int i=0; i < ExecuteConst.N; i++)
 		{
 			try 
-			{ students[i].join();
+			{ student[i].join();
 			}
 			catch(InterruptedException e) {}
 			GenericIO.writelnString ("The student "+(i+1) + " has terminated.");

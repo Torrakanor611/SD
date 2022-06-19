@@ -399,6 +399,7 @@ public class Student extends Thread{
      * Operation has everybody finished eating
      * Remote operation.
      * Called by the student to wait for his companions to finish eating
+     * @return true if everybody has finished eating, false otherwise
      */
     private boolean hasEverybodyFinishedEating()
     {

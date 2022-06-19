@@ -109,8 +109,9 @@ public class Bar implements BarInterface
 	/**
 	 * Return id of the student whose request is being answered
 	 * @return Id of the student whose request is being answered
+	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
-	public int getStudentBeingAnswered() { return studentBeingAnswered; }
+	public int getStudentBeingAnswered() throws RemoteException { return studentBeingAnswered; }
 
 
 	

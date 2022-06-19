@@ -98,6 +98,7 @@ public interface BarInterface extends Remote {
 	 * signal chef that he can put request in the queue and waiter that he proceed his execution to collect portions
 	 * It is also used by last student to arrive to signal that he wishes to pay the bill
 	 * @param studentId id of the student
+	 * @param studentState state of the student 
 	 * @throws Remote Exception if either the invocation of the remote method, or the communication with the registry service fails
 	 */
 	public void signalWaiter(int studentId, int studentState) throws RemoteException;
